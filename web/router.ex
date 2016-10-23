@@ -33,10 +33,6 @@ defmodule GijiElixir.Router do
     pipe_through :api
   end
 
-  socket "/ws", GijiElixir do
-    channel "rooms:*", RoomChannel
-  end
-
   defp assign_current_user(conn, _) do
     assign(conn, :current_user, get_session(conn, :current_user))
   end

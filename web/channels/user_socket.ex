@@ -2,7 +2,7 @@ defmodule GijiElixir.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", GijiElixir.RoomChannel
+  channel "room:*", GijiElixir.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
