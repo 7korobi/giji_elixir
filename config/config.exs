@@ -5,6 +5,9 @@
 # is restricted to this project.
 use Mix.Config
 
+config :phoenix, :template_engines,
+  slim:  PhoenixSlime.Engine
+
 # General application configuration
 config :giji_elixir,
   ecto_repos: [GijiElixir.Repo]

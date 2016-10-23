@@ -34,10 +34,11 @@ defmodule GijiElixir.Mixfile do
     [{:phoenix, "~> 1.2.1"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.0"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
+     {:postgrex, "~> 0.12.0"},
+     {:phoenix_html, "~> 2.7"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:gettext, "~> 0.11"},
+     {:phoenix_slime, "~> 0.8.0"},
+     {:gettext, "~> 0.12"},
      {:cowboy, "~> 1.0"},
      {:oauth2, "~> 0.8"}
     ]
