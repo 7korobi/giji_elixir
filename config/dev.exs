@@ -41,3 +41,4 @@ config :giji_elixir, GijiElixir.Repo,
   database: "giji_elixir_dev",
   hostname: "localhost",
   pool_size: 10
+

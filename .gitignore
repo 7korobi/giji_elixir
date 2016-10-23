@@ -3,6 +3,7 @@
 /db
 /deps
 /*.ez
+/config/config.exs
 /config/prod.secret.exs
 
 # Generated on crash by the VM

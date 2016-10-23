@@ -25,10 +25,15 @@ To start your Phoenix app:
 mix phoenix.server
 ```
 
-
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+
+## OpenID
+
+* https://developers.facebook.com/apps
+* https://console.developers.google.com/apis/credentials
+* https://github.com/settings/developers
 
 ## Learn more
 

@@ -14,16 +14,34 @@
   <body>
     <div class="container">
       <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
         <span class="logo"></span>
       </header>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <div class="row">
+        <div class="col-xs-12">
+          <%= if @current_user do %>
+            <h2>Welcome, <%= @current_user.name %>!</h2>
+            <img src="<%= @current_user.avatar %>" class="img-circle"/>
+            <%= link "Sign Out", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger" %>
+
+          <% else %>
+            <a class="btn btn-primary btn-lg" href="<%= auth_path @conn, :index, "github" %>">
+              <i class="fa fa-github"><i></i>
+              Sign in with GitHub
+            </a>
+            <a class="btn btn-primary btn-lg" href="<%= auth_path @conn, :index, "google" %>">
+              <i class="fa fa-google"><i></i>
+              Sign in with Google
+            </a>
+            <a class="btn btn-primary btn-lg" href="<%= auth_path @conn, :index, "facebook" %>">
+              <i class="fa fa-facebook"><i></i>
+              Sign in with Facebook
+            </a>
+          <% end %>
+        </div>
+      </div>
+
+
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>

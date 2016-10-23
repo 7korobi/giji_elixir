@@ -22,6 +22,22 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :oauth2, GitHub,
+  client_id:     "84286694726079255d7b",
+  client_secret: "7f46355177189429c7f5b777d61832939bdcd3dc",
+  redirect_uri:  "http://localhost:4000/auth/github/callback"
+
+config :oauth2, Google,
+  client_id: System.get_env("GOOGLE_CLIENT_ID"),
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET"),
+  redirect_uri: System.get_env("GOOGLE_REDIRECT_URI")
+
+config :oauth2, Facebook,
+  client_id: System.get_env("FACEBOOK_CLIENT_ID"),
+  client_secret: System.get_env("FACEBOOK_CLIENT_SECRET"),
+  redirect_uri: System.get_env("FACEBOOK_REDIRECT_URI")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
