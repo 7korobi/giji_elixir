@@ -6,6 +6,9 @@
 import {Socket} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
+socket.onOpen(  e => console.log("OPEN",  e) );
+socket.onError( e => console.log("ERROR", e) );
+socket.onClose( e => console.log("CLOSE", e) );
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,

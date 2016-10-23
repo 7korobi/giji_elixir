@@ -6,22 +6,20 @@ defmodule Facebook do
 
   alias OAuth2.Strategy.AuthCode
 
-  defp config do
-    [ strategy: Facebook,
-      site: "https://graph.facebook.com",
-      authorize_url: "https://www.facebook.com/dialog/oauth",
-      token_url: "/oauth/access_token",
+  @config [
+    strategy: Facebook,
+    site: "https://graph.facebook.com",
+    authorize_url: "https://www.facebook.com/dialog/oauth",
+    token_url: "/oauth/access_token",
 
-      client_id:     "1126110407424253",
-      client_secret: "ae65cc849675628e85b0524f196e437c",
-      redirect_uri:  "http://lvh.me:4000/auth/facebook/callback"
-   ]
-  end
+    client_id:     System.get_env("FACEBOOK_CLIENT_ID"),
+    client_secret: System.get_env("FACEBOOK_CLIENT_SECRET"),
+    redirect_uri:  System.get_env("FACEBOOK_REDIRECT_URI")
+  ]
 
   # Public API
-
   def client do
-    config()
+    @config
     |> OAuth2.Client.new()
   end
 
@@ -39,9 +37,13 @@ defmodule Facebook do
       )
   end
 
-  defp get_user!(client) do
+  def get_user!(client) do
     {:ok, %{body: user}} = OAuth2.Client.get!(client, "/me", fields: "id,name")
-    %{name: user["name"], avatar: "https://graph.facebook.com/#{user["id"]}/picture"}
+    %{type: "facebook",
+      id: user["id"],
+      name: user["name"],
+      avatar: "https://graph.facebook.com/#{user["id"]}/picture"
+    }
   end
 
   # Strategy Callbacks

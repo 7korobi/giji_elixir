@@ -7,7 +7,7 @@ defmodule GijiElixir.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :assign_current_user
+    plug :assign_current
   end
 
   pipeline :api do
@@ -33,7 +33,7 @@ defmodule GijiElixir.Router do
     pipe_through :api
   end
 
-  defp assign_current_user(conn, _) do
-    assign(conn, :current_user, get_session(conn, :current_user))
+  defp assign_current(conn, _) do
+    assign(conn, :current, get_session(conn, :current))
   end
 end

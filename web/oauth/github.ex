@@ -6,22 +6,20 @@ defmodule GitHub do
 
   alias OAuth2.Strategy.AuthCode
 
-  defp config do
-    [ strategy: GitHub,
-      site: "https://api.github.com",
-      authorize_url: "https://github.com/login/oauth/authorize",
-      token_url: "https://github.com/login/oauth/access_token",
+  @config [
+    strategy: GitHub,
+    site: "https://api.github.com",
+    authorize_url: "https://github.com/login/oauth/authorize",
+    token_url: "https://github.com/login/oauth/access_token",
 
-      client_id:     "84286694726079255d7b",
-      client_secret: "7f46355177189429c7f5b777d61832939bdcd3dc",
-      redirect_uri:  "http://localhost:4000/auth/github/callback"
-    ]
-  end
+    client_id:     System.get_env("GITHUB_CLIENT_ID"),
+    client_secret: System.get_env("GITHUB_CLIENT_SECRET"),
+    redirect_uri:  System.get_env("GITHUB_REDIRECT_URI")
+  ]
 
   # Public API
-
   def client do
-    config()
+    @config
     |> OAuth2.Client.new()
   end
 
@@ -40,7 +38,11 @@ defmodule GitHub do
 
   def get_user!(client) do
     %{body: user} = OAuth2.Client.get!(client, "/user")
-    %{name: user["name"], avatar: user["avatar_url"]}
+    %{type: "github",
+      id: user["id"],
+      name: user["name"],
+      avatar: user["avatar_url"]
+    }
   end
 
   # Strategy Callbacks

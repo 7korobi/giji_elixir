@@ -23,12 +23,18 @@ defmodule GijiElixir.AuthController do
     %{"code" => code} = params
     module = provider(params)
     client = module.get_token!(code)
-    user   = module.get_user!(client)
+    user = module.get_user!(client)
 
+    current = %{
+      user: user,
+      token: client.token.access_token
+    }
     # ユーザ情報をセッションへ詰めた後、ルートページへリダイレクトさせます
     conn
-    |> put_session(:current_user, user)
-    |> put_session(:access_token, client.token.access_token)
+    |> Phoenix.Token.sign("user token", current.token)
+
+    conn
+    |> put_session(:current, current)
     |> redirect(to: "/")
   end
 

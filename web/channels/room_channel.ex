@@ -16,7 +16,7 @@ defmodule GijiElixir.RoomChannel do
   end
 
   def handle_out("new_msg", payload, socket) do
-    push socket, "new_msg", payload
+    broadcast! socket, "new_msg", %{body: "bye!"}
     {:noreply, socket}
   end
 end

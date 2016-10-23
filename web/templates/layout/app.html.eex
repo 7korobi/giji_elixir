@@ -19,9 +19,10 @@
 
       <div class="row">
         <div class="col-xs-12">
-          <%= if @current_user do %>
-            <h2>Welcome, <%= @current_user.name %>!</h2>
-            <img src="<%= @current_user.avatar %>" class="img-circle"/>
+          <%= if @current do %>
+            <script>window.userToken = "<%= @current.token %>";</script>
+            <h2>Welcome, <%= @current.user.name %>!</h2>
+            <img src="<%= @current.user.avatar %>" class="img-circle"/>
             <%= link "Sign Out", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger" %>
 
           <% else %>

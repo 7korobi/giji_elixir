@@ -6,22 +6,20 @@ defmodule Google do
 
   alias OAuth2.Strategy.AuthCode
 
-  defp config do
-    [ strategy: Google,
-      site: "https://accounts.google.com",
-      authorize_url: "/o/oauth2/auth",
-      token_url: "/o/oauth2/token",
+  @config [
+    strategy: Google,
+    site: "https://accounts.google.com",
+    authorize_url: "/o/oauth2/auth",
+    token_url: "/o/oauth2/token",
 
-      client_id:     "54633717694-1dkecjrffgpa1ua9jgcdmemfcv58dusl.apps.googleusercontent.com",
-      client_secret: "wPgQu4GB80Kj4Y8_HWpTtvFa",
-      redirect_uri:  "http://lvh.me:4000/auth/google/callback"
-    ]
-  end
+    client_id:     System.get_env("GOOGLE_CLIENT_ID"),
+    client_secret: System.get_env("GOOGLE_CLIENT_SECRET"),
+    redirect_uri:  System.get_env("GOOGLE_REDIRECT_URI")
+  ]
 
   # Public API
-
   def client do
-    config()
+    @config
     |> OAuth2.Client.new()
   end
 
@@ -41,7 +39,11 @@ defmodule Google do
 
   def get_user!(client) do
     {:ok, %{body: user}} = OAuth2.Client.get!(client, "https://www.googleapis.com/plus/v1/people/me/openIdConnect")
-    %{name: user["name"], avatar: user["picture"]}
+    %{type: "google",
+      id: user["id"],
+      name: user["name"],
+      avatar: user["picture"]
+    }
   end
 
   # Strategy Callbacks
