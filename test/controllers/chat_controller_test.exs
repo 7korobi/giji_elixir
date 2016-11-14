@@ -1,7 +1,7 @@
-defmodule GijiElixir.ChatControllerTest do
-  use GijiElixir.ConnCase
+defmodule Giji.ChatControllerTest do
+  use Giji.ConnCase
 
-  alias GijiElixir.Chat
+  alias Giji.Chat
   @valid_attrs %{face_id: "some content", log: "some content", logid: "some content", query: 42, style: "some content"}
   @invalid_attrs %{}
 

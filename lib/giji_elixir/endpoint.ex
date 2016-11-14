@@ -1,7 +1,7 @@
-defmodule GijiElixir.Endpoint do
+defmodule Giji.Endpoint do
   use Phoenix.Endpoint, otp_app: :giji_elixir
 
-  socket "/socket", GijiElixir.UserSocket
+  socket "/socket", Giji.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -38,5 +38,5 @@ defmodule GijiElixir.Endpoint do
     key: "_giji_elixir_key",
     signing_salt: "xDvZuOdX"
 
-  plug GijiElixir.Router
+  plug Giji.Router
 end

@@ -1,5 +1,5 @@
-defmodule GijiElixir.User do
-  use GijiElixir.Web, :model
+defmodule Giji.User do
+  use Giji.Web, :model
 
   schema "users" do
     field :user_id, {:array, :string}

@@ -1,5 +1,5 @@
-defmodule GijiElixir.PageController do
-  use GijiElixir.Web, :controller
+defmodule Giji.PageController do
+  use Giji.Web, :controller
 
   def index(conn, _params) do
     render conn, "index.html"

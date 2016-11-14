@@ -1,3 +1,3 @@
-defmodule GijiElixir.PageView do
-  use GijiElixir.Web, :view
+defmodule Giji.PageView do
+  use Giji.Web, :view
 end

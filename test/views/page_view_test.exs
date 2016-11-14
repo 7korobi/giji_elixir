@@ -1,3 +1,3 @@
-defmodule GijiElixir.PageViewTest do
-  use GijiElixir.ConnCase, async: true
+defmodule Giji.PageViewTest do
+  use Giji.ConnCase, async: true
 end

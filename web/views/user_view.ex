@@ -1,3 +1,3 @@
-defmodule GijiElixir.UserView do
-  use GijiElixir.Web, :view
+defmodule Giji.UserView do
+  use Giji.Web, :view
 end

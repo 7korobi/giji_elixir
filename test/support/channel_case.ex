@@ -1,4 +1,4 @@
-defmodule GijiElixir.ChannelCase do
+defmodule Giji.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,22 +20,22 @@ defmodule GijiElixir.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias GijiElixir.Repo
+      alias Giji.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
 
 
       # The default endpoint for testing
-      @endpoint GijiElixir.Endpoint
+      @endpoint Giji.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(GijiElixir.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Giji.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(GijiElixir.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Giji.Repo, {:shared, self()})
     end
 
     :ok

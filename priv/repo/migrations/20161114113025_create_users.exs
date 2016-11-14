@@ -1,4 +1,4 @@
-defmodule GijiElixir.Repo.Migrations.CreateUsers do
+defmodule Giji.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do

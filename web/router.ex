@@ -1,5 +1,5 @@
-defmodule GijiElixir.Router do
-  use GijiElixir.Web, :router
+defmodule Giji.Router do
+  use Giji.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -14,7 +14,7 @@ defmodule GijiElixir.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", GijiElixir do
+  scope "/", Giji do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
@@ -23,7 +23,7 @@ defmodule GijiElixir.Router do
     resources "/users", UserController
   end
 
-  scope "/auth", GijiElixir do
+  scope "/auth", Giji do
     pipe_through :browser
 
     get "/:provider/callback", AuthController, :callback
@@ -32,7 +32,7 @@ defmodule GijiElixir.Router do
   end
 
   # Other scopes may use custom stacks.
-  scope "/api", GijiElixir do
+  scope "/api", Giji do
     pipe_through :api
   end
 

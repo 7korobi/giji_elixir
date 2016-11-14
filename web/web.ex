@@ -1,12 +1,12 @@
-defmodule GijiElixir.Web do
+defmodule Giji.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use GijiElixir.Web, :controller
-      use GijiElixir.Web, :view
+      use Giji.Web, :controller
+      use Giji.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -30,12 +30,12 @@ defmodule GijiElixir.Web do
     quote do
       use Phoenix.Controller
 
-      alias GijiElixir.Repo
+      alias Giji.Repo
       import Ecto
       import Ecto.Query
 
-      import GijiElixir.Router.Helpers
-      import GijiElixir.Gettext
+      import Giji.Router.Helpers
+      import Giji.Gettext
     end
   end
 
@@ -49,9 +49,9 @@ defmodule GijiElixir.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import GijiElixir.Router.Helpers
-      import GijiElixir.ErrorHelpers
-      import GijiElixir.Gettext
+      import Giji.Router.Helpers
+      import Giji.ErrorHelpers
+      import Giji.Gettext
     end
   end
 
@@ -65,10 +65,10 @@ defmodule GijiElixir.Web do
     quote do
       use Phoenix.Channel
 
-      alias GijiElixir.Repo
+      alias Giji.Repo
       import Ecto
       import Ecto.Query
-      import GijiElixir.Gettext
+      import Giji.Gettext
     end
   end
 

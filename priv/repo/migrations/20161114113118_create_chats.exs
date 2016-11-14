@@ -1,4 +1,4 @@
-defmodule GijiElixir.Repo.Migrations.CreateChats do
+defmodule Giji.Repo.Migrations.CreateChats do
   use Ecto.Migration
 
   def change do

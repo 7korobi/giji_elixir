@@ -1,5 +1,5 @@
-defmodule GijiElixir.AuthController do
-  use GijiElixir.Web, :controller
+defmodule Giji.AuthController do
+  use Giji.Web, :controller
 
   plug :action
 

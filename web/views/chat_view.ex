@@ -1,3 +1,3 @@
-defmodule GijiElixir.ChatView do
-  use GijiElixir.Web, :view
+defmodule Giji.ChatView do
+  use Giji.Web, :view
 end

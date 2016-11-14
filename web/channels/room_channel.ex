@@ -1,5 +1,5 @@
 
-defmodule GijiElixir.RoomChannel do
+defmodule Giji.RoomChannel do
   use Phoenix.Channel
 
   def join("room:lobby", _message, socket) do

@@ -1,5 +1,5 @@
-defmodule GijiElixir.ErrorView do
-  use GijiElixir.Web, :view
+defmodule Giji.ErrorView do
+  use Giji.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

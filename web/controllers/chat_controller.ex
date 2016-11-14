@@ -1,7 +1,7 @@
-defmodule GijiElixir.ChatController do
-  use GijiElixir.Web, :controller
+defmodule Giji.ChatController do
+  use Giji.Web, :controller
 
-  alias GijiElixir.Chat
+  alias Giji.Chat
 
   def index(conn, _params) do
     chats = Repo.all(Chat)

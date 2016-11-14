@@ -1,4 +1,4 @@
-defmodule GijiElixir.ErrorHelpers do
+defmodule Giji.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -32,9 +32,9 @@ defmodule GijiElixir.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(GijiElixir.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(Giji.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(GijiElixir.Gettext, "errors", msg, opts)
+      Gettext.dgettext(Giji.Gettext, "errors", msg, opts)
     end
   end
 end

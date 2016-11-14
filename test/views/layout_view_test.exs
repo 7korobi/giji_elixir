@@ -1,3 +1,3 @@
-defmodule GijiElixir.LayoutViewTest do
-  use GijiElixir.ConnCase, async: true
+defmodule Giji.LayoutViewTest do
+  use Giji.ConnCase, async: true
 end

@@ -1,5 +1,5 @@
-defmodule GijiElixir.PageControllerTest do
-  use GijiElixir.ConnCase
+defmodule Giji.PageControllerTest do
+  use Giji.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

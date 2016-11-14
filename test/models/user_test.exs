@@ -1,7 +1,7 @@
-defmodule GijiElixir.UserTest do
-  use GijiElixir.ModelCase
+defmodule Giji.UserTest do
+  use Giji.ModelCase
 
-  alias GijiElixir.User
+  alias Giji.User
 
   @valid_attrs %{avatar: "some content", name: "some content", user_id: []}
   @invalid_attrs %{}

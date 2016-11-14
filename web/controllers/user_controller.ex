@@ -1,7 +1,7 @@
-defmodule GijiElixir.UserController do
-  use GijiElixir.Web, :controller
+defmodule Giji.UserController do
+  use Giji.Web, :controller
 
-  alias GijiElixir.User
+  alias Giji.User
 
   def index(conn, _params) do
     users = Repo.all(User)

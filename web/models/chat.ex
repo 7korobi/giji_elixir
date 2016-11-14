@@ -1,5 +1,5 @@
-defmodule GijiElixir.Chat do
-  use GijiElixir.Web, :model
+defmodule Giji.Chat do
+  use Giji.Web, :model
 
   schema "chats" do
     field :query, :integer
@@ -7,7 +7,7 @@ defmodule GijiElixir.Chat do
     field :style, :string
     field :logid, :string
     field :log, :string
-    belongs_to :user, GijiElixir.User
+    belongs_to :user, Giji.User
 
     timestamps()
   end

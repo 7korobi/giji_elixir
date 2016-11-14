@@ -10,14 +10,14 @@ config :phoenix, :template_engines,
 
 # General application configuration
 config :giji_elixir,
-  ecto_repos: [GijiElixir.Repo]
+  ecto_repos: [Giji.Repo]
 
 # Configures the endpoint
-config :giji_elixir, GijiElixir.Endpoint,
+config :giji_elixir, Giji.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "ZvTJtu+zEXJj9w7OwBG3+KRj8o0t0bWF2BSbgtuzlzXLPIQuYwUMLSCNnGy4XJw1",
-  render_errors: [view: GijiElixir.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: GijiElixir.PubSub,
+  render_errors: [view: Giji.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Giji.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
