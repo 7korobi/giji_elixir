@@ -11,7 +11,7 @@ config :logger, level: :warn
 
 # Configure your database
 config :giji_elixir, GijiElixir.Repo,
-  adapter: Ecto.Adapters.Postgres,
+  adapter: Ecto.Adapters.MySQL,
   username: "giji",
   password: "giji",
   database: "giji_elixir_test",
