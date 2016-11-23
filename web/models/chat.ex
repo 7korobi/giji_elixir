@@ -1,13 +1,17 @@
-defmodule Giji.Chat do
-  use Giji.Web, :model
+defmodule GijiElixir.Chat do
+  use GijiElixir.Web, :model
 
   schema "chats" do
-    field :query, :integer
-    field :face_id, :string
+    field :book_id, :integer
+    field :part_id, :integer
+    field :section_id, :integer
+    field :channel_id, :integer
+    field :chat_id, :integer
+    field :potof_id, :integer
+    field :to, :string
     field :style, :string
-    field :logid, :string
     field :log, :string
-    belongs_to :user, Giji.User
+    belongs_to :user, GijiElixir.User
 
     timestamps()
   end
@@ -17,7 +21,7 @@ defmodule Giji.Chat do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:query, :face_id, :style, :logid, :log])
-    |> validate_required([:query, :face_id, :style, :logid, :log])
+    |> cast(params, [:book_id, :part_id, :section_id, :channel_id, :chat_id, :potof_id, :to, :style, :log])
+    |> validate_required([:book_id, :part_id, :section_id, :channel_id, :chat_id, :potof_id, :to, :style, :log])
   end
 end

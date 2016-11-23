@@ -1,35 +1,33 @@
-defmodule Giji.ChatControllerTest do
-  use Giji.ConnCase
+defmodule GijiElixir.ChatControllerTest do
+  use GijiElixir.ConnCase
 
-  alias Giji.Chat
-  @valid_attrs %{face_id: "some content", log: "some content", logid: "some content", query: 42, style: "some content"}
+  alias GijiElixir.Chat
+  @valid_attrs %{book_id: 42, channel_id: 42, chat_id: 42, log: "some content", part_id: 42, potof_id: 42, section_id: 42, style: "some content", to: "some content"}
   @invalid_attrs %{}
+
+  setup %{conn: conn} do
+    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+  end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, chat_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing chats"
-  end
-
-  test "renders form for new resources", %{conn: conn} do
-    conn = get conn, chat_path(conn, :new)
-    assert html_response(conn, 200) =~ "New chat"
-  end
-
-  test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, chat_path(conn, :create), chat: @valid_attrs
-    assert redirected_to(conn) == chat_path(conn, :index)
-    assert Repo.get_by(Chat, @valid_attrs)
-  end
-
-  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, chat_path(conn, :create), chat: @invalid_attrs
-    assert html_response(conn, 200) =~ "New chat"
+    assert json_response(conn, 200)["data"] == []
   end
 
   test "shows chosen resource", %{conn: conn} do
     chat = Repo.insert! %Chat{}
     conn = get conn, chat_path(conn, :show, chat)
-    assert html_response(conn, 200) =~ "Show chat"
+    assert json_response(conn, 200)["data"] == %{"id" => chat.id,
+      "user_id" => chat.user_id,
+      "book_id" => chat.book_id,
+      "part_id" => chat.part_id,
+      "section_id" => chat.section_id,
+      "channel_id" => chat.channel_id,
+      "chat_id" => chat.chat_id,
+      "potof_id" => chat.potof_id,
+      "to" => chat.to,
+      "style" => chat.style,
+      "log" => chat.log}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -38,29 +36,34 @@ defmodule Giji.ChatControllerTest do
     end
   end
 
-  test "renders form for editing chosen resource", %{conn: conn} do
-    chat = Repo.insert! %Chat{}
-    conn = get conn, chat_path(conn, :edit, chat)
-    assert html_response(conn, 200) =~ "Edit chat"
+  test "creates and renders resource when data is valid", %{conn: conn} do
+    conn = post conn, chat_path(conn, :create), chat: @valid_attrs
+    assert json_response(conn, 201)["data"]["id"]
+    assert Repo.get_by(Chat, @valid_attrs)
   end
 
-  test "updates chosen resource and redirects when data is valid", %{conn: conn} do
+  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
+    conn = post conn, chat_path(conn, :create), chat: @invalid_attrs
+    assert json_response(conn, 422)["errors"] != %{}
+  end
+
+  test "updates and renders chosen resource when data is valid", %{conn: conn} do
     chat = Repo.insert! %Chat{}
     conn = put conn, chat_path(conn, :update, chat), chat: @valid_attrs
-    assert redirected_to(conn) == chat_path(conn, :show, chat)
+    assert json_response(conn, 200)["data"]["id"]
     assert Repo.get_by(Chat, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     chat = Repo.insert! %Chat{}
     conn = put conn, chat_path(conn, :update, chat), chat: @invalid_attrs
-    assert html_response(conn, 200) =~ "Edit chat"
+    assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "deletes chosen resource", %{conn: conn} do
     chat = Repo.insert! %Chat{}
     conn = delete conn, chat_path(conn, :delete, chat)
-    assert redirected_to(conn) == chat_path(conn, :index)
+    assert response(conn, 204)
     refute Repo.get(Chat, chat.id)
   end
 end

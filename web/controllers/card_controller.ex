@@ -1,22 +1,22 @@
-defmodule GijiElixir.ChatController do
+defmodule GijiElixir.CardController do
   use GijiElixir.Web, :controller
 
-  alias GijiElixir.Chat
+  alias GijiElixir.Card
 
   def index(conn, _params) do
-    chats = Repo.all(Chat)
-    render(conn, "index.json", chats: chats)
+    cards = Repo.all(Card)
+    render(conn, "index.json", cards: cards)
   end
 
-  def create(conn, %{"chat" => chat_params}) do
-    changeset = Chat.changeset(%Chat{}, chat_params)
+  def create(conn, %{"card" => card_params}) do
+    changeset = Card.changeset(%Card{}, card_params)
 
     case Repo.insert(changeset) do
-      {:ok, chat} ->
+      {:ok, card} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", chat_path(conn, :show, chat))
-        |> render("show.json", chat: chat)
+        |> put_resp_header("location", card_path(conn, :show, card))
+        |> render("show.json", card: card)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -25,17 +25,17 @@ defmodule GijiElixir.ChatController do
   end
 
   def show(conn, %{"id" => id}) do
-    chat = Repo.get!(Chat, id)
-    render(conn, "show.json", chat: chat)
+    card = Repo.get!(Card, id)
+    render(conn, "show.json", card: card)
   end
 
-  def update(conn, %{"id" => id, "chat" => chat_params}) do
-    chat = Repo.get!(Chat, id)
-    changeset = Chat.changeset(chat, chat_params)
+  def update(conn, %{"id" => id, "card" => card_params}) do
+    card = Repo.get!(Card, id)
+    changeset = Card.changeset(card, card_params)
 
     case Repo.update(changeset) do
-      {:ok, chat} ->
-        render(conn, "show.json", chat: chat)
+      {:ok, card} ->
+        render(conn, "show.json", card: card)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -44,11 +44,11 @@ defmodule GijiElixir.ChatController do
   end
 
   def delete(conn, %{"id" => id}) do
-    chat = Repo.get!(Chat, id)
+    card = Repo.get!(Card, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(chat)
+    Repo.delete!(card)
 
     send_resp(conn, :no_content, "")
   end

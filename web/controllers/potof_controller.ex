@@ -1,22 +1,22 @@
-defmodule GijiElixir.ChatController do
+defmodule GijiElixir.PotofController do
   use GijiElixir.Web, :controller
 
-  alias GijiElixir.Chat
+  alias GijiElixir.Potof
 
   def index(conn, _params) do
-    chats = Repo.all(Chat)
-    render(conn, "index.json", chats: chats)
+    potofs = Repo.all(Potof)
+    render(conn, "index.json", potofs: potofs)
   end
 
-  def create(conn, %{"chat" => chat_params}) do
-    changeset = Chat.changeset(%Chat{}, chat_params)
+  def create(conn, %{"potof" => potof_params}) do
+    changeset = Potof.changeset(%Potof{}, potof_params)
 
     case Repo.insert(changeset) do
-      {:ok, chat} ->
+      {:ok, potof} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", chat_path(conn, :show, chat))
-        |> render("show.json", chat: chat)
+        |> put_resp_header("location", potof_path(conn, :show, potof))
+        |> render("show.json", potof: potof)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -25,17 +25,17 @@ defmodule GijiElixir.ChatController do
   end
 
   def show(conn, %{"id" => id}) do
-    chat = Repo.get!(Chat, id)
-    render(conn, "show.json", chat: chat)
+    potof = Repo.get!(Potof, id)
+    render(conn, "show.json", potof: potof)
   end
 
-  def update(conn, %{"id" => id, "chat" => chat_params}) do
-    chat = Repo.get!(Chat, id)
-    changeset = Chat.changeset(chat, chat_params)
+  def update(conn, %{"id" => id, "potof" => potof_params}) do
+    potof = Repo.get!(Potof, id)
+    changeset = Potof.changeset(potof, potof_params)
 
     case Repo.update(changeset) do
-      {:ok, chat} ->
-        render(conn, "show.json", chat: chat)
+      {:ok, potof} ->
+        render(conn, "show.json", potof: potof)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -44,11 +44,11 @@ defmodule GijiElixir.ChatController do
   end
 
   def delete(conn, %{"id" => id}) do
-    chat = Repo.get!(Chat, id)
+    potof = Repo.get!(Potof, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(chat)
+    Repo.delete!(potof)
 
     send_resp(conn, :no_content, "")
   end
