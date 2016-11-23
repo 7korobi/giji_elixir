@@ -5,7 +5,8 @@ defmodule GijiElixir.Repo.Migrations.CreateCard do
     create table(:cards) do
       add :book_id,  :integer
       add :part_id,  :integer
-      add :potof_id, :integer
+      add :potof_id, references(:potofs, on_delete: :nothing)
+
       add :name, :string
       add :state, :integer
 

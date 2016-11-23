@@ -1,12 +1,14 @@
 defmodule GijiElixir.Part do
   use GijiElixir.Web, :model
 
+  @primary_key false
   schema "parts" do
-    field :book_id, :integer
-    field :part_id, :integer
+    field :book_id, :integer, primary_key: true
+    field :part_id, :integer, primary_key: true
+    belongs_to :user, GijiElixir.User
+
     field :section_id, :integer
     field :name, :string
-    belongs_to :user, GijiElixir.User
 
     timestamps()
   end

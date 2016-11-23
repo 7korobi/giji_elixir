@@ -1,17 +1,19 @@
 defmodule GijiElixir.Chat do
   use GijiElixir.Web, :model
 
+  @primary_key false
   schema "chats" do
-    field :book_id, :integer
-    field :part_id, :integer
-    field :section_id, :integer
-    field :channel_id, :integer
-    field :chat_id, :integer
-    field :potof_id, :integer
-    field :to, :string
-    field :style, :string
-    field :log, :string
+    field :book_id,    :integer, primary_key: true
+    field :part_id,    :integer, primary_key: true
+    field :channel_id, :integer, primary_key: true
+    field :chat_id,    :integer, primary_key: true
     belongs_to :user, GijiElixir.User
+
+    field :section_id, :integer
+    field :potof_id,   :integer
+    field :to,    :string
+    field :style, :string
+    field :log,   :string
 
     timestamps()
   end

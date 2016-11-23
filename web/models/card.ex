@@ -2,9 +2,10 @@ defmodule GijiElixir.Card do
   use GijiElixir.Web, :model
 
   schema "cards" do
-    field :book_id, :integer
-    field :part_id, :integer
-    field :potof_id, :integer
+    field :book_id,  :integer
+    field :part_id,  :integer
+    belongs_to :potof, GijiElixir.Potof
+
     field :name, :string
     field :state, :integer
 
