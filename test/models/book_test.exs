@@ -1,7 +1,7 @@
-defmodule GijiElixir.BookTest do
-  use GijiElixir.ModelCase
+defmodule Giji.BookTest do
+  use Giji.ModelCase
 
-  alias GijiElixir.Book
+  alias Giji.Book
 
   @valid_attrs %{book_id: 42, name: "some content", part_id: 42}
   @invalid_attrs %{}

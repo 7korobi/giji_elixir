@@ -7,8 +7,8 @@ mix phoenix.gen.json Potof   potofs      user_id:references:users  book_id:integ
 mix phoenix.gen.json Book    books       user_id:references:users  book_id:integer part_id:integer                                    name:string
 mix phoenix.gen.json Part    parts       user_id:references:users  book_id:integer part_id:integer section_id:integer                 name:string
 mix phoenix.gen.json Section sections    user_id:references:users  book_id:integer part_id:integer section_id:integer                 name:string
-mix phoenix.gen.json Channel channels    user_id:references:users  book_id:integer part_id:integer channel_id:integer chat_id:integer name:string
-mix phoenix.gen.json Chat    chats       user_id:references:users  book_id:integer part_id:integer section_id:integer channel_id:integer chat_id:integer potof_id:integer to:string style:string log:string
+mix phoenix.gen.json Phase   phases      user_id:references:users  book_id:integer part_id:integer phase_id:integer chat_id:integer name:string
+mix phoenix.gen.json Chat    chats       user_id:references:users  book_id:integer part_id:integer section_id:integer phase_id:integer chat_id:integer potof_id:integer to:string style:string log:string
 
 chapter
 section
@@ -51,11 +51,9 @@ mix archive.install https://github.com/phoenixframework/archives/raw/master/phoe
 mix local.phoenix
 mix deps.get
 npm install
-psql -U postgres
-  alter user giji with password 'giji';
-createdb -U postgres giji_elixir_dev --owner=giji
-createdb -U postgres giji_elixir_test --owner=giji
 ```
+
+and mariadb install.
 
 ## 作成時覚書
 ```

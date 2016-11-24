@@ -1,9 +1,9 @@
-defmodule GijiElixir.ChatTest do
-  use GijiElixir.ModelCase
+defmodule Giji.ChatTest do
+  use Giji.ModelCase
 
-  alias GijiElixir.Chat
+  alias Giji.Chat
 
-  @valid_attrs %{book_id: 42, channel_id: 42, chat_id: 42, log: "some content", part_id: 42, potof_id: 42, section_id: 42, style: "some content", to: "some content"}
+  @valid_attrs %{book_id: 42, chat_id: 42, log: "some content", part_id: 42, phase_id: 42, potof_id: 42, section_id: 42, style: "some content", to: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

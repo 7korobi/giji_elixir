@@ -1,7 +1,7 @@
-defmodule GijiElixir.PartController do
-  use GijiElixir.Web, :controller
+defmodule Giji.PartController do
+  use Giji.Web, :controller
 
-  alias GijiElixir.Part
+  alias Giji.Part
 
   def index(conn, _params) do
     parts = Repo.all(Part)
@@ -20,7 +20,7 @@ defmodule GijiElixir.PartController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
@@ -39,7 +39,7 @@ defmodule GijiElixir.PartController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 

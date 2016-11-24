@@ -1,4 +1,4 @@
-defmodule GijiElixir.Repo.Migrations.CreatePotof do
+defmodule Giji.Repo.Migrations.CreatePotof do
   use Ecto.Migration
 
   def change do

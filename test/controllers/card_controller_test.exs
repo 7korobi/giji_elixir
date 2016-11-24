@@ -1,7 +1,7 @@
-defmodule GijiElixir.CardControllerTest do
-  use GijiElixir.ConnCase
+defmodule Giji.CardControllerTest do
+  use Giji.ConnCase
 
-  alias GijiElixir.Card
+  alias Giji.Card
   @valid_attrs %{book_id: 42, name: "some content", part_id: 42, potof_id: 42, state: 42}
   @invalid_attrs %{}
 

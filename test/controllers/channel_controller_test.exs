@@ -1,7 +1,7 @@
-defmodule GijiElixir.ChannelControllerTest do
-  use GijiElixir.ConnCase
+defmodule Giji.ChannelControllerTest do
+  use Giji.ConnCase
 
-  alias GijiElixir.Channel
+  alias Giji.Channel
   @valid_attrs %{book_id: 42, channel_id: 42, chat_id: 42, name: "some content", part_id: 42}
   @invalid_attrs %{}
 

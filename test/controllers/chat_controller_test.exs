@@ -1,8 +1,8 @@
-defmodule GijiElixir.ChatControllerTest do
-  use GijiElixir.ConnCase
+defmodule Giji.ChatControllerTest do
+  use Giji.ConnCase
 
-  alias GijiElixir.Chat
-  @valid_attrs %{book_id: 42, channel_id: 42, chat_id: 42, log: "some content", part_id: 42, potof_id: 42, section_id: 42, style: "some content", to: "some content"}
+  alias Giji.Chat
+  @valid_attrs %{book_id: 42, chat_id: 42, log: "some content", part_id: 42, phase_id: 42, potof_id: 42, section_id: 42, style: "some content", to: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -22,7 +22,7 @@ defmodule GijiElixir.ChatControllerTest do
       "book_id" => chat.book_id,
       "part_id" => chat.part_id,
       "section_id" => chat.section_id,
-      "channel_id" => chat.channel_id,
+      "phase_id" => chat.phase_id,
       "chat_id" => chat.chat_id,
       "potof_id" => chat.potof_id,
       "to" => chat.to,

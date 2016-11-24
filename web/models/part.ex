@@ -1,11 +1,11 @@
-defmodule GijiElixir.Part do
-  use GijiElixir.Web, :model
+defmodule Giji.Part do
+  use Giji.Web, :model
 
   @primary_key false
   schema "parts" do
     field :book_id, :integer, primary_key: true
     field :part_id, :integer, primary_key: true
-    belongs_to :user, GijiElixir.User
+    belongs_to :user, Giji.User
 
     field :section_id, :integer
     field :name, :string

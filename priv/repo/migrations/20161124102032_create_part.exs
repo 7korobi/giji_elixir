@@ -1,4 +1,4 @@
-defmodule GijiElixir.Repo.Migrations.CreatePart do
+defmodule Giji.Repo.Migrations.CreatePart do
   use Ecto.Migration
 
   def change do

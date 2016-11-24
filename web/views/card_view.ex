@@ -1,12 +1,12 @@
-defmodule GijiElixir.CardView do
-  use GijiElixir.Web, :view
+defmodule Giji.CardView do
+  use Giji.Web, :view
 
   def render("index.json", %{cards: cards}) do
-    %{data: render_many(cards, GijiElixir.CardView, "card.json")}
+    %{data: render_many(cards, Giji.CardView, "card.json")}
   end
 
   def render("show.json", %{card: card}) do
-    %{data: render_one(card, GijiElixir.CardView, "card.json")}
+    %{data: render_one(card, Giji.CardView, "card.json")}
   end
 
   def render("card.json", %{card: card}) do

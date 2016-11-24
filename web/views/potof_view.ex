@@ -1,12 +1,12 @@
-defmodule GijiElixir.PotofView do
-  use GijiElixir.Web, :view
+defmodule Giji.PotofView do
+  use Giji.Web, :view
 
   def render("index.json", %{potofs: potofs}) do
-    %{data: render_many(potofs, GijiElixir.PotofView, "potof.json")}
+    %{data: render_many(potofs, Giji.PotofView, "potof.json")}
   end
 
   def render("show.json", %{potof: potof}) do
-    %{data: render_one(potof, GijiElixir.PotofView, "potof.json")}
+    %{data: render_one(potof, Giji.PotofView, "potof.json")}
   end
 
   def render("potof.json", %{potof: potof}) do

@@ -1,21 +1,19 @@
-defmodule GijiElixir.Chat do
-  use GijiElixir.Web, :model
+defmodule Giji.Chat do
+  use Giji.Web, :model
 
   @primary_key false
   schema "chats" do
-    field :book_id,    :integer, primary_key: true
-    field :part_id,    :integer, primary_key: true
-    field :channel_id, :integer, primary_key: true
-    field :chat_id,    :integer, primary_key: true
-    belongs_to :user, GijiElixir.User
+    field :book_id,  :integer, primary_key: true
+    field :part_id,  :integer, primary_key: true
+    field :phase_id, :integer, primary_key: true
+    field :chat_id,  :integer, primary_key: true
+    belongs_to :user, Giji.User
 
     field :section_id, :integer
     field :potof_id,   :integer
     field :to,    :string
     field :style, :string
     field :log,   :string
-
-    timestamps()
   end
 
   @doc """
@@ -23,7 +21,7 @@ defmodule GijiElixir.Chat do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:book_id, :part_id, :section_id, :channel_id, :chat_id, :potof_id, :to, :style, :log])
-    |> validate_required([:book_id, :part_id, :section_id, :channel_id, :chat_id, :potof_id, :to, :style, :log])
+    |> cast(params, [:book_id, :part_id, :section_id, :phase_id, :chat_id, :potof_id, :to, :style, :log])
+    |> validate_required([:book_id, :part_id, :section_id, :phase_id, :chat_id, :potof_id, :to, :style, :log])
   end
 end

@@ -34,6 +34,18 @@ defmodule Giji.Router do
   # Other scopes may use custom stacks.
   scope "/api", Giji do
     pipe_through :api
+    resources "/books", BookController
+  end
+
+  scope "/api/:book_id", Giji do
+    pipe_through :api
+    resources "/parts",    PartController
+    resources "/sections", SectionController
+    resources "/phases",   PhaseController
+    resources "/chats",    ChatController
+
+    resources "/potofs",   PotofController
+    resources "/cards",    CardController
   end
 
   defp assign_current(conn, _) do

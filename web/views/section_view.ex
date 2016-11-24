@@ -1,12 +1,12 @@
-defmodule GijiElixir.SectionView do
-  use GijiElixir.Web, :view
+defmodule Giji.SectionView do
+  use Giji.Web, :view
 
   def render("index.json", %{sections: sections}) do
-    %{data: render_many(sections, GijiElixir.SectionView, "section.json")}
+    %{data: render_many(sections, Giji.SectionView, "section.json")}
   end
 
   def render("show.json", %{section: section}) do
-    %{data: render_one(section, GijiElixir.SectionView, "section.json")}
+    %{data: render_one(section, Giji.SectionView, "section.json")}
   end
 
   def render("section.json", %{section: section}) do

@@ -1,4 +1,4 @@
-defmodule GijiElixir.Repo.Migrations.CreateBook do
+defmodule Giji.Repo.Migrations.CreateBook do
   use Ecto.Migration
 
   def change do

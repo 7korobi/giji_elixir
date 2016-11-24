@@ -1,12 +1,12 @@
-defmodule GijiElixir.PartView do
-  use GijiElixir.Web, :view
+defmodule Giji.PartView do
+  use Giji.Web, :view
 
   def render("index.json", %{parts: parts}) do
-    %{data: render_many(parts, GijiElixir.PartView, "part.json")}
+    %{data: render_many(parts, Giji.PartView, "part.json")}
   end
 
   def render("show.json", %{part: part}) do
-    %{data: render_one(part, GijiElixir.PartView, "part.json")}
+    %{data: render_one(part, Giji.PartView, "part.json")}
   end
 
   def render("part.json", %{part: part}) do

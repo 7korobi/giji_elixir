@@ -1,7 +1,7 @@
-defmodule GijiElixir.CardController do
-  use GijiElixir.Web, :controller
+defmodule Giji.CardController do
+  use Giji.Web, :controller
 
-  alias GijiElixir.Card
+  alias Giji.Card
 
   def index(conn, _params) do
     cards = Repo.all(Card)
@@ -20,7 +20,7 @@ defmodule GijiElixir.CardController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
@@ -39,7 +39,7 @@ defmodule GijiElixir.CardController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 

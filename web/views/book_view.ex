@@ -1,12 +1,12 @@
-defmodule GijiElixir.BookView do
-  use GijiElixir.Web, :view
+defmodule Giji.BookView do
+  use Giji.Web, :view
 
   def render("index.json", %{books: books}) do
-    %{data: render_many(books, GijiElixir.BookView, "book.json")}
+    %{data: render_many(books, Giji.BookView, "book.json")}
   end
 
   def render("show.json", %{book: book}) do
-    %{data: render_one(book, GijiElixir.BookView, "book.json")}
+    %{data: render_one(book, Giji.BookView, "book.json")}
   end
 
   def render("book.json", %{book: book}) do

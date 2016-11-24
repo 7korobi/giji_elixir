@@ -1,7 +1,7 @@
-defmodule GijiElixir.PartControllerTest do
-  use GijiElixir.ConnCase
+defmodule Giji.PartControllerTest do
+  use Giji.ConnCase
 
-  alias GijiElixir.Part
+  alias Giji.Part
   @valid_attrs %{book_id: 42, name: "some content", part_id: 42, section_id: 42}
   @invalid_attrs %{}
 

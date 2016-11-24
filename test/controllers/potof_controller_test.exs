@@ -1,7 +1,7 @@
-defmodule GijiElixir.PotofControllerTest do
-  use GijiElixir.ConnCase
+defmodule Giji.PotofControllerTest do
+  use Giji.ConnCase
 
-  alias GijiElixir.Potof
+  alias Giji.Potof
   @valid_attrs %{book_id: 42, face_id: "some content", job: "some content", name: "some content", part_id: 42, section_id: 42, sign: "some content", state: 42}
   @invalid_attrs %{}
 

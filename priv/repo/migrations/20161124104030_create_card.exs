@@ -1,4 +1,4 @@
-defmodule GijiElixir.Repo.Migrations.CreateCard do
+defmodule Giji.Repo.Migrations.CreateCard do
   use Ecto.Migration
 
   def change do

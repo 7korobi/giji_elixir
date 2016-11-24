@@ -1,7 +1,7 @@
-defmodule GijiElixir.BookController do
-  use GijiElixir.Web, :controller
+defmodule Giji.BookController do
+  use Giji.Web, :controller
 
-  alias GijiElixir.Book
+  alias Giji.Book
 
   def index(conn, _params) do
     books = Repo.all(Book)
@@ -20,7 +20,7 @@ defmodule GijiElixir.BookController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
@@ -39,7 +39,7 @@ defmodule GijiElixir.BookController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 

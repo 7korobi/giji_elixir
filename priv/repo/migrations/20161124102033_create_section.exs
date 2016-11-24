@@ -1,4 +1,4 @@
-defmodule GijiElixir.Repo.Migrations.CreateSection do
+defmodule Giji.Repo.Migrations.CreateSection do
   use Ecto.Migration
 
   def change do

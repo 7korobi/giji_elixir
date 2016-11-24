@@ -1,12 +1,12 @@
-defmodule GijiElixir.ChatView do
-  use GijiElixir.Web, :view
+defmodule Giji.ChatView do
+  use Giji.Web, :view
 
   def render("index.json", %{chats: chats}) do
-    %{data: render_many(chats, GijiElixir.ChatView, "chat.json")}
+    %{data: render_many(chats, Giji.ChatView, "chat.json")}
   end
 
   def render("show.json", %{chat: chat}) do
-    %{data: render_one(chat, GijiElixir.ChatView, "chat.json")}
+    %{data: render_one(chat, Giji.ChatView, "chat.json")}
   end
 
   def render("chat.json", %{chat: chat}) do
@@ -15,7 +15,7 @@ defmodule GijiElixir.ChatView do
       book_id: chat.book_id,
       part_id: chat.part_id,
       section_id: chat.section_id,
-      channel_id: chat.channel_id,
+      phase_id: chat.phase_id,
       chat_id: chat.chat_id,
       potof_id: chat.potof_id,
       to: chat.to,

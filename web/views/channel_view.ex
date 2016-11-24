@@ -1,12 +1,12 @@
-defmodule GijiElixir.ChannelView do
-  use GijiElixir.Web, :view
+defmodule Giji.ChannelView do
+  use Giji.Web, :view
 
   def render("index.json", %{channels: channels}) do
-    %{data: render_many(channels, GijiElixir.ChannelView, "channel.json")}
+    %{data: render_many(channels, Giji.ChannelView, "channel.json")}
   end
 
   def render("show.json", %{channel: channel}) do
-    %{data: render_one(channel, GijiElixir.ChannelView, "channel.json")}
+    %{data: render_one(channel, Giji.ChannelView, "channel.json")}
   end
 
   def render("channel.json", %{channel: channel}) do

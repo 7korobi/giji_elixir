@@ -1,7 +1,7 @@
-defmodule GijiElixir.ChatController do
-  use GijiElixir.Web, :controller
+defmodule Giji.ChatController do
+  use Giji.Web, :controller
 
-  alias GijiElixir.Chat
+  alias Giji.Chat
 
   def index(conn, _params) do
     chats = Repo.all(Chat)
@@ -20,7 +20,7 @@ defmodule GijiElixir.ChatController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
@@ -39,7 +39,7 @@ defmodule GijiElixir.ChatController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(GijiElixir.ChangesetView, "error.json", changeset: changeset)
+        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
     end
   end
 

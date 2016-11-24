@@ -1,22 +1,22 @@
-defmodule Giji.PotofController do
+defmodule Giji.PhaseController do
   use Giji.Web, :controller
 
-  alias Giji.Potof
+  alias Giji.Phase
 
   def index(conn, _params) do
-    potofs = Repo.all(Potof)
-    render(conn, "index.json", potofs: potofs)
+    phases = Repo.all(Phase)
+    render(conn, "index.json", phases: phases)
   end
 
-  def create(conn, %{"potof" => potof_params}) do
-    changeset = Potof.changeset(%Potof{}, potof_params)
+  def create(conn, %{"phase" => phase_params}) do
+    changeset = Phase.changeset(%Phase{}, phase_params)
 
     case Repo.insert(changeset) do
-      {:ok, potof} ->
+      {:ok, phase} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", potof_path(conn, :show, potof))
-        |> render("show.json", potof: potof)
+        |> put_resp_header("location", phase_path(conn, :show, phase))
+        |> render("show.json", phase: phase)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -25,17 +25,17 @@ defmodule Giji.PotofController do
   end
 
   def show(conn, %{"id" => id}) do
-    potof = Repo.get!(Potof, id)
-    render(conn, "show.json", potof: potof)
+    phase = Repo.get!(Phase, id)
+    render(conn, "show.json", phase: phase)
   end
 
-  def update(conn, %{"id" => id, "potof" => potof_params}) do
-    potof = Repo.get!(Potof, id)
-    changeset = Potof.changeset(potof, potof_params)
+  def update(conn, %{"id" => id, "phase" => phase_params}) do
+    phase = Repo.get!(Phase, id)
+    changeset = Phase.changeset(phase, phase_params)
 
     case Repo.update(changeset) do
-      {:ok, potof} ->
-        render(conn, "show.json", potof: potof)
+      {:ok, phase} ->
+        render(conn, "show.json", phase: phase)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -44,11 +44,11 @@ defmodule Giji.PotofController do
   end
 
   def delete(conn, %{"id" => id}) do
-    potof = Repo.get!(Potof, id)
+    phase = Repo.get!(Phase, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(potof)
+    Repo.delete!(phase)
 
     send_resp(conn, :no_content, "")
   end

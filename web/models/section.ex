@@ -1,12 +1,12 @@
-defmodule GijiElixir.Section do
-  use GijiElixir.Web, :model
+defmodule Giji.Section do
+  use Giji.Web, :model
 
   @primary_key false
   schema "sections" do
     field :book_id,    :integer, primary_key: true
     field :part_id,    :integer, primary_key: true
     field :section_id, :integer, primary_key: true
-    belongs_to :user, GijiElixir.User
+    belongs_to :user, Giji.User
 
     field :name, :string
 

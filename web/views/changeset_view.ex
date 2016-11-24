@@ -1,11 +1,11 @@
-defmodule GijiElixir.ChangesetView do
-  use GijiElixir.Web, :view
+defmodule Giji.ChangesetView do
+  use Giji.Web, :view
 
   @doc """
   Traverses and translates changeset errors.
 
   See `Ecto.Changeset.traverse_errors/2` and
-  `GijiElixir.ErrorHelpers.translate_error/1` for more details.
+  `Giji.ErrorHelpers.translate_error/1` for more details.
   """
   def translate_errors(changeset) do
     Ecto.Changeset.traverse_errors(changeset, &translate_error/1)

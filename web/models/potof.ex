@@ -1,11 +1,11 @@
-defmodule GijiElixir.Potof do
-  use GijiElixir.Web, :model
+defmodule Giji.Potof do
+  use Giji.Web, :model
 
   schema "potofs" do
     field :book_id, :integer
     field :part_id, :integer
     field :section_id, :integer
-    belongs_to :user, GijiElixir.User
+    belongs_to :user, Giji.User
 
     field :name,    :string
     field :job,     :string
