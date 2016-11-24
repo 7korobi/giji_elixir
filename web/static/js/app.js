@@ -12,18 +12,21 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-import Mem from "memory-record"
-import   m from "mithril"
-import Tie from "mithril-tie"
 
 // Import local files
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
+import { Collection, Model, Query, Rule } from "memory-record"
+import m      from "mithril"
+import Tie    from "mithril-tie"
+import co     from "./check"
 
-console.log(Mem);
+console.log(Collection);
+console.log(Model);
+console.log(Query);
+console.log(Rule);
 console.log(m);
 console.log(Tie);
 
