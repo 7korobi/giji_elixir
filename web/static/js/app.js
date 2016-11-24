@@ -12,6 +12,9 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import Mem from "memory-record"
+import   m from "mithril"
+import Tie from "mithril-tie"
 
 // Import local files
 //
@@ -19,3 +22,8 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 import socket from "./socket"
+
+console.log(Mem);
+console.log(m);
+console.log(Tie);
+

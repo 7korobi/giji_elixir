@@ -20,5 +20,5 @@ defmodule Giji.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :giji_elixir
+  use Gettext, otp_app: :giji
 end

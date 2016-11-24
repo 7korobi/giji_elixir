@@ -9,11 +9,11 @@ config :phoenix, :template_engines,
   slim:  PhoenixSlime.Engine
 
 # General application configuration
-config :giji_elixir,
+config :giji,
   ecto_repos: [Giji.Repo]
 
 # Configures the endpoint
-config :giji_elixir, Giji.Endpoint,
+config :giji, Giji.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "ZvTJtu+zEXJj9w7OwBG3+KRj8o0t0bWF2BSbgtuzlzXLPIQuYwUMLSCNnGy4XJw1",
   render_errors: [view: Giji.ErrorView, accepts: ~w(html json)],

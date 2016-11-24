@@ -2,7 +2,7 @@ defmodule Giji.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :giji_elixir,
+    [app: :giji,
      version: "0.0.1",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
@@ -31,13 +31,14 @@ defmodule Giji.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.2.1"},
+    [{:phoenix, ">= 1.2.1"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.0"},
-     {:mariaex, "~> 0.7.9"},
-     {:phoenix_html, "~> 2.7"},
+     {:ecto, "~> 2.0.5"},
+     {:mariaex, "~> 0.7.7"},
+     {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:phoenix_slime, "~> 0.8.0"},
+     {:phoenix_slime, ">= 0.8.0"},
      {:gettext, "~> 0.12"},
      {:cowboy, "~> 1.0"},
      {:oauth2, "~> 0.8"}

@@ -1,5 +1,5 @@
 defmodule Giji.Endpoint do
-  use Phoenix.Endpoint, otp_app: :giji_elixir
+  use Phoenix.Endpoint, otp_app: :giji
 
   socket "/socket", Giji.UserSocket
 
@@ -8,7 +8,7 @@ defmodule Giji.Endpoint do
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :giji_elixir, gzip: false,
+    at: "/", from: :giji, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
@@ -35,7 +35,7 @@ defmodule Giji.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_giji_elixir_key",
+    key: "_giji_key",
     signing_salt: "xDvZuOdX"
 
   plug Giji.Router
