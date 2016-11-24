@@ -1,10 +1,16 @@
 defmodule Giji.Book do
   use Giji.Web, :model
 
-  @primary_key false
   schema "books" do
     field :book_id, :integer, primary_key: true
-    belongs_to :user, Giji.User
+    belongs_to :user,     User
+    has_many   :potofs,   Potof
+    has_many   :cards,    Card
+
+    has_many   :parts,    Part
+    has_many   :sections, Section
+    has_many   :phases,   Phase
+    has_many   :chats,    Chat
 
     field :part_id, :integer
     field :name, :string

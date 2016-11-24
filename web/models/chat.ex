@@ -1,16 +1,21 @@
 defmodule Giji.Chat do
   use Giji.Web, :model
 
-  @primary_key false
   schema "chats" do
-    field :book_id,  :integer, primary_key: true
-    field :part_id,  :integer, primary_key: true
-    field :phase_id, :integer, primary_key: true
-    field :chat_id,  :integer, primary_key: true
-    belongs_to :user, Giji.User
-
+    field :book_id,    :integer, primary_key: true
+    field :part_id,    :integer, primary_key: true
+    field :phase_id,   :integer, primary_key: true
+    field :chat_id,    :integer, primary_key: true
     field :section_id, :integer
     field :potof_id,   :integer
+    belongs_to :user,  User
+    has_one    :potof, Potof
+
+    has_one :book,    Book
+    has_one :part,    Part
+    has_one :phase,   Phase
+    has_one :section, Section
+
     field :to,    :string
     field :style, :string
     field :log,   :string
@@ -25,3 +30,5 @@ defmodule Giji.Chat do
     |> validate_required([:book_id, :part_id, :section_id, :phase_id, :chat_id, :potof_id, :to, :style, :log])
   end
 end
+
+

@@ -4,7 +4,10 @@ defmodule Giji.Card do
   schema "cards" do
     field :book_id,  :integer
     field :part_id,  :integer
-    belongs_to :potof, Giji.Potof
+    belongs_to :potof, Potof
+
+    has_one    :book,  Book
+    has_one    :part,  Part
 
     field :name, :string
     field :state, :integer

@@ -1,12 +1,18 @@
 defmodule Giji.Section do
   use Giji.Web, :model
 
-  @primary_key false
   schema "sections" do
     field :book_id,    :integer, primary_key: true
     field :part_id,    :integer, primary_key: true
     field :section_id, :integer, primary_key: true
-    belongs_to :user, Giji.User
+    belongs_to :user,     User
+    has_many   :potofs,   Potof
+    has_many   :cards,    Card
+
+    has_one    :book,     Book
+    has_one    :part,     Part
+    has_many   :phases,   Phase
+    has_many   :chats,    Chat
 
     field :name, :string
 

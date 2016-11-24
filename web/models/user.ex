@@ -6,6 +6,8 @@ defmodule Giji.User do
     field :name, :string
     field :avatar, :string
 
+    has_many :potofs, Potof
+
     timestamps()
   end
 
