@@ -3,7 +3,7 @@ defmodule Giji.PhaseTest do
 
   alias Giji.Phase
 
-  @valid_attrs %{book_id: 42, chat_id: 42, name: "some content", part_id: 42, side_id: 42}
+  @valid_attrs %{book_id: 42, part_id: 42, phase_id: 42, name: "some content", chat_id: 42}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
