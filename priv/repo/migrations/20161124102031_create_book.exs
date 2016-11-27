@@ -3,7 +3,7 @@ defmodule Giji.Repo.Migrations.CreateBook do
 
   def change do
     create table(:books, primary_key: false) do
-      add :book_id, :integer, primary_key: true
+      add :book_id, :'int(11) auto_increment', primary_key: true
       add :user_id, references(:users, on_delete: :nothing)
       add :part_id, :integer
       add :name, :string

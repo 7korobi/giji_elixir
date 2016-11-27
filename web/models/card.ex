@@ -2,12 +2,9 @@ defmodule Giji.Card do
   use Giji.Web, :model
 
   schema "cards" do
-    field :book_id,  :integer
     field :part_id,  :integer
     belongs_to :potof, Potof
-
-    has_one    :book,  Book
-    has_one    :part,  Part
+    belongs_to :book,  Book
 
     field :name, :string
     field :state, :integer

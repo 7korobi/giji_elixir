@@ -2,13 +2,12 @@ defmodule Giji.Potof do
   use Giji.Web, :model
 
   schema "potofs" do
-    field :book_id,    :integer
     field :part_id,    :integer
     field :section_id, :integer
-    belongs_to :user,    User
-    has_many   :cards,   Card
+    belongs_to :user,  User
+    belongs_to :book,  Book
+    has_many   :cards, Card
 
-    has_one    :book,    Book
     has_one    :part,    Part
     has_one    :section, Section
 
