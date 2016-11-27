@@ -7,6 +7,7 @@ defmodule Giji.GenerateTest do
   alias Giji.Chat
 
   test "book cleanup task" do
+
     case Repo.get_by(Book,  book_id: 42) do
       nil -> nil
       o -> Repo.delete o
@@ -30,14 +31,9 @@ defmodule Giji.GenerateTest do
 
   end
 
-  test "book creation task" do
-    case Book.start(42, "新しい村", "村の設定でござる。") do
-      {:ok, book, part, phase, chat, section} ->
-        assert {:ok, _} = Repo.insert(book)
-        assert {:ok, _} = Repo.insert(part)
-        assert {:ok, _} = Repo.insert(section)
-        assert {:ok, _} = Repo.insert(phase)
-        assert {:ok, _} = Repo.insert(chat)
-    end
+  test "book create" do
+    assert {:ok, _} = Repo.transaction(Book.start(42, "新しい村", "村の設定でござる。"))
+    #  {:ok, %{book: book, part: part, phase: phase, chat: chat, section: section}}
+    #  {:error, key_that_errored, %{book: book, part: part, phase: phase, chat: chat, section: section}}
   end
 end
