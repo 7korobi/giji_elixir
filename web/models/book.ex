@@ -1,5 +1,10 @@
 defmodule Giji.Book do
   use Giji.Web, :model
+  alias Giji.Book
+  alias Giji.Part
+  alias Giji.Section
+  alias Giji.Phase
+  alias Giji.Chat
 
   @primary_key {:book_id, :integer, []}
   @derive {Phoenix.Param, key: :book_id}
@@ -19,5 +24,16 @@ defmodule Giji.Book do
     struct
     |> cast(params, [:book_id, :part_id, :name])
     |> validate_required([:book_id, :part_id, :name])
+  end
+
+  def start(id, name, setting) do
+    book  = Book .changeset(%Book{},  %{book_id: id, name: name, part_id: 1})
+    part  = Part .changeset(%Part{},  %{book_id: id, part_id: 0, name: "プロローグ", section_id: 2})
+    phase = Phase.changeset(%Phase{}, %{book_id: id, part_id: 0, phase_id: 0, name: "設定", chat_id: 1})
+    chat  = Chat .changeset(%Chat{},  %{book_id: id, part_id: 0, phase_id: 0, chat_id: 0, section_id: 1, potof_id: 0, style: "head", log: setting})
+
+    section = Section.changeset(%Section{}, %{book_id: id, part_id: 0, section_id: 1, name: "1"})
+
+    [book, part, phase, chat, section]
   end
 end

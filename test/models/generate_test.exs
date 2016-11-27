@@ -31,17 +31,13 @@ defmodule Giji.GenerateTest do
   end
 
   test "book creation task" do
-    book  = Book .changeset(%Book{},  %{book_id: 42, name: "新しい村", part_id: 1})
-    part  = Part .changeset(%Part{},  %{book_id: 42, part_id: 0, name: "プロローグ", section_id: 2})
-    phase = Phase.changeset(%Phase{}, %{book_id: 42, part_id: 0, phase_id: 0, name: "設定", chat_id: 1})
-    chat  = Chat .changeset(%Chat{},  %{book_id: 42, part_id: 0, phase_id: 0, chat_id: 0, section_id: 1, potof_id: 0, to: "ALL", style: "plain", log: "村の設定でござる。"})
-
-    section = Section.changeset(%Section{}, %{book_id: 42, part_id: 0, section_id: 1, name: "1"})
-
-    assert {:ok, _} = Repo.insert(book)
-    assert {:ok, _} = Repo.insert(part)
-    assert {:ok, _} = Repo.insert(section)
-    assert {:ok, _} = Repo.insert(phase)
-    assert {:ok, _} = Repo.insert(chat)
+    case Book.start(42, "新しい村", "村の設定でござる。") do
+      [book, part, phase, chat, section] ->
+        assert {:ok, _} = Repo.insert(book)
+        assert {:ok, _} = Repo.insert(part)
+        assert {:ok, _} = Repo.insert(section)
+        assert {:ok, _} = Repo.insert(phase)
+        assert {:ok, _} = Repo.insert(chat)
+    end
   end
 end

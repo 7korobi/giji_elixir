@@ -1,0 +1,2 @@
+mix test --color --cover
+
