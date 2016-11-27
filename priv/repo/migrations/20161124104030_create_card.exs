@@ -11,8 +11,10 @@ defmodule Giji.Repo.Migrations.CreateCard do
       add :state, :integer
 
       timestamps()
+      add :msec_at, :'bigint(20) not null'
     end
     create index(:cards, [:book_id, :part_id])
     create index(:cards, [:potof_id])
+    create index(:cards, [:msec_at])
   end
 end

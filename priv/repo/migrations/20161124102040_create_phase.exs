@@ -11,8 +11,10 @@ defmodule Giji.Repo.Migrations.CreatePhase do
       add :name, :string
 
       timestamps()
+      add :msec_at, :'bigint(20) not null'
     end
     create index(:phases, [:book_id, :part_id])
+    create index(:phases, [:msec_at])
   end
 end
 

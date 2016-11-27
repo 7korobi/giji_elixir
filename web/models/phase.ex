@@ -11,15 +11,19 @@ defmodule Giji.Phase do
     field :chat_id, :integer
     field :name, :string
 
-    timestamps()
+    timestamps
+    field :msec_at, :integer
   end
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}) do
+  def changeset(struct, params \\ %{}, keys \\ [:book_id, :part_id, :phase_id, :chat_id, :name]) do
+    now = :os.system_time(:milli_seconds)
+
     struct
-    |> cast(params, [:book_id, :part_id, :phase_id, :chat_id, :name])
+    |> cast(%{msec_at: now}, [:msec_at])
+    |> cast(params, keys)
     |> validate_required([:book_id, :part_id, :phase_id, :chat_id, :name])
   end
 end

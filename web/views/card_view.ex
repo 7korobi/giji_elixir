@@ -9,12 +9,13 @@ defmodule Giji.CardView do
     %{data: render_one(card, Giji.CardView, "card.json")}
   end
 
-  def render("card.json", %{card: card}) do
-    %{id: card.id,
-      book_id: card.book_id,
-      part_id: card.part_id,
-      potof_id: card.potof_id,
-      name: card.name,
-      state: card.state}
+  def render("card.json", %{card: o}) do
+    %{id: o.id,
+      book_id: o.book_id,
+      part_id: o.part_id,
+      potof_id: o.potof_id,
+      msec_at: o.msec_at,
+      name: o.name,
+      state: o.state}
   end
 end

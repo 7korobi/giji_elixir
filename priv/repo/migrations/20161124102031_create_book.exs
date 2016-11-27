@@ -9,6 +9,9 @@ defmodule Giji.Repo.Migrations.CreateBook do
       add :name, :string
 
       timestamps()
+      add :msec_at, :'bigint(20) not null'
     end
+
+    create index(:books, [:msec_at])
   end
 end

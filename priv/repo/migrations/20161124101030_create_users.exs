@@ -6,7 +6,11 @@ defmodule Giji.Repo.Migrations.CreateUsers do
       add :user_id, :string
       add :name, :string
       add :avatar, :string
-      timestamps()
+
+      timestamps
+      add :msec_at, :'bigint(20) not null'
     end
+
+    create index(:users, [:msec_at])
   end
 end

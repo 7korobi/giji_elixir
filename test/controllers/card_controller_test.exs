@@ -17,12 +17,14 @@ defmodule Giji.CardControllerTest do
   test "shows chosen resource", %{conn: conn} do
     card = Repo.insert! %Card{}
     conn = get conn, card_path(conn, :show, card)
-    assert json_response(conn, 200)["data"] == %{"id" => card.id,
+    assert json_response(conn, 200)["data"] == %{
+      "id" => card.id,
       "book_id" => card.book_id,
       "part_id" => card.part_id,
       "potof_id" => card.potof_id,
       "name" => card.name,
-      "state" => card.state}
+      "state" => card.state
+    }
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

@@ -15,7 +15,9 @@ defmodule Giji.Repo.Migrations.CreateChat do
       add :log,   :string
 
       timestamps()
+      add :msec_at, :'bigint(20) not null'
     end
     create index(:chats, [:book_id, :part_id, :section_id])
+    create index(:chats, [:msec_at])
   end
 end

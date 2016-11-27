@@ -10,7 +10,9 @@ defmodule Giji.Repo.Migrations.CreatePart do
       add :name, :string
 
       timestamps()
+      add :msec_at, :'bigint(20) not null'
     end
     create index(:parts, [:book_id])
+    create index(:parts, [:msec_at])
   end
 end

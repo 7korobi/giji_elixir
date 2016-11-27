@@ -10,15 +10,19 @@ defmodule Giji.Section do
 
     field :name, :string
 
-    timestamps()
+    timestamps
+    field :msec_at, :integer
   end
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}) do
+  def changeset(struct, params \\ %{}, keys \\ [:book_id, :part_id, :section_id, :name]) do
+    now = :os.system_time(:milli_seconds)
+
     struct
-    |> cast(params, [:book_id, :part_id, :section_id, :name])
+    |> cast(%{msec_at: now}, [:msec_at])
+    |> cast(params, keys)
     |> validate_required([:book_id, :part_id, :section_id, :name])
   end
 end
