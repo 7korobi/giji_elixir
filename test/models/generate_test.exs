@@ -32,7 +32,7 @@ defmodule Giji.GenerateTest do
 
   test "book creation task" do
     case Book.start(42, "新しい村", "村の設定でござる。") do
-      [book, part, phase, chat, section] ->
+      {:ok, book, part, phase, chat, section} ->
         assert {:ok, _} = Repo.insert(book)
         assert {:ok, _} = Repo.insert(part)
         assert {:ok, _} = Repo.insert(section)

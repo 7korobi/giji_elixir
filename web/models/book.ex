@@ -34,6 +34,7 @@ defmodule Giji.Book do
 
     section = Section.changeset(%Section{}, %{book_id: id, part_id: 0, section_id: 1, name: "1"})
 
-    [book, part, phase, chat, section]
+    stat = if book && part && phase && chat && section do :ok else :ng end
+    {stat, book, part, phase, chat, section}
   end
 end
