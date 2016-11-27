@@ -12,7 +12,7 @@ defmodule Giji.Repo.Migrations.CreateChat do
       add :potof_id,   :integer
       add :to,    :string
       add :style, :string
-      add :log,   :string
+      add :log,   :'text not null'
 
       timestamps()
       add :msec_at, :'bigint(20) not null'
