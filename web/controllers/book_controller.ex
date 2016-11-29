@@ -91,7 +91,6 @@ defmodule Giji.BookController do
   end
 
   defp json_err(conn, cs, at) do
-    IO.inspect at
     conn
     |> put_status(:unprocessable_entity)
     |> render(Giji.ChangesetView, "error.json", changeset: cs, at: at)
