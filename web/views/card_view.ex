@@ -10,12 +10,10 @@ defmodule Giji.CardView do
   end
 
   def render("card.json", %{card: o}) do
-    %{id: o.id,
-      book_id: o.book_id,
-      part_id: o.part_id,
-      potof_id: o.potof_id,
-      msec_at: o.msec_at,
-      name: o.name,
-      state: o.state}
+    Map.take o, [
+      :open_at, :write_at, :close_at,
+      :id, :book_id, :part_id, :potof_id,
+      :name, :state
+    ]
   end
 end

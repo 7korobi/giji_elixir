@@ -7,6 +7,10 @@ defmodule Giji.ChangesetView do
   See `Ecto.Changeset.traverse_errors/2` and
   `Giji.ErrorHelpers.translate_error/1` for more details.
   """
+  def translate_errors(nil) do
+    %{data: ["not found."]}
+  end
+
   def translate_errors(changeset) do
     Ecto.Changeset.traverse_errors(changeset, &translate_error/1)
   end

@@ -1,15 +1,17 @@
 defmodule Giji.User do
   use Giji.Web, :model
+  alias Giji.User
 
   schema "users" do
+    field :open_at,    :integer
+    field :write_at,   :integer
+    field :close_at,   :integer
+
     field :user_id, {:array, :string}
     field :name, :string
     field :avatar, :string
 
     has_many :potofs, Potof
-
-    timestamps
-    field :msec_at, :integer
   end
 
   @doc """
@@ -19,7 +21,7 @@ defmodule Giji.User do
     now = :os.system_time(:milli_seconds)
 
     struct
-    |> cast(%{msec_at: now}, [:msec_at])
+    |> change(open_at: struct.open_at || now, write_at: now)
     |> cast(params, [:user_id, :name, :avatar])
     |> validate_required([:user_id, :name, :avatar])
   end

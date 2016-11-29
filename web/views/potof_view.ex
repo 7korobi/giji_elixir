@@ -10,16 +10,10 @@ defmodule Giji.PotofView do
   end
 
   def render("potof.json", %{potof: o}) do
-    %{id: o.id,
-      user_id: o.user_id,
-      book_id: o.book_id,
-      part_id: o.part_id,
-      section_id: o.section_id,
-      msec_at: o.msec_at,
-      name: o.name,
-      job: o.job,
-      sign: o.sign,
-      face_id: o.face_id,
-      state: o.state}
+    Map.take o, [
+      :open_at, :write_at, :close_at,
+      :book_id, :part_id, :section_id,
+      :name, :job, :sign, :face_id, :state
+    ]
   end
 end

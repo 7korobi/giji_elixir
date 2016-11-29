@@ -3,18 +3,17 @@ defmodule Giji.Repo.Migrations.CreateCard do
 
   def change do
     create table(:cards) do
+      add :open_at,    :'bigint(20) not null'
+      add :write_at,   :'bigint(20) not null'
+      add :close_at,   :'bigint(20)'
+
       add :book_id,  :integer
       add :part_id,  :integer
       add :potof_id, references(:potofs, on_delete: :nothing)
 
       add :name, :string
       add :state, :integer
-
-      timestamps()
-      add :msec_at, :'bigint(20) not null'
     end
-    create index(:cards, [:book_id, :part_id])
-    create index(:cards, [:potof_id])
-    create index(:cards, [:msec_at])
+    create index(:cards, [:book_id, :write_at])
   end
 end

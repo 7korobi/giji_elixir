@@ -1,17 +1,19 @@
 defmodule Giji.Part do
   use Giji.Web, :model
+  alias Giji.Part
 
   @primary_key false
   schema "parts" do
+    field :open_at,    :integer
+    field :write_at,   :integer
+    field :close_at,   :integer
+
     field :book_id, :integer, primary_key: true
     field :part_id, :integer, primary_key: true
-    belongs_to :user,     User
+    belongs_to :user, User
 
     field :section_id, :integer
     field :name, :string
-
-    timestamps
-    field :msec_at, :integer
   end
 
   @doc """
@@ -21,8 +23,19 @@ defmodule Giji.Part do
     now = :os.system_time(:milli_seconds)
 
     struct
-    |> cast(%{msec_at: now}, [:msec_at])
+    |> change(open_at: struct.open_at || now, write_at: now)
     |> cast(params, keys)
     |> validate_required([:book_id, :part_id, :section_id, :name])
+  end
+
+  def open(book) do
+    changeset(%Part{part_id: 0, section_id: 2, name: "プロローグ"}, book, [:book_id])
+  end
+
+  def close(part) do
+    now = :os.system_time(:milli_seconds)
+
+    part
+    |> change(write_at: now, close_at: now)
   end
 end
