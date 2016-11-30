@@ -1,6 +1,6 @@
 defmodule Giji.Phase do
   use Giji.Web, :model
-  alias Giji.Phase
+  alias Giji.{Part, Phase}
 
   @primary_key false
   schema "phases" do

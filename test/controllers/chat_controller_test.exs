@@ -1,19 +1,3 @@
-defmodule Giji.ChatControllerTest do
-  use Giji.ConnCase
-
-  alias Giji.Chat
-  @valid_attrs %{book_id: 42, chat_id: 42, log: "some content", part_id: 42, phase_id: 42, potof_id: 42, section_id: 42, style: "some content", to: "some content"}
-  @invalid_attrs %{}
-
-  setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
-  end
-
-  test "lists all entries on index", %{conn: conn} do
-    conn = get conn, chat_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
-  end
-
   test "shows chosen resource", %{conn: conn} do
     chat = Repo.insert! %Chat{}
     conn = get conn, chat_path(conn, :show, chat)
@@ -30,40 +14,88 @@ defmodule Giji.ChatControllerTest do
       "log" => chat.log}
   end
 
+
+defmodule Giji.ChatControllerTest do
+  use Giji.ConnCase
+
+  alias Giji.Chat
+  @created_json %{
+    "book"     =>  %{"book_id" => 42, "name" => "新しい村"},
+    "parts"    => [%{"book_id" => 42, "part_id" => 0, "name" => "プロローグ"}],
+    "phases"   => [%{"book_id" => 42, "part_id" => 0, "phase_id" => 0, "name" => "設定"}],
+    "sections" => [%{"book_id" => 42, "part_id" => 0, "section_id" => 1, "name" => "1"}],
+    "chats" => [
+      %{"book_id" => 42, "part_id" => 0, "phase_id" => 0, "section_id" => 1, "chat_id" => 1, "style" => "head", "log" => "村の設定でござる。"},
+      %{"book_id" => 42, "part_id" => 0, "phase_id" => 0, "section_id" => 1, "chat_id" => 2, "style" => "head", "log" => "あいうえお"}
+    ]
+  }
+
+  # TODO: dummy login.
+
+  @valid_attrs %{
+    book_id: "42",
+    style: "head",
+    name: "新しい村",
+    rule: "あいうえお",
+    caption: "村の設定でござる。"
+  }
+  @invalid_attrs %{book_id: "43"}
+
+  setup %{conn: conn} do
+    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+  end
+
+  test "lists all entries on index", %{conn: conn} do
+    conn = get conn, chat_path(conn, :index, 42)
+    assert %{"books" => []} = json_response(conn, 200)
+  end
+
+  test "shows chosen resource", %{conn: conn} do
+    post conn, chat_path(conn, :create), book: @valid_attrs
+    book = Repo.get_by(Book, book_id: 42)
+
+    conn = get conn, chat_path(conn, :show, book)
+    assert @created_json = json_response(conn, 200)
+  end
+
   test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
-      get conn, chat_path(conn, :show, -1)
-    end
+    conn = get conn, chat_path(conn, :show, -1)
+    assert %{"errors" => %{"data" => ["not found."]}} = json_response(conn, 422)
   end
 
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, chat_path(conn, :create), chat: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(Chat, @valid_attrs)
+    conn = post conn, chat_path(conn, :create), book: @valid_attrs
+    assert @created_json = json_response(conn, 201)
+    assert Repo.get_by(Book, book_id: 42)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, chat_path(conn, :create), chat: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
+    conn = post conn, chat_path(conn, :create), book: @invalid_attrs
+    assert %{"errors" => %{"name" => ["can't be blank"]}} = json_response(conn, 422)
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    chat = Repo.insert! %Chat{}
-    conn = put conn, chat_path(conn, :update, chat), chat: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(Chat, @valid_attrs)
+    post conn, chat_path(conn, :create), book: @valid_attrs
+    book = Repo.get_by(Book, book_id: 42)
+
+    conn = put conn, chat_path(conn, :update, book), book: @valid_attrs
+    assert json_response(conn, 200)
+    assert Repo.get_by(Book, book_id: 42)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    chat = Repo.insert! %Chat{}
-    conn = put conn, chat_path(conn, :update, chat), chat: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
+    post conn, chat_path(conn, :create), book: @valid_attrs
+    book = Repo.get_by(Book, book_id: 42)
+
+    conn = put conn, chat_path(conn, :update, book), book: @invalid_attrs
+    assert %{"errors" => %{"data" => ["not found."]}} = json_response(conn, 422)
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    chat = Repo.insert! %Chat{}
-    conn = delete conn, chat_path(conn, :delete, chat)
-    assert response(conn, 204)
-    refute Repo.get(Chat, chat.id)
+    post conn, chat_path(conn, :create), book: @valid_attrs
+    book = Repo.get_by(Book, book_id: 42)
+
+    conn = delete conn, chat_path(conn, :delete, book)
+    assert @created_json = json_response(conn, 200)
   end
 end

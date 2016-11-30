@@ -1,6 +1,6 @@
 defmodule Giji.Part do
   use Giji.Web, :model
-  alias Giji.Part
+  alias Giji.{Book, Part}
 
   @primary_key false
   schema "parts" do

@@ -13,6 +13,8 @@ defmodule Giji.BookControllerTest do
     ]
   }
 
+  # TODO: dummy login.
+
   @valid_attrs %{
     book_id: "42",
     style: "head",

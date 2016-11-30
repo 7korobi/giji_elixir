@@ -1,6 +1,6 @@
 defmodule Giji.Section do
   use Giji.Web, :model
-  alias Giji.Section
+  alias Giji.{Part, Section}
 
   @primary_key false
   schema "sections" do

@@ -15,7 +15,6 @@ defmodule Giji.SectionController do
       {:ok, section} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", section_path(conn, :show, section))
         |> render("show.json", section: section)
       {:error, changeset} ->
         conn

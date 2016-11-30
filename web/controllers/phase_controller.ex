@@ -15,7 +15,6 @@ defmodule Giji.PhaseController do
       {:ok, phase} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", phase_path(conn, :show, phase))
         |> render("show.json", phase: phase)
       {:error, changeset} ->
         conn

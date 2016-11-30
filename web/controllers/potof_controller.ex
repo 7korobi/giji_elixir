@@ -15,7 +15,7 @@ defmodule Giji.PotofController do
       {:ok, potof} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", potof_path(conn, :show, potof))
+        |> put_resp_header("location", potof_path(conn, :show, potof, potof))
         |> render("show.json", potof: potof)
       {:error, changeset} ->
         conn

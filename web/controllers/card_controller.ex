@@ -15,7 +15,6 @@ defmodule Giji.CardController do
       {:ok, card} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", card_path(conn, :show, card))
         |> render("show.json", card: card)
       {:error, changeset} ->
         conn

@@ -58,7 +58,6 @@ defmodule Giji.BookController do
     end
   end
 
-
   defp cast(params) do
     { String.to_integer(params["book_id"], 10),
       params["name"],

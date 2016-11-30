@@ -18,8 +18,6 @@ defmodule Giji.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-
-    resources "/chats", ChatController
     resources "/users", UserController
   end
 
@@ -39,13 +37,16 @@ defmodule Giji.Router do
 
   scope "/api/:book_id", Giji do
     pipe_through :api
-    resources "/parts",    PartController
-    resources "/sections", SectionController
-    resources "/phases",   PhaseController
-    resources "/chats",    ChatController
+    #resources "/parts",    PartController
+    #resources "/sections", SectionController
+    #resources "/phases",   PhaseController
+    #resources "/cards",    CardController
+  end
 
+  scope "/api/:book_id/:part_id", Giji do
+    pipe_through :api
     resources "/potofs",   PotofController
-    resources "/cards",    CardController
+    resources "/chats",    ChatController
   end
 
   defp assign_current(conn, _) do
