@@ -1,40 +1,44 @@
 defmodule Giji.Part do
   use Giji.Web, :model
-  alias Giji.{Book, Part}
+  alias Giji.Part
 
-  @primary_key false
+  @primary_key {:id, :string, []}
   schema "parts" do
     field :open_at,    :integer
     field :write_at,   :integer
     field :close_at,   :integer
 
-    field :book_id, :integer, primary_key: true
-    field :part_id, :integer, primary_key: true
     belongs_to :user, User
+    belongs_to :book, Book, define_field: false
+    field :book_id, :string
+    field :section_idx, :integer
 
-    field :section_id, :integer
     field :name, :string
   end
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}, keys \\ [:book_id]) do
+  def changeset(struct, params \\ %{}, keys \\ [:id, :book_id, :section_idx, :name]) do
     now = :os.system_time(:milli_seconds)
 
     struct
     |> change(open_at: struct.open_at || now, write_at: now)
     |> cast(params, keys)
-    |> validate_required([:book_id, :part_id, :section_id, :name])
+    |> validate_required([:id, :section_idx, :name])
   end
 
   def open(book) do
-    changeset(%Part{part_id: 0, section_id: 2, name: "プロローグ"}, book, [:book_id])
+    id = "#{book.id}-0"
+    now = :os.system_time(:milli_seconds)
+
+    %Part{}
+    |> change(write_at: now, open_at: now,
+              id: id, book_id: book.id, section_idx: 1, name: "プロローグ")
   end
 
   def close(part) do
     now = :os.system_time(:milli_seconds)
-
     part
     |> change(write_at: now, close_at: now)
   end

@@ -7,14 +7,10 @@ defmodule Giji.Potof do
     field :write_at,   :integer
     field :close_at,   :integer
 
-    field :part_id,    :integer
-    field :section_id, :integer
     belongs_to :user,  User
-    belongs_to :book,  Book
-    has_many   :cards, Card
-
-    has_one    :part,    Part
-    has_one    :section, Section
+    belongs_to :part,  Part
+    belongs_to :book, Book, define_field: false
+    field :book_id, :string
 
     field :name,    :string
     field :job,     :string

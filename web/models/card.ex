@@ -6,9 +6,11 @@ defmodule Giji.Card do
     field :write_at,   :integer
     field :close_at,   :integer
 
-    field :part_id,  :integer
     belongs_to :potof, Potof
-    belongs_to :book,  Book
+    belongs_to :part, Part, define_field: false
+    belongs_to :book, Book, define_field: false
+    field :part_id, :string
+    field :book_id, :string
 
     field :name, :string
     field :state, :integer

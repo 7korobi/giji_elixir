@@ -4,9 +4,12 @@ defmodule Giji.ChatView do
   def render("public.json", %{chat: o}) do
     Map.take o, [
       :open_at, :write_at, :close_at,
-      :book_id, :part_id, :phase_id, :chat_id,
-      :section_id, :potof_id,
+      :id, :section_id, :potof_id,
       :to, :style, :log
     ]
+  end
+
+  def render(_, %{chat: chat}) do
+    %{chat: render_one(chat, Giji.ChatView, "public.json")}
   end
 end

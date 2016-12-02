@@ -3,100 +3,64 @@ defmodule Giji.ChatController do
 
   alias Giji.{Book, Part, Section, Phase, Chat}
 
-  def index(conn, params) do
-    %{"book_id" => book_id, "part_id" => part_id, "phase_id" => phase_id} = params
-    Phase.get_by
-    Map.take params, ~S<book_id part_id phase_id>
-    books = Repo.all(Book)
+  def index(conn, %{"section_id" => section_id}) do
+    chats = Repo.all( from o in Chat, where: o.section_id == ^section_id)
     conn
-    |> render(books: books)
+    |> put_status(200)
+    |> put_resp_header("location", chat_path(conn, :index, section_id))
+    |> render(chats: chats)
   end
 
-  def show(conn, %{"id" => book_id}) do
-    json_by conn, :ok, book_id
-  end
-
-  def update(conn, %{"book" => book}) do
-    {book_id, _,_,_,_} = cast(book)
-
-    src = Repo.get_by(Book, book_id: book_id)
-    dst = src && Book.changeset(src, book)
-    case src && dst && Repo.update(dst) do
-      {:ok, _} -> json_by  conn, :ok, book_id
-      e        -> json_err conn, dst, e
+  def create(conn, %{"section_id" => section_id, "chat" => chat}) do
+    phase_id = "42-0-0"
+    %{chat_idx: chat_idx} = Repo.get(Phase, phase_id)
+    style = "plain"
+    log = "test"
+    id = "42-0-0-#{chat_idx + 1}"
+    dst = Chat.open("42", id, style, log)
+    case Repo.insert(dst) do
+      {:ok, c} -> render_show  conn, :created, c.id
+      e        -> render_error conn, dst, e
     end
   end
 
-  def create(conn, %{"book" => book}) do
-    {book_id, _, style, rule, caption} = cast(book)
-
-    res = Ecto.Multi.new
-    |> Ecto.Multi.insert(:book,     Book.open(book))
-    |> Ecto.Multi.insert(:part,     Part.open(book))
-    |> Ecto.Multi.insert(:section,  Section.open(book))
-    |> Ecto.Multi.insert(:phase,    Phase.open(book))
-    |> Ecto.Multi.insert(:_caption, Chat.open(book, 1, style, caption))
-    |> Ecto.Multi.insert(:_rule,    Chat.open(book, 2, style, rule))
-    |> Repo.transaction()
-
-    case res do
-      {:ok, _}           -> json_by  conn, :created, book_id
-      {:error, at, c, _} -> json_err conn, c, at
+  def update(conn, %{"id" => id, "chat" => chat}) do
+    src = Repo.get!(Chat, id)
+    dst = Chat.changeset(src, chat)
+    case Repo.update(dst) do
+      {:ok, _} -> render_show  conn, :ok, id
+      e        -> render_error conn, dst, e
     end
   end
 
-  def delete(conn, %{"id" => book_id}) do
-    {book, parts, sections, phases} = db_by book_id
+  def delete(conn, %{"id" => id}) do
+    {chat} = query_by id
 
-    multi = Ecto.Multi.new
-    Ecto.Multi.update(multi, :book,    Book.close(book))
-    for o <- parts,    do: Ecto.Multi.update(multi, :part,    Part.close(o))
-    for o <- sections, do: Ecto.Multi.update(multi, :section, Section.close(o))
-    for o <- phases,   do: Ecto.Multi.update(multi, :phase,   Phase.close(o))
-    res = Repo.transaction multi
-
-    case res do
-      {:ok, _}           -> json_by  conn, :ok, book_id
-      {:error, at, c, _} -> json_err conn, c, at
-    end
+    Repo.delete!(chat)
+    render_show conn, :ok, id
   end
 
-
-  defp cast(params) do
-    { String.to_integer(params["book_id"], 10),
-      params["name"],
-      params["style"],
-      params["rule"],
-      params["caption"]
-    }
+  defp query_by(id) do
+    chat = Repo.get!(Chat, id)
+    {chat}
   end
 
-  defp db_by(book_id) do
-    parts    = Repo.all( from o in Part,    where: o.book_id == ^book_id and is_nil(o.close_at) )
-    sections = Repo.all( from o in Section, where: o.book_id == ^book_id and is_nil(o.close_at) )
-    phases   = Repo.all( from o in Phase,   where: o.book_id == ^book_id and is_nil(o.close_at) )
-    book     = Repo.get_by(Book, book_id: book_id)
-    {book, parts, sections, phases}
-  end
+  defp render_show(conn, status, id) do
+    {chat} = query_by id
 
-  defp json_by(conn, status, book_id) do
-    {book, parts, sections, phases} = db_by book_id
-    chats = Repo.all( from o in Chat, where: o.book_id == ^book_id )
-
-    if book && parts && sections && phases && chats do
+    if chat do
       conn
       |> put_status(status)
-      |> put_resp_header("location", book_path(conn, :show, book_id))
-      |> render(book: book, parts: parts, sections: sections, phases: phases, chats: chats)
+      |> put_resp_header("location", chat_path(conn, :show, id))
+      |> render(chat: chat)
     else
-      json_err conn, nil, nil
+      render_error conn, nil, nil
     end
   end
 
-  defp json_err(conn, cs, at) do
+  defp render_error(conn, cs, at) do
     conn
     |> put_status(:unprocessable_entity)
     |> render(Giji.ChangesetView, "error.json", changeset: cs, at: at)
   end
 end
-

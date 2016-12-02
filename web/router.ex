@@ -35,8 +35,10 @@ defmodule Giji.Router do
     resources "/books", BookController
   end
 
-  scope "/api/:book_id", Giji do
+  scope "/api/:section_id", Giji do
     pipe_through :api
+    resources "/chats", ChatController
+
     #resources "/parts",    PartController
     #resources "/sections", SectionController
     #resources "/phases",   PhaseController
@@ -46,7 +48,6 @@ defmodule Giji.Router do
   scope "/api/:book_id/:part_id", Giji do
     pipe_through :api
     resources "/potofs",   PotofController
-    resources "/chats",    ChatController
   end
 
   defp assign_current(conn, _) do

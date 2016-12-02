@@ -7,7 +7,8 @@ defmodule Giji.Repo.Migrations.CreateUsers do
       add :write_at,   :'bigint(20) not null'
       add :close_at,   :'bigint(20)'
 
-      add :auth_id, :string
+      add :provider, :string
+      add :auth, :string
       add :name, :string
       add :avatar, :string
     end

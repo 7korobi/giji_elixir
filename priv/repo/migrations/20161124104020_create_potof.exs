@@ -7,9 +7,9 @@ defmodule Giji.Repo.Migrations.CreatePotof do
       add :write_at,   :'bigint(20) not null'
       add :close_at,   :'bigint(20)'
 
-      add :book_id,    :integer
-      add :part_id,    :integer
-      add :user_id,    references(:users, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :nothing)
+      add :part_id, references(:parts, on_delete: :nothing, type: :"varchar(8)")
+      add :book_id, references(:books, on_delete: :delete_all, type: :"varchar(5)")
 
       add :name,    :string
       add :job,     :string
