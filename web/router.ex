@@ -33,11 +33,12 @@ defmodule Giji.Router do
   scope "/api", Giji do
     pipe_through :api
     resources "/books", BookController
+    resources "/chats", ChatController, except: [:index, :show]
   end
 
   scope "/api/:section_id", Giji do
     pipe_through :api
-    resources "/chats", ChatController
+    resources "/chats", ChatController, only: [:index]
 
     #resources "/parts",    PartController
     #resources "/sections", SectionController

@@ -11,7 +11,8 @@ defmodule Giji.ChatController do
     |> render(chats: chats)
   end
 
-  def create(conn, %{"section_id" => section_id, "phase_id" => phase_id, "chat" => params}) do
+  def create(conn, %{"chat" => params}) do
+    %{"phase_id" => phase_id, "section_id" => section_id} = params
     [part_id] = Regex.run ~r/^[^-]+-[^-]+/, phase_id
     part    = Repo.get!(Part, part_id)
     phase   = Repo.get!(Phase, phase_id)
