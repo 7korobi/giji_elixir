@@ -7,12 +7,6 @@ defmodule Giji.BookControllerTest do
     "parts"    => [%{"book_id" => "42", "id" => "42-0", "name" => "プロローグ"}],
     "phases"   => [%{"book_id" => "42", "id" => "42-0-0", "name" => "設定"}]
   }
-  @chat_json %{
-    "chats" => [
-      %{"id" => "42-0-0-1", "section_id" => "42-0-1", "style" => "head", "log" => "村の設定でござる。"},
-      %{"id" => "42-0-0-2", "section_id" => "42-0-1", "style" => "head", "log" => "あいうえお"}
-    ]
-  }
   @err_name_blank %{"errors" => %{"name" => ["can't be blank"]}}
 
   # TODO: dummy login.

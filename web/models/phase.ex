@@ -42,4 +42,11 @@ defmodule Giji.Phase do
     phase
     |> change(write_at: now, close_at: now)
   end
+
+  def succ(phase) do
+    now = :os.system_time(:milli_seconds)
+    phase
+    |> change(write_at: now, chat_idx: phase.chat_idx + 1)
+  end
+
 end

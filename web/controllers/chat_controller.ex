@@ -11,33 +11,36 @@ defmodule Giji.ChatController do
     |> render(chats: chats)
   end
 
-  def create(conn, %{"section_id" => section_id, "chat" => chat}) do
-    phase_id = "42-0-0"
-    %{chat_idx: chat_idx} = Repo.get(Phase, phase_id)
-    style = "plain"
-    log = "test"
-    id = "42-0-0-#{chat_idx + 1}"
-    dst = Chat.open("42", id, style, log)
-    case Repo.insert(dst) do
-      {:ok, c} -> render_show  conn, :created, c.id
-      e        -> render_error conn, dst, e
+  def create(conn, %{"section_id" => section_id, "phase_id" => phase_id, "chat" => params}) do
+    [part_id] = Regex.run ~r/^[^-]+-[^-]+/, phase_id
+    part    = Repo.get!(Part, part_id)
+    phase   = Repo.get!(Phase, phase_id)
+
+    res = Ecto.Multi.new
+    |> Ecto.Multi.insert(:chat,  Chat.add(section_id, phase, params))
+    |> Ecto.Multi.update(:phase, Phase.succ(phase))
+    |> Repo.transaction()
+
+    case res do
+      {:ok, %{chat: chat}} -> render_show  conn, :created, chat
+      {:error, at, c, _}   -> render_error conn, c, at
     end
   end
 
-  def update(conn, %{"id" => id, "chat" => chat}) do
+  def update(conn, %{"id" => id, "chat" => params}) do
     src = Repo.get!(Chat, id)
-    dst = Chat.changeset(src, chat)
+    dst = Chat.changeset(src, params)
     case Repo.update(dst) do
-      {:ok, _} -> render_show  conn, :ok, id
+      {:ok, _} -> render_show  conn, :ok, src
       e        -> render_error conn, dst, e
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    {chat} = query_by id
+    src = Repo.get!(Chat, id)
 
-    Repo.delete!(chat)
-    render_show conn, :ok, id
+    Repo.delete!(src)
+    render_show conn, :ok, src
   end
 
   defp query_by(id) do
@@ -45,13 +48,11 @@ defmodule Giji.ChatController do
     {chat}
   end
 
-  defp render_show(conn, status, id) do
-    {chat} = query_by id
-
+  defp render_show(conn, status, chat) do
     if chat do
       conn
       |> put_status(status)
-      |> put_resp_header("location", chat_path(conn, :show, id))
+      |> put_resp_header("location", chat_path(conn, :index, chat.section_id))
       |> render(chat: chat)
     else
       render_error conn, nil, nil

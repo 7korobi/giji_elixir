@@ -12,4 +12,8 @@ defmodule Giji.ChatView do
   def render(_, %{chat: chat}) do
     %{chat: render_one(chat, Giji.ChatView, "public.json")}
   end
+
+  def render(_, %{chats: chats}) do
+    %{chats: render_many(chats, Giji.ChatView, "public.json")}
+  end
 end

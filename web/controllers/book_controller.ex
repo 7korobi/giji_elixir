@@ -36,9 +36,9 @@ defmodule Giji.BookController do
     end
   end
 
-  def update(conn, %{"id" => id, "book" => book}) do
+  def update(conn, %{"id" => id, "book" => params}) do
     src = Repo.get!(Book, id)
-    dst = Book.changeset(src, book)
+    dst = Book.changeset(src, params)
     case Repo.update(dst) do
       {:ok, _} -> render_show  conn, :ok, id
       e        -> render_error conn, dst, e
