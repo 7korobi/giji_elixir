@@ -13,6 +13,7 @@ defmodule Giji.Repo.Migrations.CreatePhase do
       add :chat_idx,   :integer
 
       add :name, :string
+      add :phase, :string
     end
     create index(:phases, [:book_id, :write_at])
   end

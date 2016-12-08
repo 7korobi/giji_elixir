@@ -16,7 +16,6 @@ defmodule Giji.Potof do
     field :job,     :string
     field :sign,    :string
     field :face_id, :string
-    field :state,   :integer
   end
 
   @doc """
@@ -27,7 +26,7 @@ defmodule Giji.Potof do
 
     struct
     |> change(open_at: struct.open_at || now, write_at: now)
-    |> cast(params, [:book_id, :part_id, :section_id, :name, :job, :sign, :face_id, :state])
-    |> validate_required([:book_id, :part_id, :section_id, :name, :job, :sign, :face_id, :state])
+    |> cast(params, [:book_id, :part_id, :section_id, :name, :job, :sign, :face_id])
+    |> validate_required([:book_id, :part_id, :section_id, :name, :job, :sign, :face_id])
   end
 end

@@ -5,6 +5,21 @@ defmodule Giji.ChatController do
 
   def index(conn, %{"section_id" => section_id}) do
     chats = Repo.all( from o in Chat, where: o.section_id == ^section_id)
+    # phase
+    #  42-0-0 All   set   Caution Info        Talk Head Calc
+    #  42-0-1 xxxx  think         Info Action Talk Head Calc
+    #  42-0-2 P2    talk  Caution Info Action Talk Head Calc
+    #  42-0-3 P3    buddy         Info Action Talk Head Calc
+
+    #  42-1-0 All   set   Caution Info        Talk Head Calc
+    #  42-1-1 xxxx  think         Info Action Talk Head Calc
+    #  42-1-2 P2    talk  Caution Info Action Talk Head Calc
+    #  42-1-3 P3    grave         Info Action Talk Head Calc
+    #  42-1-4 P4    wokf          Info Action Talk Head Calc
+    #  42-1-5 P5    alien         Info Action Talk Head Calc
+    #  42-1-6 P6    buddy         Info Action Talk Head Calc
+    #  42-1-7 P7    buddy         Info Action Talk Head Calc
+
     conn
     |> put_status(200)
     |> put_resp_header("location", chat_path(conn, :index, section_id))
@@ -14,8 +29,8 @@ defmodule Giji.ChatController do
   def create(conn, %{"chat" => params}) do
     %{"phase_id" => phase_id, "section_id" => section_id} = params
     [part_id] = Regex.run ~r/^[^-]+-[^-]+/, phase_id
-    part    = Repo.get!(Part, part_id)
-    phase   = Repo.get!(Phase, phase_id)
+    part  = Repo.get!(Part, part_id)
+    phase = Repo.get!(Phase, phase_id)
 
     res = Ecto.Multi.new
     |> Ecto.Multi.insert(:chat,  Chat.add(section_id, phase, params))

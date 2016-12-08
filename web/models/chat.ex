@@ -12,8 +12,8 @@ defmodule Giji.Chat do
     belongs_to :user,  User
     belongs_to :potof, Potof
 
-    field :to,    :string
-    field :style, :string
+    field :show,  :string  # showdown range
+    field :style, :string  # CAUTION INFO ACTION TALK HEAD PAPER
     field :log,   :string
   end
 
@@ -25,18 +25,18 @@ defmodule Giji.Chat do
 
     struct
     |> change(open_at: struct.open_at || now, write_at: now)
-    |> cast(params, [:id, :section_id, :to, :style, :log])
-    |> validate_required([:id, :section_id, :style, :log])
+    |> cast(params, [:id, :section_id, :style, :log])
+    |> validate_required([:id, :section_id, :show, :style, :log])
   end
 
-  def open(book, chat_id, style, log) do
+  def open(book, chat_id, show, style, log) do
     now = :os.system_time(:milli_seconds)
     id = "#{book.id}-0-0-#{chat_id}"
     section_id = "#{book.id}-0-0"
     %Chat{}
     |> change(write_at: now, open_at: now,
-              id: id, section_id: section_id, style: style, log: log)
-    |> validate_required([:id, :section_id, :style, :log])
+              id: id, section_id: section_id, show: show, style: style, log: log)
+    |> validate_required([:id, :section_id, :show, :style, :log])
   end
 
   def add(section_id, %{id: phase_id, chat_idx: idx, close_at: nil}, params) do
@@ -45,7 +45,7 @@ defmodule Giji.Chat do
 
     %Chat{}
     |> change(id: id, section_id: section_id, open_at: now, write_at: now)
-    |> cast(params, [:id, :to, :style, :log])
+    |> cast(params, [:id, :show, :style, :log])
     |> validate_required([:id, :section_id, :style, :log])
   end
 

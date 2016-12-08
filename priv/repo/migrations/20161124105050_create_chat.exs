@@ -12,7 +12,7 @@ defmodule Giji.Repo.Migrations.CreateChat do
       add :user_id,  references(:users,  on_delete: :nothing)
       add :potof_id, references(:potofs, on_delete: :nothing)
 
-      add :to,    :string
+      add :show,  :string
       add :style, :string
       add :log,   :'text not null'
     end
