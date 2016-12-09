@@ -29,28 +29,13 @@ defmodule Giji.Chat do
     |> validate_required([:id, :section_id, :show, :style, :log])
   end
 
-  def open(section_id, phase, idx, style, log) do
-    now = :os.system_time(:milli_seconds)
-    id = "#{phase.id}-#{idx}"
-    show = Phase.show(phase, nil)
-
-    %Chat{}
-    |> change(write_at: now, open_at: now,
-              id: id, section_id: section_id, show: show, style: style, log: log)
-    |> validate_required([:id, :section_id, :show, :style, :log])
+  def open(phase, idx, section_id, style, log) do
+    _add("#{phase.id}-#{idx}", phase, %{section_id: section_id, style: style, log: log})
   end
 
-  def add(section_id, %{close_at: nil} = phase, params) do
+  def add(%{close_at: nil} = phase, params) do
     %{id: phase_id, chat_idx: idx} = phase
-    now = :os.system_time(:milli_seconds)
-    id = "#{phase_id}-#{idx + 1}"
-    show = Phase.show(phase, nil)
-
-    %Chat{}
-    |> change(open_at: now, write_at: now,
-              id: id, section_id: section_id, show: show)
-    |> cast(params, [:id, :show, :style, :log])
-    |> validate_required([:id, :section_id, :style, :log])
+    _add("#{phase.id}-#{idx + 1}", phase, params)
   end
 
   def add(%{close_at: msec}, _) do
@@ -60,6 +45,16 @@ defmodule Giji.Chat do
   def setting(query, book) do
     id = "#{book.id}-0-0"
     from o in query, where: o.id == ^id
+  end
+
+  defp _add(id, phase, params) do
+    now = :os.system_time(:milli_seconds)
+    show = Phase.show(phase, nil)
+    %Chat{}
+    |> change(open_at: now, write_at: now,
+              id: id, show: show)
+    |> cast(params, [:id, :section_id, :style, :log])
+    |> validate_required([:id, :section_id, :style, :log])
   end
 end
 

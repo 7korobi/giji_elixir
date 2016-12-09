@@ -32,8 +32,8 @@ defmodule Giji.BookController do
     %{changes: _}     = ins_phase_2 = Phase.open(part, 2, "talk", "発言")
 
     section_id = "#{part.id}-0"
-    %{changes: _} = ins_chat_1 = Chat.open(section_id, phase, 1, style, caption)
-    %{changes: _} = ins_chat_2 = Chat.open(section_id, phase, 2, style, rule)
+    %{changes: _} = ins_chat_1 = Chat.open(phase, 1, section_id, style, caption)
+    %{changes: _} = ins_chat_2 = Chat.open(phase, 2, section_id, style, rule)
 
     res = Ecto.Multi.new
     |> Ecto.Multi.insert(:book,     ins_book)

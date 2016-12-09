@@ -1,55 +1,52 @@
 defmodule Giji.PotofController do
   use Giji.Web, :controller
 
-  alias Giji.Potof
+  alias Giji.{Book, Part, Potof}
 
-  def index(conn, _params) do
-    potofs = Repo.all(Potof)
-    render(conn, "index.json", potofs: potofs)
-  end
+  def create(conn, %{"potof" => params}) do
+    %{"book_id" => book_id} = params
+    book = Repo.get!(Book, book_id)
 
-  def create(conn, %{"potof" => potof_params}) do
-    changeset = Potof.changeset(%Potof{}, potof_params)
-
-    case Repo.insert(changeset) do
-      {:ok, potof} ->
-        conn
-        |> put_status(:created)
-        |> put_resp_header("location", potof_path(conn, :show, potof, potof))
-        |> render("show.json", potof: potof)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
+    ins_potof = Potof.open(book, params)
+    case Repo.insert(ins_potof) do
+      {:ok, potof} -> render_show  conn, :ok, potof
+      e            -> render_error conn, ins_potof, e
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    potof = Repo.get!(Potof, id)
-    render(conn, "show.json", potof: potof)
-  end
+  def update(conn, %{"id" => id, "potof" => params}) do
+    src = Repo.get!(Potof, id)
+    dst = Potof.changeset(src, params)
 
-  def update(conn, %{"id" => id, "potof" => potof_params}) do
-    potof = Repo.get!(Potof, id)
-    changeset = Potof.changeset(potof, potof_params)
-
-    case Repo.update(changeset) do
-      {:ok, potof} ->
-        render(conn, "show.json", potof: potof)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(Giji.ChangesetView, "error.json", changeset: changeset)
+    case Repo.update(dst) do
+      {:ok, _} -> render_show  conn, :ok, src
+      e        -> render_error conn, dst, e
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    potof = Repo.get!(Potof, id)
+    src = Repo.get!(Potof, id)
+    dst = Potof.close(src)
 
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(potof)
+    case Repo.update(dst) do
+      {:ok, _} -> render_show  conn, :ok, src
+      e        -> render_error conn, dst, e
+    end
+  end
 
-    send_resp(conn, :no_content, "")
+  defp render_show(conn, status, potof) do
+    if potof do
+      conn
+      |> put_status(status)
+      |> render(potof: potof)
+    else
+      render_error conn, nil, nil
+    end
+  end
+
+  defp render_error(conn, cs, at) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> render(Giji.ChangesetView, "error.json", changeset: cs, at: at)
   end
 end

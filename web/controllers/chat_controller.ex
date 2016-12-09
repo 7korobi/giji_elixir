@@ -27,14 +27,15 @@ defmodule Giji.ChatController do
   end
 
   def create(conn, %{"chat" => params}) do
-    %{"phase_id" => phase_id, "section_id" => section_id} = params
-    [part_id] = Regex.run ~r/^[^-]+-[^-]+/, phase_id
-    part  = Repo.get!(Part, part_id)
+    %{"phase_id" => phase_id} = params
     phase = Repo.get!(Phase, phase_id)
 
+    ins_chat  = Chat.add(phase, params)
+    upd_phase = Phase.succ(phase)
+
     res = Ecto.Multi.new
-    |> Ecto.Multi.insert(:chat,  Chat.add(section_id, phase, params))
-    |> Ecto.Multi.update(:phase, Phase.succ(phase))
+    |> Ecto.Multi.insert(:chat,  ins_chat)
+    |> Ecto.Multi.update(:phase, upd_phase)
     |> Repo.transaction()
 
     case res do
