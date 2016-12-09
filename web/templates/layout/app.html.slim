@@ -21,13 +21,17 @@ html
             img.img-circle src="#{ @current.user.avatar }"
             = link "Sign Out", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger"
           - else
-            = link "Sign in with GitHub",   to: auth_path(@conn, :index, "github"),   class: "btn btn-primary btn-lg"
-            = link "Sign in with google",   to: auth_path(@conn, :index, "google"),   class: "btn btn-primary btn-lg"
-            = link "Sign in with Facebook", to: auth_path(@conn, :index, "facebook"), class: "btn btn-primary btn-lg"
+            = link "Sign in with GitHub",   to: auth_path(@conn, :request, "github"),   class: "btn btn-primary btn-lg"
+            = link "Sign in with twitter",  to: auth_path(@conn, :request, "twitter"),  class: "btn btn-primary btn-lg"
+            = link "Sign in with Facebook", to: auth_path(@conn, :request, "facebook"), class: "btn btn-primary btn-lg"
+            = link "Sign in with google",   to: auth_path(@conn, :request, "google"),   class: "btn btn-primary btn-lg"
+            = link "Sign in with slack",    to: auth_path(@conn, :request, "slack"),    class: "btn btn-primary btn-lg"
 
       main role="main"
         = render @view_module, @view_template, assigns
     /! /container
     script src="#{ static_path(@conn, "/js/app.js") }"
+
+
 
 

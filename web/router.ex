@@ -24,9 +24,11 @@ defmodule Giji.Router do
   scope "/auth", Giji do
     pipe_through :browser
 
-    get "/:provider/callback", AuthController, :callback
-    get "/:provider",          AuthController, :index
-    delete "/logout",          AuthController, :delete
+    get    "/logout",           AuthController, :delete
+    delete "/logout",           AuthController, :delete
+    get  "/:provider",          AuthController, :request
+    get  "/:provider/callback", AuthController, :callback
+    post "/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.

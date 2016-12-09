@@ -35,7 +35,6 @@ defmodule Giji.Web do
       import Ecto.Query
 
       import Giji.Router.Helpers
-      import Giji.Gettext
     end
   end
 
@@ -51,7 +50,6 @@ defmodule Giji.Web do
 
       import Giji.Router.Helpers
       import Giji.ErrorHelpers
-      import Giji.Gettext
     end
   end
 
@@ -68,7 +66,6 @@ defmodule Giji.Web do
       alias Giji.Repo
       import Ecto
       import Ecto.Query
-      import Giji.Gettext
     end
   end
 

@@ -1,14 +1,9 @@
 defmodule Giji.AuthController do
   use Giji.Web, :controller
+  plug Ueberauth
 
-  plug :action
-
-  def index(conn, params) do
-    # 認証ページへリダイレクトさせます
-    module = provider(params)
-    conn
-    |> redirect(external: module.authorize_url!)
-  end
+  alias Giji.{User}
+  alias Ueberauth.Strategy.Helpers
 
   def delete(conn, params) do
     conn
@@ -17,29 +12,34 @@ defmodule Giji.AuthController do
     |> redirect(to: "/")
   end
 
-  def callback(conn, params) do
-    # 返却されたコードからトークンを取得します
-    # アクセストークンを使ってユーザ情報取得 API にリクエストします
-    %{"code" => code} = params
-    module = provider(params)
-    client = module.get_token!(code)
-    user = module.get_user!(client)
 
-    current = %{
-      user: user,
-      token: client.token.access_token
-    }
-    # ユーザ情報をセッションへ詰めた後、ルートページへリダイレクトさせます
-    conn
-    |> Phoenix.Token.sign("user token", current.token)
 
+  def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn
-    |> put_session(:current, current)
+    |> put_flash(:error, "failed to authenticate.")
     |> redirect(to: "/")
   end
 
-  defp provider(%{"provider" => "github"}),   do: GitHub
-  defp provider(%{"provider" => "google"}),   do: Google
-  defp provider(%{"provider" => "facebook"}), do: Facebook
-  defp provider(%{"provider" => _}), do: raise "No matching provider available"
+  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+    case UserFromAuth.find_or_create(auth) do
+      {:ok, user}->
+        IO.inspect auth.credentials
+        IO.inspect user
+        current = %{
+          user: user,
+          token: auth.credentials.token
+        }
+        IO.inspect current
+        # Phoenix.Token.sign(Giji.Endpoint, "user token", token)
+
+        conn
+        |> put_session(:current, current)
+        |> put_flash(:info, "Success.")
+        |> redirect(to: "/")
+      {:error, reason}->
+        conn
+        |> put_flash(:error, reason)
+        |> redirect(to: "/")
+    end
+  end
 end

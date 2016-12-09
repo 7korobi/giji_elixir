@@ -6,7 +6,7 @@ defmodule Giji.Mixfile do
      version: "0.0.1",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix, :gettext] ++ Mix.compilers,
+     compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases(),
@@ -18,9 +18,15 @@ defmodule Giji.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Giji, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :mariaex,
-                    :oauth2 ]]
+     applications: [:oauth,
+                    :ueberauth_facebook,
+                    :ueberauth_google,
+                    :ueberauth_github,
+                    :ueberauth_slack,
+                    :ueberauth_twitter,
+                    :cowboy, :logger,
+                    :phoenix, :phoenix_pubsub, :phoenix_html, :phoenix_ecto,
+                    :mariaex, :dogma ]]
   end
 
   # Specifies which paths to compile per environment.
@@ -31,18 +37,25 @@ defmodule Giji.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, ">= 1.2.1"},
+    [{:phoenix, "~> 1.2"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.0"},
-     {:ecto, "~> 2.0.5"},
-     {:mariaex, "~> 0.7.7"},
      {:phoenix_html, "~> 2.6"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_slime, ">= 0.8.0"},
-     {:gettext, "~> 0.12"},
+     {:mariaex, "~> 0.7.7"},
      {:cowboy, "~> 1.0"},
-     {:oauth2, "~> 0.8"}
-    ]
+     {:ueberauth, "~> 0.2"},
+     {:oauth, github: "tim/erlang-oauth"},
+     {:ueberauth_google,   "~> 0.2"},
+     {:ueberauth_github,   "~> 0.2"},
+     {:ueberauth_identity, "~> 0.2"},
+     {:ueberauth_slack,    "~> 0.2"},
+     {:ueberauth_twitter,  "~> 0.2"},
+     {:ueberauth_facebook, "~> 0.4"},
+
+     {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:dogma, ">= 0.0.0", only: [:dev, :test]}
+   ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
