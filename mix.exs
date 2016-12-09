@@ -6,7 +6,7 @@ defmodule Giji.Mixfile do
      version: "0.0.1",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix] ++ Mix.compilers,
+     compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases(),
@@ -24,7 +24,7 @@ defmodule Giji.Mixfile do
                     :ueberauth_github,
                     :ueberauth_slack,
                     :ueberauth_twitter,
-                    :cowboy, :logger,
+                    :cowboy, :logger, :gettext,
                     :phoenix, :phoenix_pubsub, :phoenix_html, :phoenix_ecto,
                     :mariaex, :dogma ]]
   end
@@ -42,6 +42,7 @@ defmodule Giji.Mixfile do
      {:phoenix_ecto, "~> 3.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_slime, ">= 0.8.0"},
+     {:gettext, "~> 0.12"},
      {:mariaex, "~> 0.7.7"},
      {:cowboy, "~> 1.0"},
      {:ueberauth, "~> 0.2"},

@@ -5,7 +5,11 @@ defmodule Giji.BookControllerTest do
   @created_json %{
     "book"     =>  %{"id" => "42", "name" => "新しい村"},
     "parts"    => [%{"book_id" => "42", "id" => "42-0", "name" => "プロローグ"}],
-    "phases"   => [%{"book_id" => "42", "id" => "42-0-0", "name" => "設定"}]
+    "phases"   => [
+      %{"book_id" => "42", "id" => "42-0-0", "name" => "設定"},
+      %{"book_id" => "42", "id" => "42-0-1", "name" => "独り言"},
+      %{"book_id" => "42", "id" => "42-0-2", "name" => "発言"},
+    ]
   }
   @err_name_blank %{"errors" => %{"name" => ["can't be blank"]}}
 

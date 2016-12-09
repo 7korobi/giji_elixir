@@ -19,7 +19,7 @@ html
               | window.userToken = "#{ @current.token }";
             h2  Welcome #{@current.user.name} !
             img.img-circle src="#{ @current.user.avatar }"
-            = link "Sign Out", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-danger"
+            = link "Sign Out", to: auth_path(@conn, :delete), class: "btn btn-danger"
           - else
             = link "Sign in with GitHub",   to: auth_path(@conn, :request, "github"),   class: "btn btn-primary btn-lg"
             = link "Sign in with twitter",  to: auth_path(@conn, :request, "twitter"),  class: "btn btn-primary btn-lg"

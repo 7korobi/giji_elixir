@@ -15,19 +15,34 @@ defmodule Giji.BookController do
     render_show conn, :ok, id
   end
 
+  # phase
+  #  42-0-0 All   set   Caution Info        Talk Head Calc
+  #  42-0-1 xxxx  think         Info Action Talk Head Calc
+  #  42-0-2 P2    talk  Caution Info Action Talk Head Calc
+  #  42-0-3 P3    buddy         Info Action Talk Head Calc
   def create(conn, %{"book" => params}) do
-    ins_book = Book.open(params)
-    b = ins_book.changes
     style   = params["style"]
     rule    = params["rule"]
     caption = params["caption"]
 
+    %{changes: book}  = ins_book    = Book.open(params)
+    %{changes: part}  = ins_part    = Part.open(book,  0, "プロローグ")
+    %{changes: phase} = ins_phase_0 = Phase.open(part, 0, "all",  "設定")
+    %{changes: _}     = ins_phase_1 = Phase.open(part, 1, "self", "独り言")
+    %{changes: _}     = ins_phase_2 = Phase.open(part, 2, "talk", "発言")
+
+    section_id = "#{part.id}-0"
+    %{changes: _} = ins_chat_1 = Chat.open(section_id, phase, 1, style, caption)
+    %{changes: _} = ins_chat_2 = Chat.open(section_id, phase, 2, style, rule)
+
     res = Ecto.Multi.new
     |> Ecto.Multi.insert(:book,     ins_book)
-    |> Ecto.Multi.insert(:part,     Part.open(b))
-    |> Ecto.Multi.insert(:phase,    Phase.open(b))
-    |> Ecto.Multi.insert(:_caption, Chat.open(b, 1, style, caption))
-    |> Ecto.Multi.insert(:_rule,    Chat.open(b, 2, style, rule))
+    |> Ecto.Multi.insert(:part,     ins_part)
+    |> Ecto.Multi.insert(:phase_0,  ins_phase_0)
+    |> Ecto.Multi.insert(:phase_1,  ins_phase_1)
+    |> Ecto.Multi.insert(:phase_2,  ins_phase_2)
+    |> Ecto.Multi.insert(:_caption, ins_chat_1)
+    |> Ecto.Multi.insert(:_rule,    ins_chat_2)
     |> Repo.transaction()
 
     case res do

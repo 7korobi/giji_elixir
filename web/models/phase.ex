@@ -36,13 +36,13 @@ defmodule Giji.Phase do
     |> validate_required([:id, :chat_idx, :name, :handle])
   end
 
-  def open(book) do
-    id = "#{book.id}-0-0"
+  def open(part, idx, handle, name) do
+    id = "#{part.id}-#{idx}"
     now = :os.system_time(:milli_seconds)
 
     %Phase{}
-    |> change(write_at: now, open_at: now,
-              id: id, book_id: book.id, chat_idx: 3, name: "設定")
+    |> change(write_at: now, open_at: now, handle: handle,
+              id: id, book_id: part.book_id, chat_idx: 3, name: name)
   end
 
   def close(phase) do

@@ -28,13 +28,13 @@ defmodule Giji.Part do
     |> validate_required([:id, :section_idx, :name])
   end
 
-  def open(book) do
-    id = "#{book.id}-0"
+  def open(book, idx, name) do
+    id = "#{book.id}-#{idx}"
     now = :os.system_time(:milli_seconds)
 
     %Part{}
     |> change(write_at: now, open_at: now,
-              id: id, book_id: book.id, section_idx: 1, name: "プロローグ")
+              id: id, book_id: book.id, section_idx: 1, name: name)
   end
 
   def close(part) do

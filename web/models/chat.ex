@@ -1,6 +1,6 @@
 defmodule Giji.Chat do
   use Giji.Web, :model
-  alias Giji.Chat
+  alias Giji.{Phase, Chat}
 
   @primary_key {:id, :string, []}
   schema "chats" do
@@ -29,22 +29,26 @@ defmodule Giji.Chat do
     |> validate_required([:id, :section_id, :show, :style, :log])
   end
 
-  def open(book, chat_id, show, style, log) do
+  def open(section_id, phase, idx, style, log) do
     now = :os.system_time(:milli_seconds)
-    id = "#{book.id}-0-0-#{chat_id}"
-    section_id = "#{book.id}-0-0"
+    id = "#{phase.id}-#{idx}"
+    show = Phase.show(phase, nil)
+
     %Chat{}
     |> change(write_at: now, open_at: now,
               id: id, section_id: section_id, show: show, style: style, log: log)
     |> validate_required([:id, :section_id, :show, :style, :log])
   end
 
-  def add(section_id, %{id: phase_id, chat_idx: idx, close_at: nil}, params) do
+  def add(section_id, %{close_at: nil} = phase, params) do
+    %{id: phase_id, chat_idx: idx} = phase
     now = :os.system_time(:milli_seconds)
     id = "#{phase_id}-#{idx + 1}"
+    show = Phase.show(phase, nil)
 
     %Chat{}
-    |> change(id: id, section_id: section_id, open_at: now, write_at: now)
+    |> change(open_at: now, write_at: now,
+              id: id, section_id: section_id, show: show)
     |> cast(params, [:id, :show, :style, :log])
     |> validate_required([:id, :section_id, :style, :log])
   end

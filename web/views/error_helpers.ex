@@ -31,6 +31,10 @@ defmodule Giji.ErrorHelpers do
     #     dngettext "errors", "1 file", "%{count} files", count
     #     dgettext "errors", "is invalid"
     #
-    { msg, opts }
+    if count = opts[:count] do
+      Gettext.dngettext(Giji.Gettext, "errors", msg, msg, count, opts)
+    else
+      Gettext.dgettext(Giji.Gettext, "errors", msg, opts)
+    end
   end
 end
