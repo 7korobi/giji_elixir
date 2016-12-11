@@ -28,7 +28,7 @@ defmodule Giji.Potof do
     potof
     |> change(open_at: potof.open_at || now, write_at: now)
     |> cast(params, [:book_id, :part_id, :name, :job, :sign, :face_id])
-    |> validate_required([:book_id, :part_id, :name, :job, :sign, :face_id])
+    |> validate_required([:book_id, :part_id, :name, :job, :face_id])
   end
 
   def open(%{close_at: nil} = book, params) do
@@ -37,7 +37,7 @@ defmodule Giji.Potof do
     %Potof{}
     |> change(open_at: now, write_at: now)
     |> cast(params, [:book_id, :part_id, :name, :job, :sign, :face_id])
-    |> validate_required([:book_id, :part_id, :name, :job, :sign, :face_id])
+    |> validate_required([:book_id, :part_id, :name, :job, :face_id])
   end
 
   def open(%{close_at: msec}, _) do

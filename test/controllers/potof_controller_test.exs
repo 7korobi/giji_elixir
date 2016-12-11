@@ -2,67 +2,83 @@ defmodule Giji.PotofControllerTest do
   use Giji.ConnCase
 
   alias Giji.Potof
-  @valid_attrs %{book_id: 42, face_id: "some content", job: "some content", name: "some content", part_id: 42, section_id: 42, sign: "some content", state: 42}
-  @invalid_attrs %{}
+  @created_json %{ "potof" =>  %{
+    "book_id" => "42",
+    "part_id" => "42-0",
+
+    "job" => "花売り",
+    "name" => "メアリー",
+    "sign" => nil,
+    "face_id" => "c01",
+  }}
+  @err_name_blank %{"errors" => %{"face_id" => ["can't be blank"]}}
+
+  @book_attrs %{
+    id: "42",
+    style: "head",
+    name: "新しい村",
+    rule: "あいうえお",
+    caption: "村の設定でござる。"
+  }
+
+  @valid_attrs %{
+    book_id: "42",
+    part_id: "42-0",
+
+    job: "花売り",
+    name: "メアリー",
+    sign: nil,
+    face_id: "c01",
+  }
+  @invalid_attrs %{book_id: "42", part_id: "42-0", face_id: ""}
+
+  def create(conn, %{book_id: book_id, face_id: face_id} = attrs) do
+    conn = post conn,  book_path(conn, :create), book: @book_attrs
+    conn = post conn, potof_path(conn, :create), potof: attrs
+
+    potof = Repo.get_by(Potof, book_id: book_id, face_id: face_id)
+    {conn, potof}
+  end
+
+  def create(conn, attrs) do
+    conn = post conn,  book_path(conn, :create), book: @book_attrs
+    conn = post conn, potof_path(conn, :create), potof: attrs
+
+    {conn, nil}
+  end
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  test "lists all entries on index", %{conn: conn} do
-    conn = get conn, potof_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
-  end
-
-  test "shows chosen resource", %{conn: conn} do
-    potof = Repo.insert! %Potof{}
-    conn = get conn, potof_path(conn, :show, potof)
-    assert json_response(conn, 200)["data"] == %{"id" => potof.id,
-      "user_id" => potof.user_id,
-      "book_id" => potof.book_id,
-      "part_id" => potof.part_id,
-      "section_id" => potof.section_id,
-      "name" => potof.name,
-      "job" => potof.job,
-      "sign" => potof.sign,
-      "face_id" => potof.face_id,
-      "state" => potof.state}
-  end
-
-  test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
-      get conn, potof_path(conn, :show, -1)
-    end
-  end
-
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, potof_path(conn, :create), potof: @valid_attrs
-    assert json_response(conn, 201)["data"]["id"]
-    assert Repo.get_by(Potof, @valid_attrs)
+    {conn, _} = create(conn, @valid_attrs)
+    assert @created_json = conn |> json_response(200)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, potof_path(conn, :create), potof: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
+    {conn, _} = create(conn, @invalid_attrs)
+    assert @err_name_blank = conn |> json_response(422)
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    potof = Repo.insert! %Potof{}
-    conn = put conn, potof_path(conn, :update, potof), potof: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
-    assert Repo.get_by(Potof, @valid_attrs)
+    {conn, potof} = create(conn, @valid_attrs)
+    url = potof_path(conn, :update, potof)
+
+    assert @created_json = conn |> put(url, potof: @valid_attrs) |> json_response(200)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    potof = Repo.insert! %Potof{}
-    conn = put conn, potof_path(conn, :update, potof), potof: @invalid_attrs
-    assert json_response(conn, 422)["errors"] != %{}
+    {conn, potof} = create(conn, @valid_attrs)
+    url = potof_path(conn, :update, potof)
+
+    assert @err_name_blank = conn |> put(url, potof: @invalid_attrs) |> json_response(422)
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    potof = Repo.insert! %Potof{}
-    conn = delete conn, potof_path(conn, :delete, potof)
-    assert response(conn, 204)
-    refute Repo.get(Potof, potof.id)
+    {conn, potof} = create(conn, @valid_attrs)
+    url = potof_path(conn, :delete, potof)
+
+    assert @created_json = conn |> delete(url) |> json_response(200)
   end
 end
