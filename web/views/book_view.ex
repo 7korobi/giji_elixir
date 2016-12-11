@@ -9,10 +9,9 @@ defmodule Giji.BookView do
     ]
   end
 
-  def render(_, %{book: book, parts: parts, phases: phases, chats: chats}) do
+  def render(_, %{book: book, parts: parts, phases: phases}) do
     %{parts:    render_many(parts,    Giji.PartView,    "public.json"),
       phases:   render_many(phases,   Giji.PhaseView,   "public.json"),
-      chats:    render_many(chats,    Giji.ChatView,    "public.json"),
       book: render_one(book, Giji.BookView, "public.json")
     }
   end

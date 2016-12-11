@@ -1,7 +1,7 @@
 defmodule Giji.PotofController do
-  use Giji.Web, :controller
+  use Giji.Web, :api_controller
 
-  alias Giji.{Book, Part, Potof}
+  alias Giji.{Book, Potof}
 
   def create(conn, %{"potof" => params}) do
     %{"book_id" => book_id} = params
@@ -9,7 +9,7 @@ defmodule Giji.PotofController do
 
     ins_potof = Potof.open(book, params)
     case Repo.insert(ins_potof) do
-      {:ok, potof} -> render_show  conn, :ok, potof
+      {:ok, potof} -> render_show  conn, potof
       e            -> render_error conn, ins_potof, e
     end
   end
@@ -19,7 +19,7 @@ defmodule Giji.PotofController do
     dst = Potof.changeset(src, params)
 
     case Repo.update(dst) do
-      {:ok, _} -> render_show  conn, :ok, src
+      {:ok, _} -> render_show  conn, src
       e        -> render_error conn, dst, e
     end
   end
@@ -29,24 +29,13 @@ defmodule Giji.PotofController do
     dst = Potof.close(src)
 
     case Repo.update(dst) do
-      {:ok, _} -> render_show  conn, :ok, src
+      {:ok, _} -> render_show  conn, src
       e        -> render_error conn, dst, e
     end
   end
 
-  defp render_show(conn, status, potof) do
-    if potof do
-      conn
-      |> put_status(status)
-      |> render(potof: potof)
-    else
-      render_error conn, nil, nil
-    end
-  end
-
-  defp render_error(conn, cs, at) do
+  defp render_show(conn, potof) do
     conn
-    |> put_status(:unprocessable_entity)
-    |> render(Giji.ChangesetView, "error.json", changeset: cs, at: at)
+    |> render(potof: potof)
   end
 end

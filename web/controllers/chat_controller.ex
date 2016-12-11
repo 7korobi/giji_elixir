@@ -1,5 +1,5 @@
 defmodule Giji.ChatController do
-  use Giji.Web, :controller
+  use Giji.Web, :api_controller
 
   alias Giji.{Book, Part, Section, Phase, Chat}
 
@@ -21,8 +21,6 @@ defmodule Giji.ChatController do
     #  42-1-7 P7    buddy         Info Action Talk Head Calc
 
     conn
-    |> put_status(200)
-    |> put_resp_header("location", chat_path(conn, :index, section_id))
     |> render(chats: chats)
   end
 
@@ -39,7 +37,7 @@ defmodule Giji.ChatController do
     |> Repo.transaction()
 
     case res do
-      {:ok, %{chat: chat}} -> render_show  conn, :created, chat
+      {:ok, %{chat: data}} -> render_show  conn, data
       {:error, at, c, _}   -> render_error conn, c, at
     end
   end
@@ -48,7 +46,7 @@ defmodule Giji.ChatController do
     src = Repo.get!(Chat, id)
     dst = Chat.changeset(src, params)
     case Repo.update(dst) do
-      {:ok, data} -> render_show  conn, :ok, data
+      {:ok, data} -> render_show  conn, data
       e        -> render_error conn, dst, e
     end
   end
@@ -57,28 +55,11 @@ defmodule Giji.ChatController do
     src = Repo.get!(Chat, id)
 
     Repo.delete!(src)
-    render_show conn, :ok, src
+    render_show conn, src
   end
 
-  defp query_by(id) do
-    chat = Repo.get!(Chat, id)
-    {chat}
-  end
-
-  defp render_show(conn, status, chat) do
-    if chat do
-      conn
-      |> put_status(status)
-      |> put_resp_header("location", chat_path(conn, :index, chat.section_id))
-      |> render(chat: chat)
-    else
-      render_error conn, nil, nil
-    end
-  end
-
-  defp render_error(conn, cs, at) do
+  defp render_show(conn, chat) do
     conn
-    |> put_status(:unprocessable_entity)
-    |> render(Giji.ChangesetView, "error.json", changeset: cs, at: at)
+    |> render(chat: chat)
   end
 end

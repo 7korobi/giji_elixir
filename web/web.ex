@@ -39,6 +39,24 @@ defmodule Giji.Web do
     end
   end
 
+  def api_controller do
+    quote do
+      use Phoenix.Controller
+
+      alias Giji.Repo
+      import Ecto
+      import Ecto.Query
+
+      import Giji.Router.Helpers
+      import Giji.Gettext
+      def render_error(conn, cs, at) do
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(Giji.ChangesetView, "error.json", changeset: cs, at: at)
+      end
+    end
+  end
+
   def view do
     quote do
       use Phoenix.View, root: "web/templates"

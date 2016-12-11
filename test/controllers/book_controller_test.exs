@@ -3,9 +3,9 @@ defmodule Giji.BookControllerTest do
 
   alias Giji.Book
   @created_json %{
-    "book"     =>  %{"id" => "42", "name" => "新しい村"},
-    "parts"    => [%{"book_id" => "42", "id" => "42-0", "name" => "プロローグ"}],
-    "phases"   => [
+    "book" =>  %{"id" => "42", "name" => "新しい村"},
+    "parts" => [%{"book_id" => "42", "id" => "42-0", "name" => "プロローグ"}],
+    "phases" => [
       %{"book_id" => "42", "id" => "42-0-0", "name" => "設定"},
       %{"book_id" => "42", "id" => "42-0-1", "name" => "独り言"},
       %{"book_id" => "42", "id" => "42-0-2", "name" => "発言"},
@@ -64,7 +64,7 @@ defmodule Giji.BookControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     {conn, _} = create(conn, @valid_attrs)
-    assert @created_json = conn |> json_response(201)
+    assert @created_json = conn |> json_response(200)
 
     url = chat_path(conn, :index, "42-0-0")
     assert @created_chats = conn |> get(url) |> json_response(200)

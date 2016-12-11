@@ -48,9 +48,9 @@ defmodule Giji.Chat do
     IO.inspect msec
   end
 
-  def setting(query, book) do
+  def setting(book) do
     id = "#{book.id}-0-0"
-    from o in query, where: o.id == ^id
+    from o in Chat, where: o.section_id == ^id
   end
 
   defp new(id, phase, params) do

@@ -1,18 +1,16 @@
 defmodule Giji.BookController do
-  use Giji.Web, :controller
+  use Giji.Web, :api_controller
 
   alias Giji.{Book, Part, Section, Phase, Chat}
 
   def index(conn, _params) do
     books = Repo.all(from o in Book)
     conn
-    |> put_status(200)
-    |> put_resp_header("location", book_path(conn, :index))
     |> render(books: books)
   end
 
   def show(conn, %{"id" => id}) do
-    render_show conn, :ok, id
+    render_show conn, Repo.get!(Book, id)
   end
 
   # phase
@@ -46,59 +44,45 @@ defmodule Giji.BookController do
     |> Repo.transaction()
 
     case res do
-      {:ok, %{book: book}} -> render_show  conn, :created, book.id
+      {:ok, %{book: book}} -> render_show  conn, book
       {:error, at, c, _}   -> render_error conn, c, at
     end
   end
 
   def update(conn, %{"id" => id, "book" => params}) do
     src = Repo.get!(Book, id)
-    dst = Book.changeset(src, params)
-    case Repo.update(dst) do
-      {:ok, _} -> render_show  conn, :ok, id
-      e        -> render_error conn, dst, e
+    cs  = Book.changeset(src, params)
+    case Repo.update(cs) do
+      {:ok, dst} -> render_show  conn, dst
+      e          -> render_error conn, cs, e
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    {book, parts, phases} = query_by id
+    src = Repo.get!(Book, id)
+    {parts, phases} = query_by src
 
     multi = Ecto.Multi.new
-    Ecto.Multi.update(multi, :book, Book.close(book))
-    for o <- parts,    do: Ecto.Multi.update(multi, :part,    Part.close(o))
-    for o <- phases,   do: Ecto.Multi.update(multi, :phase,   Phase.close(o))
+    Ecto.Multi.update(multi, :book, Book.close(src))
+    for o <- parts,  do: Ecto.Multi.update(multi, :part,    Part.close(o))
+    for o <- phases, do: Ecto.Multi.update(multi, :phase,   Phase.close(o))
     res = Repo.transaction multi
 
     case res do
-      {:ok, _} -> render_show  conn, :ok, id
-      {:error, at, c, _}   -> render_error conn, c, at
+      {:ok, _}           -> render_show  conn, Repo.get!(Book, src.id)
+      {:error, at, c, _} -> render_error conn, c, at
     end
   end
 
-  defp query_by(id) do
-    book   = Repo.get!(Book, id)
+  defp query_by(book) do
     parts  = Repo.all(assoc(book, :parts))
     phases = Repo.all(assoc(book, :phases))
-    {book, parts, phases}
+    {parts, phases}
   end
 
-  defp render_show(conn, status, id) do
-    {book, parts, phases} = query_by id
-    chats = Repo.all(Chat.setting(Chat, book))
-
-    if book && parts && phases && chats do
-      conn
-      |> put_status(status)
-      |> put_resp_header("location", book_path(conn, :show, id))
-      |> render(book: book, parts: parts, phases: phases, chats: chats)
-    else
-      render_error conn, nil, nil
-    end
-  end
-
-  defp render_error(conn, cs, at) do
+  defp render_show(conn, book) do
+    {parts, phases} = query_by book
     conn
-    |> put_status(:unprocessable_entity)
-    |> render(Giji.ChangesetView, "error.json", changeset: cs, at: at)
+    |> render(book: book, parts: parts, phases: phases)
   end
 end

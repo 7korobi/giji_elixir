@@ -1,12 +1,11 @@
 defmodule Giji.ChatControllerTest do
   use Giji.ConnCase
 
-  alias Giji.Chat
   @err_name_blank %{"errors" => %{"log" => ["can't be blank"]}}
   @setting_attrs_json %{"chat" => %{
     "id" => "42-0-0-1",
     "potof_id" => nil,
-    "section_id" => "42-0-1",
+    "section_id" => "42-0-0",
     "close_at" => 0xfffffffffffff,
     "show" => "A",
     "style" => "head",
@@ -29,7 +28,7 @@ defmodule Giji.ChatControllerTest do
     caption: "村の設定でござる。"
   }
   @setting_attrs %{
-    section_id: "42-0-1",
+    section_id: "42-0-0",
     phase_id: "42-0-0",
     style: "head",
     log: "村の設定を更新でござる。"
@@ -65,7 +64,7 @@ defmodule Giji.ChatControllerTest do
   test "creates and renders resource when data is valid", %{conn: conn} do
     {conn, _} = create(conn, @valid_attrs)
 
-    assert @valid_attrs_json = conn |> json_response(201)
+    assert @valid_attrs_json = conn |> json_response(200)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
@@ -96,7 +95,7 @@ defmodule Giji.ChatControllerTest do
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    {conn, chat} = create(conn, @valid_attrs)
+    {conn, _} = create(conn, @valid_attrs)
     url = chat_path(conn, :delete, "42-0-0-4")
 
     assert @valid_attrs_json = conn |> delete(url) |> json_response(200)
