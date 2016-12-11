@@ -13,6 +13,15 @@ defmodule Giji.BookControllerTest do
   }
   @err_name_blank %{"errors" => %{"name" => ["can't be blank"]}}
 
+  @created_chats %{
+    "chats" => [
+      %{"id" => "42-0-0-1", "section_id" => "42-0-0", "show" => "A", "close_at" => 0xfffffffffffff, "style" => "head", "log" => "村の設定でござる。"},
+      %{"id" => "42-0-0-2", "section_id" => "42-0-0", "show" => "A", "close_at" => 0xfffffffffffff, "style" => "head", "log" => "あいうえお"},
+    ]
+  }
+
+  @blank_chats %{ "chats" => []}
+
   # TODO: dummy login.
 
   @valid_attrs %{
@@ -55,8 +64,14 @@ defmodule Giji.BookControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     {conn, _} = create(conn, @valid_attrs)
-
     assert @created_json = conn |> json_response(201)
+
+    url = chat_path(conn, :index, "42-0-0")
+    assert @created_chats = conn |> get(url) |> json_response(200)
+    url = chat_path(conn, :index, "42-0-1")
+    assert @blank_chats   = conn |> get(url) |> json_response(200)
+    url = chat_path(conn, :index, "42-0-2")
+    assert @blank_chats   = conn |> get(url) |> json_response(200)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do

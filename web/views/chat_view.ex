@@ -4,7 +4,7 @@ defmodule Giji.ChatView do
   def render("public.json", %{chat: o}) do
     Map.take o, [
       :open_at, :write_at, :close_at,
-      :id, :section_id, :potof_id,
+      :id, :section_id, :potof_id, :show,
       :to, :style, :log
     ]
   end

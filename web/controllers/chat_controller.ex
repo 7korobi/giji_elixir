@@ -48,7 +48,7 @@ defmodule Giji.ChatController do
     src = Repo.get!(Chat, id)
     dst = Chat.changeset(src, params)
     case Repo.update(dst) do
-      {:ok, _} -> render_show  conn, :ok, src
+      {:ok, data} -> render_show  conn, :ok, data
       e        -> render_error conn, dst, e
     end
   end
