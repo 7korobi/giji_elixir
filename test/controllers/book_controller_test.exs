@@ -34,6 +34,7 @@ defmodule Giji.BookControllerTest do
   @invalid_attrs %{id: "42", name: ""}
 
   def create(conn, attrs) do
+    # conn = post conn, auth_path(conn, :force), %{id: "7korobi", name: "ななころび", avatar: ""}
     conn = post conn, book_path(conn, :create), book: attrs
     book = Repo.get(Book, attrs.id)
     {conn, book}

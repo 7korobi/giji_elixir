@@ -16,6 +16,14 @@ defmodule Giji.Card do
     field :state, :integer
   end
 
+  # カードの束ね方をきめる
+  # live    talk  talk  talk  talk  jury
+  # live    vote  vote  vote  vote  vote
+  # role          wolf  wolf
+  # role                bite
+  # gift                      wolf
+  # sub                       
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """

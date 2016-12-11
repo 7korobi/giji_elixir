@@ -5,14 +5,26 @@ defmodule Giji.AuthController do
   alias Giji.{User}
   alias Ueberauth.Strategy.Helpers
 
+  def force(conn, params) do
+    current = %{
+      user: %{
+        id:     params["id"],
+        name:   params["name"],
+        avatar: params["avatar"],
+      },
+      token: params["token"],
+    }
+
+    conn
+    |> put_session(:current, current)
+  end
+
   def delete(conn, params) do
     conn
     |> put_flash(:info, "You have been logged out!")
     |> configure_session(drop: true)
     |> redirect(to: "/")
   end
-
-
 
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn

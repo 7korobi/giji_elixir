@@ -37,6 +37,12 @@ defmodule Giji.Router do
     resources "/books",  BookController
     resources "/chats",  ChatController,  except: [:index, :show]
     resources "/potofs", PotofController, except: [:index, :show]
+
+    case Mix.env do
+      :dev  -> post "/auth", AuthController, :force
+      :test -> post "/auth", AuthController, :force
+      :prod -> nil
+    end
   end
 
   scope "/api/:section_id", Giji do

@@ -17,10 +17,11 @@ defmodule Giji.Phase do
   end
 
   def show(%{handle: "self"}, %{id: id}), do: "#{id}"
-  def show(%{handle: "alien", id: id}), do: id
-  def show(%{handle: "wolf",  id: id}), do: id
-  def show(%{handle: "grave", id: id}), do: id
-  def show(%{handle: "talk",  id: id}), do: id
+  def show(%{handle: "jury",  id: id}), do: id # 陪審
+  def show(%{handle: "alien", id: id}), do: id # 余所者
+  def show(%{handle: "wolf",  id: id}), do: id # 狼藉者
+  def show(%{handle: "grave", id: id}), do: id # 墓下
+  def show(%{handle: "talk",  id: id}), do: id # 会話
   def show(%{handle: "hide"}, _),       do: "H"
   def show(%{handle: "all"},  _),       do: "A"
 

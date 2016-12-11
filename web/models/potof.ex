@@ -31,7 +31,7 @@ defmodule Giji.Potof do
     |> validate_required([:book_id, :part_id, :name, :job, :face_id])
   end
 
-  def open(%{close_at: nil} = book, params) do
+  def join(%{close_at: nil} = book, params) do
     now = :os.system_time(:milli_seconds)
 
     %Potof{}
@@ -40,11 +40,11 @@ defmodule Giji.Potof do
     |> validate_required([:book_id, :part_id, :name, :job, :face_id])
   end
 
-  def open(%{close_at: msec}, _) do
+  def join(%{close_at: msec}, _) do
     IO.inspect msec
   end
 
-  def close(potof) do
+  def bye(potof) do
     now = :os.system_time(:milli_seconds)
     potof
     |> change(close_at: now, write_at: now)
