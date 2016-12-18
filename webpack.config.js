@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const compress = require("compression-webpack-plugin");
+const compress = require("compression-webpack-plugin")
 
 module.exports = {
   watch: false,
@@ -16,6 +16,7 @@ module.exports = {
 
   context: __dirname + "/web/static/js",
   entry: {
+    base:   "base.js",
     app:    "app.js",
     chr:    "chr.js",
     socket: "socket.js",
@@ -43,6 +44,10 @@ module.exports = {
     loaders: [{
       exclude: /node_modules/,
       test: /\.js$/,
+      query: {
+          comments: false,
+          compact: true
+      },
       loader: "babel"
     }, {
       exclude: /node_modules/,
@@ -64,14 +69,16 @@ module.exports = {
   },
 
   plugins: [
-  //  new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('common','common.js'),
+    // new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.CommonsChunkPlugin('base','base.js'),
     new compress({
       asset: "[path].gz[query]",
       algorithm: "gzip",
       test: /\.js$|\.html$/,
-      threshold: 10240,
+      threshold: 1,
       minRatio: 0.8
     })
   ]
 };
+
+// http://blog.mismithportfolio.com/web/20161130webpackcss
