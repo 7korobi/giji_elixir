@@ -15,7 +15,7 @@ defmodule Giji.Chat do
     belongs_to :potof, Potof
 
     field :show,  :string  # showdown range
-    field :style, :string  # CAUTION INFO ACTION TALK HEAD PAPER
+    field :style, :string  # CAUTION INFO SHORT TALK HEAD PAPER
     field :log,   :string
   end
 

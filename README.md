@@ -1,14 +1,36 @@
 # work MEMO
 
 ```
-mix phoenix.gen.json Card    cards                                 book_id:integer part_id:integer potof_id:integer name:string state:integer
-mix phoenix.gen.json Potof   potofs      user_id:references:users  book_id:integer part_id:integer section_id:integer name:string job:string sign:string face_id:string state:integer
 
-mix phoenix.gen.json Book    books       user_id:references:users  book_id:integer part_id:integer                                    name:string
-mix phoenix.gen.json Part    parts       user_id:references:users  book_id:integer part_id:integer section_id:integer                 name:string
-mix phoenix.gen.json Section sections    user_id:references:users  book_id:integer part_id:integer section_id:integer                 name:string
-mix phoenix.gen.json Phase   phases      user_id:references:users  book_id:integer part_id:integer phase_id:integer chat_id:integer name:string
-mix phoenix.gen.json Chat    chats       user_id:references:users  book_id:integer part_id:integer section_id:integer phase_id:integer chat_id:integer potof_id:integer to:string style:string log:string
+potofの村抜け、発言cardは返す。
+村名を廃村にすると、廃村処理。
+
+NPC参加０～３くらい。配布card制限
+
+card状態
+  連続制限
+  能力使用回数残
+
+card record value
+  belongs to part
+  belongs to potof
+  to     (nil / potof)
+  old_to (nil / potof)
+  key     nil / ok / lose
+  effect  nil / vote / bite / triumph / commit / ...etc 多数
+  side    nil / sheep / vil / wolf / alien / love / hate
+  target  nil / all / live / dead / you / npc / self
+  passive  譲渡 / 簒奪 / 交換 / 取引
+
+card
+
+村の設定
+  勝利判定自動計算 / 勝利宣言投票
+  回数の配布ターンを調整
+  完全公開 / 進行中、過去ログ非公開
+  30秒すると、発言修正、削除を閉じる
+  30分無発言でページ更新
+  夜はtalkはclose. 投票時間．裏の相談時間．
 
 chapter
 section
@@ -37,9 +59,6 @@ section
   index({sow_auth_id: 1, story_id: 1}, {unique: 1})
 
   default_scope -> { order_by(:pno.asc) }
-
-
-:integer, :float, :decimal, :boolean, :map, :string, :array, :references, :text, :date, :time, :naive_datetime, :utc_datetime, :uuid, :binary
 
 ```
 
