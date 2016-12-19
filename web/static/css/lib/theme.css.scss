@@ -1,0 +1,85 @@
+#head_navi {
+  width: 100%;
+  .left_image {
+    margin: 0 auto -350px 0;
+    border: 1px yellow dashed;
+    height:  350px;
+    width: 60%;
+  }
+  .right_image {
+    margin: 0 0 0 auto;
+    border: 1px red dashed;
+    height: 180px;
+    width: 60%;
+  }
+}
+
+#buttons {
+  .bigicon {
+    color: rgba(255,255,255,0.3);
+  }
+  .badge {
+    position: relative;
+    margin: -2.5em 0.5em 0 0;
+    color: rgba(255,255,255,0.3);
+    background-color: rgba(64,64,64,0.3);
+    text-align: right;
+  }
+}
+
+.layout {
+  border: 0px;
+}
+
+.rolebox input {
+  width: 2.5ex;
+}
+
+.roster option[value="-1"] {
+  background-color: #aaa;
+}
+
+.btn.click {
+  padding: 4px;
+}
+
+.minilist,
+.chrlist {
+  padding: 0px;
+  background-color: #000;
+}
+
+.minilist {
+  @include portrate(45px, 65px, 4px, 4px);
+}
+@include portrate(90px, 130px, 9px, 6px);
+
+.chrbox,
+.chrblank,
+.chrM,
+.chrF,
+.bar,
+.say img {
+  float: left;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.chrblank {
+  @include win-tone(black, #ccf, #444844);
+}
+.chrM {
+  @include win-tone(black, #eec, #444888);
+  background-color: #444888
+}
+.chrF {
+  @include win-tone(black, #cee, #884844);
+}
+
+
+#{$japan-theme} {
+  .talk img {
+    border-top:    2px solid rgba( 112, 32, 0, 0.5);
+    border-bottom: 3px solid rgba( 112, 32, 0, 0.5);
+  }
+}

@@ -1,5 +1,16 @@
-const webpack = require('webpack');
-const compress = require("compression-webpack-plugin")
+const webpack  = require('webpack');
+const compress = require("compression-webpack-plugin");
+const html = require('html-webpack-plugin');
+const copy = require("copy-webpack-plugin");
+
+const path = require("path");
+
+const dir = function(str) {
+  let ary = str.split("/");
+  ary.unshift(__dirname);
+  return path.join.apply(path, ary);
+};
+
 
 module.exports = {
   watch: false,
@@ -14,25 +25,25 @@ module.exports = {
 
   devtool: 'source-map',
 
-  context: __dirname + "/web/static/js",
+  context: dir("web/static"),
   entry: {
-    base:   "base.js",
-    app:    "app.js",
-    chr:    "chr.js",
-    socket: "socket.js",
-    test:   "test.coffee"
+    "js/base":   "js/base.js",
+    "js/app":    "js/app.js",
+    "js/chr":    "js/chr.js",
+    "js/socket": "js/socket.js",
+    "js/test":   "js/test.coffee"
   },
   output: {
     pathinfo: true,
     jsonpFunction: "giji",
     libraryTarget: "window",
-    path: __dirname + '/priv/static/js',
+    path: dir('/priv/static'),
     filename: '[name].js'
   },
 
   resolve: {
     root: [
-      __dirname + '/web/static/js'
+      dir('/web/static')
     ],
     modulesDirectories: [
       'node_modules'
@@ -41,36 +52,30 @@ module.exports = {
   },
 
   module: {
-    loaders: [{
-      exclude: /node_modules/,
-      test: /\.js$/,
-      query: {
-          comments: false,
-          compact: true
-      },
-      loader: "babel"
-    }, {
-      exclude: /node_modules/,
-      test: /_spec\.coffee$/,
-      loader: "mocha"
-    }, {
-      exclude: /node_modules/,
-      test: /\.coffee$/,
-      loader: "coffee"
-    }, {
-      exclude: /node_modules/,
-      test: /\.yml$/,
-      loader: 'json!yaml'
-    }, {
-      exclude: /node_modules/,
-      test: /\.pug$/,
-      loader: 'file?name=[name].html!pug-html?exports=false'
-    }]
+    loaders: [
+      { test:         /\.pug$/, loader: "pug", query: {pretty: true } },
+      { test:         /\.yml$/, loader: 'json!yaml' },
+      { test:          /\.js$/, loader: "babel", exclude: /node_modules/ },
+      { test:      /\.coffee$/, loader: "coffee" }
+    ]
   },
 
   plugins: [
+    new copy([
+      { from: "assets", to: "assets" }
+    ]),
+    new html({
+      filename: 'html/index.html'
+    }),
+    new html({
+      filename: 'html/test.html',
+      template: 'html/test.pug',
+      chunks: ['js/test']
+    }),
+
+
     // new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('base','base.js'),
+    new webpack.optimize.CommonsChunkPlugin('js/base','js/base.js'),
     new compress({
       asset: "[path].gz[query]",
       algorithm: "gzip",
@@ -80,5 +85,3 @@ module.exports = {
     })
   ]
 };
-
-// http://blog.mismithportfolio.com/web/20161130webpackcss

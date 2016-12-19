@@ -1,0 +1,81 @@
+.star-theme {
+  .drag {
+    background-color: rgba(32,32,96, 0.9);
+  }
+  .outframe {
+    background-image: url("../assets/images/bg/jupiter.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: right;
+  }
+
+  .contentframe {
+    background-repeat: repeat-y;
+    background-position: left;
+    background-attachment: local;
+    background-image: url("../assets/images/bg/film-L.png");
+  }
+
+  body {
+    background: #226;
+  }
+
+  h1 a img {
+    box-shadow: rgba(128, 255, 208, 0.3) 0 2px 2px;
+  }
+  @include header-tone(#260, #1b7, #024);
+  @include border-tone(black, #dff, 3px double, #196, #001844);
+
+  #calc {
+    th, td {
+      border-width: 2px 4px;
+      border-color: #333;
+      border-style: solid;
+    }
+  }
+
+  nav,
+  header {
+    @include color-tone(glass, #765, #444);
+  }
+
+  #sayfilter {
+    aside {
+      @include stripe-tone(black, #dff, #448, #226);
+    }
+    .head,
+    .foot {
+      background-color: #044;
+    }
+    padding-left: 6px;
+    aside {
+      margin-left: 6px;
+    }
+  }
+
+  .MSAY,
+  .SSAY,
+  .SAY { @include color-tone(glass, #ddf, rgba(0,0,0, 0.4));}
+
+  .guide,
+  .info {
+    border-top:    2px dashed #468;
+    border-bottom: 2px dashed #468;
+  }
+
+  .msg{
+    border-radius: 0.5rem;
+  }
+
+  .action {
+    border-style: none none solid solid ;
+    border-color: #663;
+  }
+
+  .memo {
+    border-color: #1b7;
+    th {
+      background-color: #114;
+    }
+  }
+}

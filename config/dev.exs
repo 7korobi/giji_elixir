@@ -12,11 +12,17 @@ config :giji, Giji.Endpoint,
   code_reloader: true,
   check_origin: false,
 
-  watchers: [ node: [
-    "node_modules/webpack/bin/webpack.js",
-    "--watch",
-    cd: Path.expand("../", __DIR__)
-  ]]
+  watchers: [
+    node: ["node_modules/webpack/bin/webpack.js",
+           "--watch",
+          cd: Path.expand("../", __DIR__)],
+    node: ["node_modules/node-sass/bin/node-sass",
+           "--watch",
+           "--output-style", "compressed",
+           "./web/static/css/app.scss",
+           "./priv/static/css/app.css",
+          cd: Path.expand("../", __DIR__)]
+  ]
   # [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
   #          cd: Path.expand("../", __DIR__)]]
 

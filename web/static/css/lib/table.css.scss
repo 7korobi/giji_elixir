@@ -1,0 +1,48 @@
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  th {
+    font-weight: bold;
+    text-align: center;
+  }
+  td {
+    text-align: left;
+  }
+
+  &.board {
+    margin: 0 0 0 5%;
+    width: 90%;
+  }
+  .fine {
+    padding: 0;
+  }
+}
+#sayfilter,
+#calc {
+  table {
+    width: 100%;
+  }
+}
+
+.table-swipe {
+  overflow-y: visible;
+  overflow-x: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+
+  // Tighten up spacing
+  // Ensure the content doesn't wrap
+  > table {
+    > thead,
+    > tbody,
+    > tfoot {
+      > tr {
+        > th,
+        > td {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+.config_item {
+  max-width: 140px;
+  width:     140px;
+}
+
+.roster {
+  width: 25ex;
+}
+
+.CAST code {
+  width: 90px;
+}
+
+.infonologin {
+  padding: 0px 0px 0px 16px;
+}
+
+.caution,
+.MAKER,
+.ADMIN, {
+  .action,
+  .guide {
+    margin:  0 0 0 6px;
+  }
+}
+
+.turnnavi  ,
+.pagenavi  ,
+.row_all   { padding: 0 0 0 10px;}
+
+.mes_maker ,
+.mes_admin ,
+.info      ,
+.infosp    ,
+.infowolf  ,
+.caution   { padding: 4px 11px;}
+
+// $width-list: 280px, 340px, 400px, 458px, 520px, 580px, 640px, 705px, 770px, 99999px;
+
+@include film();
+table.talk td .msg {
+  margin: 0 7px 6px 6px;
+  padding: 0 4px;
+}
+
+.chrlist {
+  margin: 0 0 0 16px;
+}
+.CAST {
+  margin-bottom: 9px
+}
+
+.box {
+  .formpl_frame {
+    margin: 0px 0px 12px 0px;
+  }
+  .formpl_content {
+    padding: 4px;
+  }
+  .formpl_action {
+    padding: 4px;
+  }
+}

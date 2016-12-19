@@ -1,0 +1,103 @@
+.wa-theme {
+  .drag,
+  .outframe {
+    background-image: url("../assets/images/bg/karakusa.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-attachment: fixed;
+
+    box-shadow: rgba(208, 208, 255, 0.5) 0 0 9px inset;
+  }
+
+  .contentframe {
+    background-repeat: repeat-y;
+    background-position: left;
+    background-attachment: local;
+    background-image: url("../assets/images/bg/film-wa-L.png");
+  }
+
+  body {
+    color: #ccf;
+    background-image: url("../assets/images/bg/nagatanienn.png");
+    background-repeat: repeat;
+    background-position: center;
+  }
+
+  h1 a img {
+    box-shadow: rgba(208, 208, 255, 0.3) 0 2px 2px;
+  }
+  .board th,
+  h2 {
+    color: #ffc926;
+  }
+  @include header-tone(#d40, #000, #224);
+  @include border-tone(black, #ffc960, 0 none, #eb2, #000);
+
+  #calc {
+    th, td {
+      border-width: 2px 4px;
+      border-color: #333;
+      border-style: solid;
+    }
+  }
+
+  nav,
+  header {
+    @include color-tone(glass, #765, #444);
+  }
+
+  #sayfilter {
+    aside {
+      @include stripe-tone(white, #444, #aa7, #eed);
+    }
+    .head,
+    .foot {
+      font-weight: bold;
+      background: #a96;
+      border-top:    2px solid #985;
+      border-bottom: 2px solid #863;
+      color: #444;
+    }
+    .foot {
+      height: 10px
+    }
+    padding-left: 6px;
+    aside {
+      margin: 0 6px;
+      border-width: 0;
+      border-left:  2px solid #aa7;
+      border-right: 3px solid #863;
+    }
+  }
+
+  .MSAY,
+  .SSAY,
+  .SAY { @include color-tone(white, #000, #cb8);}
+
+  .guide,
+  .info {
+    border-top:    3px double #720;
+    border-bottom: 3px double #720;
+  }
+
+  .msg{
+    border-top:    2px solid #444;
+    border-bottom: 2px solid #444;
+  }
+
+  .action {
+    border-style: solid none solid solid ;
+    border-color: #222;
+  }
+
+  .memo {
+    border-color: #664;
+    color: #000;
+    th {
+      border-color: #000;
+    }
+    td {
+      border-color: #000;
+    }
+  }
+}

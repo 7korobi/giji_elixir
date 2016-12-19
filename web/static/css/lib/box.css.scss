@@ -1,0 +1,62 @@
+
+.box {
+  .MAKER,
+  .ACTION,
+  .TSAY .action,
+  .mes_maker ,
+  .mes_admin ,
+  .info      ,
+  .caution   ,
+  .mes_think .action,
+  .action_bm {
+    margin: 0px 8px 16px 8px;
+    padding: 4px;
+  }
+
+  .chrblank {
+    width: 80px;
+  }
+  .msg{
+    margin: 0 4px 6px 0px;
+    padding: 0 4px 0 0;
+  }
+
+  /* 発言入力欄（共通） ---*/
+  .formpl_common {
+    margin: 0px 8px 16px 8px;
+    padding: 4px;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  .row_all {
+    font-weight: bold;
+  }
+
+  .img img {
+            transform-origin: 150% 0%;
+         -o-transform-origin: 150% 0%;
+       -moz-transform-origin: 150% 0%;
+    -webkit-transform-origin: 150% 0%;
+            transform: rotate( 0 ) ;
+         -o-transform: rotate( 0 ) ;
+       -moz-transform: rotate( 0 ) ;
+    -webkit-transform: rotate( 0 ) ;
+            transition: all 1s linear 0;
+         -o-transition: all 1s linear 0;
+        -ms-transition: all 1s linear 0;
+       -moz-transition: all 1s linear 0;
+    -webkit-transition: all 1s linear 0;
+  }
+
+  .img img:hover{
+            transform: rotate( 10deg ) ;
+         -o-transform: rotate( 10deg ) ;
+       -moz-transform: rotate( 10deg ) ;
+    -webkit-transform: rotate( 10deg ) ;
+  }
+
+  .handler{
+    opacity: 0.3 !important;
+  }
+}
