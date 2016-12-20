@@ -1,5 +1,18 @@
 { Collection, Model, Query, Rule } = require "memory-record"
 
+order = [
+  "ririnra"
+  "wa"
+  "time"
+  "sf"
+  "mad"
+  "ger"
+  "changed"
+  "animal"
+  "school"
+  "all"
+]
+
 new Rule("tag").schema ->
   # has_many other pattern
   @scope (all)->
@@ -90,18 +103,6 @@ new Rule("chr_job").schema ->
       @chr_job_id = @_id
       @chr_set_idx = order.indexOf @chr_set_id
 
-order = [
-  "ririnra"
-  "wa"
-  "time"
-  "sf"
-  "mad"
-  "ger"
-  "changed"
-  "animal"
-  "school"
-  "all"
-]
 
 Collection.tag.set  require "../yaml/tag.yml"
 Collection.face.set require "../yaml/face.yml"
