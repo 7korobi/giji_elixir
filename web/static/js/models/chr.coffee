@@ -13,7 +13,9 @@ order = [
   "all"
 ]
 
+
 new Rule("tag").schema ->
+  # @has_many_own "chr_sets"
   # has_many other pattern
   @scope (all)->
     enable: ->
@@ -30,6 +32,7 @@ new Rule("tag").schema ->
 
 
 new Rule("face").schema ->
+  # @has_many_own "chr_sets"
   @has_many "chr_jobs"
   @has_many "chr_npcs"
 

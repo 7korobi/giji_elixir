@@ -16,8 +16,7 @@ module.exports = {
     "js/base":   "js/base.js",
     "js/app":    "js/app.js",
     "js/chr":    "js/chr.js",
-    "js/socket": "js/socket.js",
-    "js/test":   "js/test.coffee"
+    "js/socket": "js/socket.js"
   },
 
   module: {
@@ -31,7 +30,8 @@ module.exports = {
 
   plugins: [
     new copy([
-      { from: "assets", to: "assets" }
+      { from: "assets", to: "assets" },
+      { from: dir("../../web_work/images/portrate"), to: "assets/images/portrate" }
     ]),
     new html({
       filename: 'html/index.html'

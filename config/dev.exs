@@ -21,7 +21,7 @@ config :giji, Giji.Endpoint,
            "--watch", "--recursive",
            "--output-style", "compressed",
            "./web/static/css/app.scss",
-          "./priv/static/css/app.css",
+           "./priv/static/css/app.css",
            cd: Path.expand("../", __DIR__)]
   ]
 
