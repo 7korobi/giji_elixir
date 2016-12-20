@@ -104,8 +104,8 @@ new Rule("chr_job").schema ->
       @chr_set_idx = order.indexOf @chr_set_id
 
 
-Collection.tag.set  require "../yaml/tag.yml"
-Collection.face.set require "../yaml/face.yml"
+Collection.tag.set  require "../yaml/chr_tag.yml"
+Collection.face.set require "../yaml/chr_face.yml"
 for key in order
   o = require "../yaml/cs_#{key}.yml"
 
