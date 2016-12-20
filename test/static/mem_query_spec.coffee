@@ -1,25 +1,33 @@
+require "./_helper.coffee"
 { Collection, Model, Query, Rule } = require "memory-record"
-require "../models/chr.coffee"
+
+target "models/chr.coffee"
 
 describe "Query.faces", ->
   it "bye jelemy", ->
-    expect( Query.faces.find("c06") ).to.eq undefined
+    assert Query.faces.find("c06") == undefined
+  it "symon", ->
+    console.warn Query.faces.find("c99").chr_jobs.list
+    assert Query.faces.find("c99").chr_jobs.list[1].job == "しんかいぎょ"
+    assert Query.faces.find("c99").chr_jobs.list[1].chr_set_idx == 7
+    assert Query.faces.find("c99").chr_jobs.list[1].chr_set_id == "animal"
+
   its "symon",
     Query.faces.find("c99").chr_jobs.list
     [
-      chr_set_idx: 7
-      job: "しんかいぎょ"
-      chr_set_id: "animal"
-    ,
       chr_set_idx: 0
       job: "厭世家"
       chr_set_id: "ririnra"
+    ,
+      chr_set_idx: 7
+      job: "しんかいぎょ"
+      chr_set_id: "animal"
     ]
 
 describe "Query.chr_jobs", ->
   it "order", ->
-    expect( Query.chr_jobs.face("c10").pluck "chr_set_idx" ).to.deep.eq [0,2,7,8]
-    expect( Query.chr_jobs.face("c83").pluck "chr_set_idx" ).to.deep.eq [0,4,7,8]
+    assert Query.chr_jobs.face("c10").pluck "chr_set_idx" == [0,2,7,8]
+    assert Query.chr_jobs.face("c83").pluck "chr_set_idx" == [0,4,7,8]
 
   its "zoy",
     Query.chr_jobs.face("c10").list

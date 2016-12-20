@@ -1,5 +1,21 @@
 { Collection, Model, Query, Rule } = require "memory-record"
 
+new Rule("tag").schema ->
+  # has_many other pattern
+  @scope (all)->
+    enable: ->
+      all.where (o)->
+        ! o.disabled
+
+  class @model extends @model
+    constructor: ->
+      @face_id = @_id
+
+  Object.defineProperty @model.prototype, "chr_sets",
+    get: ->
+      Query.chr_sets.finds(@chr_set_ids)
+
+
 new Rule("face").schema ->
   @has_many "chr_jobs"
   @has_many "chr_npcs"
@@ -33,18 +49,31 @@ new Rule("face").schema ->
       for tag in o.tags
         emit "tag", tag, map
 
+    constructor: ->
+      @face_id = @_id
+
+  Object.defineProperty @model.prototype, "tags",
+    get: ->
+      Query.tags.finds(@tag_ids)
+
 
 new Rule("chr_set").schema ->
   @order "label"
   @has_many "chr_jobs"
   @has_many "chr_npcs"
-
+  class @model extends @model
+    constructor: ->
+      @chr_set_id = @_id
 
 new Rule("chr_npc").schema ->
   @order "label"
   @belongs_to "chr_set", dependent: true
   @belongs_to "face",    dependent: true
-
+  class @model extends @model
+    constructor: ->
+      @_id = "#{@chr_set_id}_#{@face_id}"
+      @chr_npc_id = @_id
+      @chr_set_idx = order.indexOf @chr_set_id
 
 new Rule("chr_job").schema ->
   @order "face.order"
@@ -57,9 +86,9 @@ new Rule("chr_job").schema ->
 
   class @model extends @model
     constructor: ->
+      @_id = "#{@chr_set_id}_#{@face_id}"
       @chr_job_id = @_id
       @chr_set_idx = order.indexOf @chr_set_id
-
 
 order = [
   "ririnra"
@@ -74,21 +103,24 @@ order = [
   "all"
 ]
 
+Collection.tag.set  require "../yaml/tag.yml"
 Collection.face.set require "../yaml/face.yml"
 for key in order
-  data = require "../yaml/cs_#{key}.yml"
-  Collection.chr_set.merge data.chr_set
-  Collection.chr_npc.merge data.chr_npc
-  Collection.chr_job.merge data.chr_job
+  o = require "../yaml/cs_#{key}.yml"
 
+  Collection.chr_set.merge [o.chr_set]
+  { chr_set_id } = o.chr_set
+  cs_key = { chr_set_id }
+
+  Collection.chr_npc.merge o.chr_npc, cs_key
+  Collection.chr_job.merge o.chr_job, cs_key
 
 list =
   for face in Query.faces.list
     chr_set_id = "all"
     face_id = face._id
-    _id = "all_#{face_id}"
     job = Query.chr_jobs.face(face_id).list.first?.job
     continue unless job?
-    { chr_set_id, face_id, job, _id }
+    { chr_set_id, face_id, job }
 
 Collection.chr_job.merge list

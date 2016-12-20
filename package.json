@@ -2,8 +2,14 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "webpack -p",
-    "watch": "webpack --watch-stdin --progress --color"
+    "test": "mocha --colors --reporter spec --require intelli-espower-loader --compilers coffee:coffee-script/register test/static/**_spec.coffee",
+    "deploy": "webpack -p && npm run sass",
+    "brunch": "brunch watch --stdin",
+    "webpack": "webpack --watch --color --config webpack.config.dev.js",
+    "sass": "node-sass --watch --recursive --output-style compressed ./web/static/css/app.scss ./priv/static/css/app.css"
+  },
+  "directories": {
+    "test": "test/static/"
   },
   "dependencies": {
     "headjs": "~1.0.3",
@@ -24,13 +30,15 @@
     "compression-webpack-plugin": "^0.3.2",
     "copy-webpack-plugin": "^4.0.1",
     "html-webpack-plugin": "^2.24.1",
+    "intelli-espower-loader": "^1.0.1",
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
-    "mocha-loader": "^1.0.0",
     "node-bourbon": "^4.2.8",
     "node-neat": "^1.7.2",
     "power-assert": "^1.4.2",
     "pug-html-loader": "^1.0.9",
+    "require-yaml": "0.0.1",
+    "sinon": "^1.17.6",
     "webpack": "^1.14.0",
     "yaml-loader": "^0.4.0"
   }

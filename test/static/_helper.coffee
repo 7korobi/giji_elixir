@@ -1,15 +1,5 @@
-
-global.window =
-  requestAnimationFrame: ->
-global.localStorage =
-  getItem: ->
-  setItem: ->
-global.sessionStorage =
-  getItem: ->
-  setItem: ->
-global.document =
-  cookie = ""
-
+require "require-yaml"
+global.assert = require "power-assert"
 
 deep_scan_factory = (cb)->
   deep_scan = (base, a, b)->
@@ -31,10 +21,7 @@ deep_scan_factory = (cb)->
 global.its = (word, val, obj)->
   deep_equal = deep_scan_factory (key, a, b)->
     it key, ->
-      expect(a).to.eq b
+      assert a == b, key
   deep_equal word, val, obj
 
-
-
-require("./test/mem_query_spec.coffee");
-require("./test/timer_spec.coffee");
+global.target = (path)-> require "../../web/static/js/#{path}"

@@ -15,16 +15,16 @@ config :giji, Giji.Endpoint,
   watchers: [
     node: ["node_modules/webpack/bin/webpack.js",
            "--watch",
-          cd: Path.expand("../", __DIR__)],
+           "--config", "webpack.config.dev.js",
+           cd: Path.expand("../", __DIR__)],
     node: ["node_modules/node-sass/bin/node-sass",
-           "--watch",
+           "--watch", "--recursive",
            "--output-style", "compressed",
            "./web/static/css/app.scss",
-           "./priv/static/css/app.css",
-          cd: Path.expand("../", __DIR__)]
+          "./priv/static/css/app.css",
+           cd: Path.expand("../", __DIR__)]
   ]
-  # [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
-  #          cd: Path.expand("../", __DIR__)]]
+
 
 # Watch static and templates for browser reloading.
 config :giji, Giji.Endpoint,
