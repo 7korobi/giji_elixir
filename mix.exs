@@ -55,7 +55,6 @@ defmodule Giji.Mixfile do
      {:ueberauth_facebook, "~> 0.4"},
 
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:mix_test_watch, "~> 0.2", only: :dev},
      {:dogma, ">= 0.0.0", only: [:dev, :test]}
    ]
   end
