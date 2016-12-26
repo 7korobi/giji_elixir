@@ -1,6 +1,10 @@
 defmodule Giji.ErrorView do
   use Giji.Web, :view
 
+  @moduledoc """
+    error pages
+  """
+
   def render("404.html", _assigns) do
     "Page not found"
   end

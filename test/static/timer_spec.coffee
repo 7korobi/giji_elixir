@@ -1,4 +1,3 @@
-require "./_helper.coffee"
 sinon = require "sinon"
 
 { Timer } = target "lib/timer.coffee"

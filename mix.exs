@@ -55,6 +55,7 @@ defmodule Giji.Mixfile do
      {:ueberauth_facebook, "~> 0.4"},
 
      {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:mix_test_watch, "~> 0.2", only: :dev},
      {:dogma, ">= 0.0.0", only: [:dev, :test]}
    ]
   end
@@ -68,6 +69,8 @@ defmodule Giji.Mixfile do
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
      "ecto.reset": ["ecto.drop", "ecto.setup"],
-     "test": ["ecto.migrate", "test"]]
+     "test": ["ecto.migrate", "test"],
+     "update": ["archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez"]
+    ]
   end
 end

@@ -1,6 +1,10 @@
 defmodule Giji.Router do
   use Giji.Web, :router
 
+  @moduledoc """
+    web route set
+  """
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -49,10 +53,10 @@ defmodule Giji.Router do
     pipe_through :api
     resources "/chats", ChatController, only: [:index]
 
-    #resources "/parts",    PartController
-    #resources "/sections", SectionController
-    #resources "/phases",   PhaseController
-    #resources "/cards",    CardController
+    # resources "/parts",    PartController
+    # resources "/sections", SectionController
+    # resources "/phases",   PhaseController
+    # resources "/cards",    CardController
   end
 
   scope "/api/:book_id/:part_id", Giji do

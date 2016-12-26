@@ -31,7 +31,7 @@ module.exports = {
   plugins: [
     new copy([
       { from: "assets", to: "assets" },
-      { from: dir("../web_work/images/portrate"), to: "assets/images/portrate" }
+      { from: dir("../../web_work/images/portrate"), to: "assets/images/portrate" }
     ]),
     new html({
       filename: 'html/index.html'

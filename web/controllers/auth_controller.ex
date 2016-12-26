@@ -5,6 +5,10 @@ defmodule Giji.AuthController do
   alias Giji.{User}
   alias Ueberauth.Strategy.Helpers
 
+  @moduledoc """
+    auth api
+  """
+
   def force(conn, params) do
     current = %{
       user: %{

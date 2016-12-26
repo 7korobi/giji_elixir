@@ -2,6 +2,10 @@ defmodule Giji.User do
   use Giji.Web, :model
   alias Giji.User
 
+  @moduledoc """
+    users table
+  """
+
   schema "users" do
     field :open_at,    :integer
     field :write_at,   :integer

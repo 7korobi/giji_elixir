@@ -1,20 +1,23 @@
 {
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/7korobi/giji_elixir"
+  },
   "license": "MIT",
   "scripts": {
-    "test": "mocha --colors --reporter spec --require intelli-espower-loader --compilers coffee:coffee-script/register test/static/**_spec.coffee",
+    "test": "mocha --colors --reporter min --require intelli-espower-loader --compilers coffee:coffee-script/register test/static/**_spec.coffee",
     "deploy": "webpack -p && npm run sass",
     "brunch": "brunch watch --stdin",
     "webpack": "webpack --watch --color --config webpack.config.dev.js",
     "sass": "node-sass --watch --recursive --output-style compressed ./web/static/css/app.scss ./priv/static/css/app.css"
   },
   "directories": {
-    "test": "test/static/"
+    "test": "test/static-power"
   },
   "dependencies": {
     "headjs": "~1.0.3",
     "lodash": "^4.16.1",
-    "memory-record": "^0.2.8",
+    "memory-record": "^0.2.14",
     "mithril": "^0.2.0",
     "mithril-tie": "^0.0.9",
     "phoenix": "file:deps/phoenix",
@@ -29,12 +32,17 @@
     "coffee-script": "^1.12.2",
     "compression-webpack-plugin": "^0.3.2",
     "copy-webpack-plugin": "^4.0.1",
+    "grunt": "^1.0.0",
+    "grunt-contrib-coffee": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-test": "^0.13.2",
     "html-webpack-plugin": "^2.24.1",
     "intelli-espower-loader": "^1.0.1",
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
     "node-bourbon": "^4.2.8",
     "node-neat": "^1.7.2",
+    "node-sass": "^4.1.1",
     "power-assert": "^1.4.2",
     "pug-html-loader": "^1.0.9",
     "require-yaml": "0.0.1",

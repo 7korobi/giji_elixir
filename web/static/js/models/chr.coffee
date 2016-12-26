@@ -15,8 +15,7 @@ order = [
 
 
 new Rule("tag").schema ->
-  # @has_many_own "chr_sets"
-  # has_many other pattern
+  @has_many "chr_sets", by: "ids"
   @scope (all)->
     enable: ->
       all.where (o)->
@@ -24,15 +23,10 @@ new Rule("tag").schema ->
 
   class @model extends @model
     constructor: ->
-      @face_id = @_id
-
-  Object.defineProperty @model.prototype, "chr_sets",
-    get: ->
-      Query.chr_sets.finds(@chr_set_ids)
-
+      @tag_id = @_id
 
 new Rule("face").schema ->
-  # @has_many_own "chr_sets"
+  @has_many "tags", by: "ids"
   @has_many "chr_jobs"
   @has_many "chr_npcs"
 
@@ -43,10 +37,7 @@ new Rule("face").schema ->
         when "all"
           all
         else
-          all.in tags:tag_id
-
-    chr_jobs: (chr_job_id)->
-      all.where {chr_job_id}
+          all.in tags: tag_id
 
     name_head: ->
       counts = []
@@ -62,15 +53,11 @@ new Rule("face").schema ->
   class @model extends @model
     @map_reduce: (o, emit)->
       emit "all", "all", map
-      for tag in o.tags
+      for tag in o.tags.list
         emit "tag", tag, map
 
     constructor: ->
       @face_id = @_id
-
-  Object.defineProperty @model.prototype, "tags",
-    get: ->
-      Query.tags.finds(@tag_ids)
 
 
 new Rule("chr_set").schema ->
@@ -97,8 +84,7 @@ new Rule("chr_job").schema ->
   @belongs_to "face",    dependent: true
 
   @scope (all)->
-    face: (face_id)->
-      all.where({ face_id }).sort "chr_set_idx"
+    face: (face_id)-> all.where({ face_id }).sort "chr_set_idx"
 
   class @model extends @model
     constructor: ->

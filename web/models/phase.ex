@@ -2,6 +2,10 @@ defmodule Giji.Phase do
   use Giji.Web, :model
   alias Giji.{Part, Phase}
 
+  @moduledoc """
+    phases table
+  """
+
   @primary_key {:id, :string, []}
   schema "phases" do
     field :open_at,    :integer
@@ -16,24 +20,24 @@ defmodule Giji.Phase do
     field :handle, :string # mean color
   end
 
-  def show(%{handle: "self"}, %{id: id}), do: "#{id}"
-  def show(%{handle: "jury",  id: id}), do: id # 陪審
-  def show(%{handle: "alien", id: id}), do: id # 余所者
-  def show(%{handle: "wolf",  id: id}), do: id # 狼藉者
-  def show(%{handle: "grave", id: id}), do: id # 墓下
-  def show(%{handle: "talk",  id: id}), do: id # 会話
-  def show(%{handle: "hide"}, _),       do: "H"
-  def show(%{handle: "all"},  _),       do: "A"
+  def show(%{handle: "self"},  %{id: id}), do: "#{id}"
+  def show(%{handle: "jury",  id: id}, _), do: id # 陪審
+  def show(%{handle: "alien", id: id}, _), do: id # 余所者
+  def show(%{handle: "wolf",  id: id}, _), do: id # 狼藉者
+  def show(%{handle: "grave", id: id}, _), do: id # 墓下
+  def show(%{handle: "talk",  id: id}, _), do: id # 会話
+  def show(%{handle: "hide"},          _), do: "H"
+  def show(%{handle: "all"},           _), do: "A"
 
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}, keys \\ [:id, :book_id, :chat_idx, :name]) do
+  def changeset(struct, params \\ %{}) do
     now = :os.system_time(:milli_seconds)
 
     struct
     |> change(open_at: struct.open_at || now, write_at: now)
-    |> cast(params, keys)
+    |> cast(params, [:id, :book_id, :chat_idx, :name])
     |> validate_required([:id, :chat_idx, :name, :handle])
   end
 

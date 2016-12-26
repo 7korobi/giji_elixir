@@ -2,6 +2,10 @@ defmodule Giji.Part do
   use Giji.Web, :model
   alias Giji.Part
 
+  @moduledoc """
+    parts table
+  """
+
   @primary_key {:id, :string, []}
   schema "parts" do
     field :open_at,    :integer
@@ -19,12 +23,12 @@ defmodule Giji.Part do
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}, keys \\ [:id, :book_id, :section_idx, :name]) do
+  def changeset(struct, params \\ %{}) do
     now = :os.system_time(:milli_seconds)
 
     struct
     |> change(open_at: struct.open_at || now, write_at: now)
-    |> cast(params, keys)
+    |> cast(params, [:id, :book_id, :section_idx, :name])
     |> validate_required([:id, :section_idx, :name])
   end
 

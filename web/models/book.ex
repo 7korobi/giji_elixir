@@ -2,6 +2,10 @@ defmodule Giji.Book do
   use Giji.Web, :model
   alias Giji.{Book, User, Part, Phase}
 
+  @moduledoc """
+    books table
+  """
+
   @primary_key {:id, :string, []}
   schema "books" do
     field :open_at,    :integer

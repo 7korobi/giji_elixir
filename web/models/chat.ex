@@ -2,6 +2,10 @@ defmodule Giji.Chat do
   use Giji.Web, :model
   alias Giji.{Phase, Chat}
 
+  @moduledoc """
+    chats table
+  """
+
   @future 0xfffffffffffff
 
   @primary_key {:id, :string, []}
@@ -64,5 +68,3 @@ defmodule Giji.Chat do
     |> validate_required([:id, :show, :section_id, :style, :log, :close_at])
   end
 end
-
-

@@ -1,6 +1,10 @@
 defmodule Giji.ChatView do
   use Giji.Web, :view
 
+  @moduledoc """
+    json for chat/chats
+  """
+
   def render("public.json", %{chat: o}) do
     Map.take o, [
       :open_at, :write_at, :close_at,

@@ -1,12 +1,10 @@
 defmodule Giji.ChangesetView do
   use Giji.Web, :view
 
-  @doc """
-  Traverses and translates changeset errors.
-
-  See `Ecto.Changeset.traverse_errors/2` and
-  `Giji.ErrorHelpers.translate_error/1` for more details.
+  @moduledoc """
+    json for error
   """
+
   def translate_errors(nil) do
     %{data: ["not found."]}
   end

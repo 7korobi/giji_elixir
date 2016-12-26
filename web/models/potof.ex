@@ -2,6 +2,10 @@ defmodule Giji.Potof do
   use Giji.Web, :model
   alias Giji.{Book, Part, Potof}
 
+  @moduledoc """
+    potofs table
+  """
+
   schema "potofs" do
     field :open_at,    :integer
     field :write_at,   :integer

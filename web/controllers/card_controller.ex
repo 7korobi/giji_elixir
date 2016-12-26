@@ -3,6 +3,10 @@ defmodule Giji.CardController do
 
   alias Giji.Card
 
+  @moduledoc """
+    card api
+  """
+
   def index(conn, _params) do
     cards = Repo.all(Card)
     render(conn, "index.json", cards: cards)

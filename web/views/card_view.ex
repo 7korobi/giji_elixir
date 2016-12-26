@@ -1,6 +1,10 @@
 defmodule Giji.CardView do
   use Giji.Web, :view
 
+  @moduledoc """
+    json for card/cards
+  """
+
   def render("index.json", %{cards: cards}) do
     %{data: render_many(cards, Giji.CardView, "card.json")}
   end

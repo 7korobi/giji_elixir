@@ -1,6 +1,10 @@
 defmodule Giji.PotofView do
   use Giji.Web, :view
 
+  @moduledoc """
+    json for potof/potofs
+  """
+
   def render("public.json", %{potof: o}) do
     Map.take o, [
       :open_at, :write_at, :close_at,

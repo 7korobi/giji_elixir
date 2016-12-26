@@ -1,6 +1,10 @@
 defmodule Giji.Card do
   use Giji.Web, :model
 
+  @moduledoc """
+    cards table
+  """
+
   schema "cards" do
     field :open_at,    :integer
     field :write_at,   :integer

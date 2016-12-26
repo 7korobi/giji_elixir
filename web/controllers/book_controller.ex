@@ -3,6 +3,10 @@ defmodule Giji.BookController do
 
   alias Giji.{Book, Part, Section, Phase, Chat}
 
+  @moduledoc """
+    book api
+  """
+
   def index(conn, _params) do
     books = Repo.all(from o in Book)
     conn

@@ -1,6 +1,10 @@
 defmodule Giji.BookView do
   use Giji.Web, :view
 
+  @moduledoc """
+    json for book/books
+  """
+
   def render("public.json", %{book: o}) do
     Map.take o, [
       :open_at, :write_at, :close_at,
