@@ -45,20 +45,6 @@
     return require("../../web/static/js/" + path);
   };
 
-
-  /*
-  global.window =
-    requestAnimationFrame: ->
-  global.localStorage =
-    getItem: ->
-    setItem: ->
-  global.sessionStorage =
-    getItem: ->
-    setItem: ->
-  global.document =
-    cookie = ""
-   */
-
 }).call(this);
 
 (function() {
@@ -82,6 +68,102 @@
     });
     it("zoy", assert(Query.chr_jobs.face("c10").list[0], Query.chr_jobs.find("ririnra_c10")), assert(Query.chr_jobs.face("c10").list[1], Query.chr_jobs.find("time_c10")));
     return it("iris", assert(Query.chr_jobs.face("c83").list[0], Query.chr_jobs.find("ririnra_c83")), assert(Query.chr_jobs.face("c83").list[1], Query.chr_jobs.find("mad_c83")));
+  });
+
+}).call(this);
+
+(function() {
+  var Collection, InputTie, Model, Query, Rule, deploy, ref, ref1;
+
+  ref = require("memory-record"), Collection = ref.Collection, Model = ref.Model, Query = ref.Query, Rule = ref.Rule;
+
+  ref1 = require("mithril-tie"), InputTie = ref1.InputTie, deploy = ref1.deploy;
+
+  deploy({
+    window: {
+      scrollX: 0,
+      scrollY: 0,
+      devicePixelRatio: 2
+    }
+  });
+
+  target("models/menu.coffee");
+
+  describe("Query.menus", function() {
+    it("data structure.", function() {
+      assert.deepEqual(Query.menus.show("menu", "top", "normal").pluck("icon"), ["resize-full"]);
+      assert.deepEqual(Query.menus.show("menu", "top", "full").pluck("icon"), ["resize-normal"]);
+      assert.deepEqual(Query.menus.show("menu", "user", "normal").pluck("icon"), ["resize-full", "home"]);
+      assert.deepEqual(Query.menus.show("menu", "book", "normal").pluck("icon"), ["pin", "home", "chat-alt"]);
+      return assert.deepEqual(Query.menus.show("menu,home", "book", "normal").pluck("icon"), ["comment"]);
+    });
+    return it("shows menu buttons", function() {
+      var c, component, state, tie;
+      state = {};
+      component = {
+        controller: function() {
+          this.params = {};
+          this.tie = InputTie.form(this.params, []);
+          this.tie.stay = function(id, value) {
+            return state.stay = value;
+          };
+          this.tie.change = function(id, value, old) {
+            return state.change = value;
+          };
+          this.tie.action = function() {
+            return state.action = true;
+          };
+          this.tie.draws(function() {});
+          this.bundles = [
+            this.tie.bundle({
+              _id: "icon",
+              attr: {
+                type: "icon"
+              },
+              name: "アイコン",
+              current: null,
+              options: {
+                cog: "画面表示を調整します。",
+                home: "村の設定、アナウンスを表示します。"
+              },
+              option_default: {
+                label: "icon default"
+              }
+            })
+          ];
+        },
+        view: function(arg) {
+          var tie;
+          tie = arg.tie;
+          return tie.draw();
+        }
+      };
+      tie = (c = new component.controller()).tie;
+      component.view(c);
+      assert_only(tie.input.icon.option("cog"), {
+        _id: "cog",
+        label: "画面表示を調整します。"
+      });
+      assert_only(tie.input.icon.option("home"), {
+        _id: "home",
+        label: "村の設定、アナウンスを表示します。"
+      });
+      assert_only(tie.input.icon.option(null), {
+        label: "icon default",
+        "data-tooltip": "選択しない"
+      });
+      tie.input.icon.options.cog.badge = function() {
+        return 123;
+      };
+      assert(tie.input.icon.item("cog").children[1].children[0] === 123);
+      assert(tie.input.icon.item("cog").tag === "a");
+      assert(tie.input.icon.item("cog", {
+        tag: "menuicon"
+      }).tag === "a");
+      return assert(tie.input.icon.item("cog", {
+        tag: "bigicon"
+      }).tag === "section");
+    });
   });
 
 }).call(this);
