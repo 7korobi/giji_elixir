@@ -8,16 +8,15 @@ deploy
     scrollY: 0
     devicePixelRatio: 2
 
-
 Url.define = (key)->
     Query.stores.hash[key]
 
 Url.maps
   search:
-    css: "css=:theme~:mode"
+    css: "css=:theme~:width"
 
 WebStore.maps
-  session: ["menu", "site"]
+  session: ["menu", "site", "font"]
 
 component =
   controller: ->

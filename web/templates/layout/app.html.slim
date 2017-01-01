@@ -1,5 +1,5 @@
 doctype html
-html
+html.cinema-theme.std-width.right-layout.std-font
   head
     meta charset="utf-8"
     meta content="IE=edge" http-equiv="X-UA-Compatible"
@@ -8,27 +8,29 @@ html
     meta content="" name="author"
     title Hello Giji!
     link rel="stylesheet" href="#{ static_path(@conn, "/css/app.css") }"
+    link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   body
-    .container
-      header.header
-        span.logo
-      .row
-        .col-xs-12
-          = if @current do
-            javascript:
-              | window.userToken = "#{ @current.token }";
-            h2  Welcome #{@current.user.name} !
+    .outframe
+      .contentframe
+        header.header
+          span.logo
+        = if @current do
+          javascript:
+            | window.userToken = "#{ @current.token }";
+          h2  Welcome #{@current.user.name} !
+          .SSAY.action
             img.img-circle src="#{ @current.user.avatar }"
-            = link "Sign Out", to: auth_path(@conn, :delete), class: "btn btn-danger"
-          - else
-            = link "Sign in with GitHub",   to: auth_path(@conn, :request, "github"),   class: "btn btn-primary btn-lg"
-            = link "Sign in with twitter",  to: auth_path(@conn, :request, "twitter"),  class: "btn btn-primary btn-lg"
-            = link "Sign in with Facebook", to: auth_path(@conn, :request, "facebook"), class: "btn btn-primary btn-lg"
-            = link "Sign in with google",   to: auth_path(@conn, :request, "google"),   class: "btn btn-primary btn-lg"
-            = link "Sign in with slack",    to: auth_path(@conn, :request, "slack"),    class: "btn btn-primary btn-lg"
+            = link "Sign Out", to: auth_path(@conn, :delete), class: "fa fa-2x fa-border"
+        - else
+          .SSAY.action
+            = link "", to: auth_path(@conn, :request, "github"),   class: "fa fa-2x fa-border fa-github"
+            = link "", to: auth_path(@conn, :request, "twitter"),  class: "fa fa-2x fa-border fa-twitter"
+            = link "", to: auth_path(@conn, :request, "facebook"), class: "fa fa-2x fa-border fa-facebook"
+            = link "", to: auth_path(@conn, :request, "google"),   class: "fa fa-2x fa-border fa-google"
+            = link "", to: auth_path(@conn, :request, "slack"),    class: "fa fa-2x fa-border fa-slack"
 
-      main role="main"
-        = render @view_module, @view_template, assigns
+        main role="main"
+          = render @view_module, @view_template, assigns
     /! /container
     script src="#{ static_path(@conn, "/js/base.js") }"
     script src="#{ static_path(@conn, "/js/chr.js") }"

@@ -120,6 +120,7 @@ Collection.site.set
   top:  {}
   user: {}
   book: {}
+
 Collection.font.set
   large:
     label: "大判"

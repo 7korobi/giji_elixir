@@ -107,12 +107,12 @@
 
   Url.maps({
     search: {
-      css: "css=:theme~:mode"
+      css: "css=:theme~:width"
     }
   });
 
   WebStore.maps({
-    session: ["menu", "site"]
+    session: ["menu", "site", "font"]
   });
 
   component = {
