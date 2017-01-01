@@ -17,80 +17,84 @@ new Rule("menu").schema ->
       @site ?= ["top", "user", "book"]
 
 Collection.menu.set
-  "menu,calc":
-    order: 2
-    enable: false
-    label: "便利ツール。"
-
   "menu,calc,cog":
     order: 1
     enable: true
     label: "画面表示を調整します。"
 
-  "menu,calc,clock":
+  "menu,calc,bike":
     order: 2
+    enable: false
+    site: ["top"]
+    label: "便利ツール。"
+
+  "menu,calc,clock":
+    order: 3
     enable: false
     site: ["user"]
     label: ""
 
   "menu,calc,search":
-    order: 3
+    order: 4
     enable: true
     site: ["user", "book"]
     label: "発言中の言葉を検索します。"
 
 
-  "menu":
-    order: 99999
-    enable: true
-    label: ""
-
-
-  "menu,bike":
-    order: 1
-    enable: false
-    site: ["top"]
-    label: "便利ツール。"
-
-
   "menu,resize-full":
-    order: 3
+    order: 10
     enable: true
     site: ["top", "user"]
     mode: ["normal"]
     label: "便利ツール。"
 
   "menu,resize-normal":
-    order: 3
+    order: 10
     enable: true
     site: ["top", "user"]
     mode: ["full"]
     label: "便利ツール。"
 
+  "menu,calc":
+    order: 11
+    enable: true
+    label: "便利ツール。"
+
+
+  "menu":
+    order: 99999
+    enable: true
+    label: ""
+    badge: -> 0
+
 
   "menu,pin":
-    order: 10
+    order: 12
     enable: true
     site: ["book"]
     label: "ピン止めを表示します。"
+    badge: -> 0
 
   "menu,home":
-    order: 11
+    order: 13
     enable: true
     site: ["user", "book"]
     label: "村の設定、ルール、メモを表示します。"
+    badge: -> 0
 
   "menu,mail":
-    order: 12
+    order: 14
     enable: false
     site: ["user", "book"]
     label: "秘密の発言、私信を表示します。"
+    badge: -> 0
 
   "menu,chat-alt":
-    order: 13
+    order: 15
     enable: true
     site: ["book"]
     label: "発言を表示します。"
+    badge: -> 0
 
   "menu,pin,comment":
     order: 100

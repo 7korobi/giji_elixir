@@ -73,7 +73,14 @@
 }).call(this);
 
 (function() {
-  var Collection, InputTie, Model, Query, Rule, deploy, ref, ref1;
+  var Collection, InputTie, Model, Query, Rule, _, _pick, btn_input, c_icon, deploy, m, ref, ref1,
+    slice = [].slice,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  _ = require("lodash");
+
+  m = require("mithril");
 
   ref = require("memory-record"), Collection = ref.Collection, Model = ref.Model, Query = ref.Query, Rule = ref.Rule;
 
@@ -87,14 +94,173 @@
     }
   });
 
+  _pick = function(attrs, last) {
+    return _.assignIn.apply(_, [{}].concat(slice.call(attrs), [last]));
+  };
+
+  c_icon = function(bool, new_val) {
+    if (bool) {
+      return null;
+    } else {
+      return new_val;
+    }
+  };
+
+  btn_input = (function(superClass) {
+    extend(btn_input, superClass);
+
+    function btn_input() {
+      return btn_input.__super__.constructor.apply(this, arguments);
+    }
+
+    btn_input.prototype._attr = function() {
+      var _id, attrs, b, className, css, disabled, i, last, ma, onchange, ref2, selected, target, tie, value;
+      attrs = 2 <= arguments.length ? slice.call(arguments, 0, i = arguments.length - 1) : (i = 0, []), last = arguments[i++];
+      ref2 = b = this, _id = ref2._id, tie = ref2.tie;
+      className = last.className, disabled = last.disabled, selected = last.selected, value = last.value, target = last.target;
+      onchange = function() {
+        if (b.timer) {
+          return;
+        }
+        b._debounce()["catch"](function() {
+          return b.timer = null;
+        });
+        value = b._value(selected, value, target);
+        tie.do_change(b, value, ma);
+        if (!b.dom.validity.valid) {
+          return tie.do_fail(b, value, ma);
+        }
+      };
+      css = "btn";
+      if (!(disabled || tie.disabled)) {
+        css += " edge";
+      }
+      if (selected) {
+        css += " active";
+      }
+      if (className) {
+        css += " " + className;
+      }
+      return ma = _pick(attrs, {
+        config: this.__config,
+        className: css,
+        onclick: onchange,
+        onmouseup: onchange,
+        ontouchend: onchange
+      });
+    };
+
+    btn_input.prototype.do_change = function(value) {
+      var error, pattern, ref2, required;
+      ref2 = this.attr, pattern = ref2.pattern, required = ref2.required;
+      if (this.dom) {
+        if (required && !value) {
+          error = "このフィールドを入力してください。";
+        }
+        if (pattern && value.match(new Regexp(pattern))) {
+          error = "指定されている形式で入力してください。";
+        }
+        this.error(error);
+      }
+      return btn_input.__super__.do_change.apply(this, arguments);
+    };
+
+    btn_input.prototype.head = function(m_attr) {
+      var ma, name;
+      if (m_attr == null) {
+        m_attr = {};
+      }
+      name = this.format.name;
+      ma = this._attr_label(m_attr);
+      return m("h6", ma, name);
+    };
+
+    return btn_input;
+
+  })(InputTie.type.hidden);
+
+  InputTie.type.icon = (function(superClass) {
+    var bigicon, menuicon, tags;
+
+    extend(icon, superClass);
+
+    function icon() {
+      return icon.__super__.constructor.apply(this, arguments);
+    }
+
+    icon.prototype._value = c_icon;
+
+    icon.prototype.option_default = {
+      className: "",
+      label: "",
+      "data-tooltip": "選択しない"
+    };
+
+    icon.prototype.field = function(m_attr) {
+      if (m_attr == null) {
+        m_attr = {};
+      }
+      throw "not implement";
+    };
+
+    icon.prototype["with"] = function(value, mode) {
+      var bool;
+      bool = this.__value === value;
+      switch (mode) {
+        case bool:
+          return this._with[value]();
+        case !bool:
+          return null;
+        default:
+          this._with = {};
+          return this._with[value] = mode;
+      }
+    };
+
+    icon.prototype.item = function(value, m_attr) {
+      var ma, option, tag;
+      if (m_attr == null) {
+        m_attr = {};
+      }
+      option = this.option(value);
+      tag = m_attr.tag || "menuicon";
+      ma = this._attr(this.attr, m_attr, option, {
+        className: [this.attr.className, m_attr.className, option.className].join(" "),
+        selected: value === this.__value,
+        value: value
+      });
+      return tags[tag](value, ma, option);
+    };
+
+    menuicon = function(id, attr, arg) {
+      var badge, icon, ref2;
+      icon = (ref2 = arg.icon) != null ? ref2 : id, badge = arg.badge;
+      return m("a.menuicon", attr, m("span.icon-" + icon), badge ? m(".emboss.pull-right", badge()) : void 0);
+    };
+
+    bigicon = function(id, attr, arg) {
+      var badge, icon, ref2;
+      icon = (ref2 = arg.icon) != null ? ref2 : id, badge = arg.badge;
+      return m("section", attr, m(".bigicon", m("span.icon-" + icon)), badge ? m(".badge.pull-right", badge()) : void 0);
+    };
+
+    tags = {
+      menuicon: menuicon,
+      bigicon: bigicon
+    };
+
+    return icon;
+
+  })(btn_input);
+
   target("models/menu.coffee");
 
   describe("Query.menus", function() {
     it("data structure.", function() {
-      assert.deepEqual(Query.menus.show("menu", "top", "normal").pluck("icon"), ["resize-full"]);
-      assert.deepEqual(Query.menus.show("menu", "top", "full").pluck("icon"), ["resize-normal"]);
-      assert.deepEqual(Query.menus.show("menu", "user", "normal").pluck("icon"), ["resize-full", "home"]);
-      assert.deepEqual(Query.menus.show("menu", "book", "normal").pluck("icon"), ["pin", "home", "chat-alt"]);
+      assert.deepEqual(Query.menus.show("menu", "top", "normal").pluck("icon"), ["resize-full", "calc"]);
+      assert.deepEqual(Query.menus.show("menu", "top", "full").pluck("icon"), ["resize-normal", "calc"]);
+      assert.deepEqual(Query.menus.show("menu", "user", "normal").pluck("icon"), ["resize-full", "calc", "home"]);
+      assert.deepEqual(Query.menus.show("menu", "book", "normal").pluck("icon"), ["calc", "pin", "home", "chat-alt"]);
       return assert.deepEqual(Query.menus.show("menu,home", "book", "normal").pluck("icon"), ["comment"]);
     });
     return it("shows menu buttons", function() {
@@ -122,10 +288,7 @@
               },
               name: "アイコン",
               current: null,
-              options: {
-                cog: "画面表示を調整します。",
-                home: "村の設定、アナウンスを表示します。"
-              },
+              options: Query.menus.hash,
               option_default: {
                 label: "icon default"
               }
@@ -140,27 +303,14 @@
       };
       tie = (c = new component.controller()).tie;
       component.view(c);
-      assert_only(tie.input.icon.option("cog"), {
-        _id: "cog",
-        label: "画面表示を調整します。"
-      });
-      assert_only(tie.input.icon.option("home"), {
-        _id: "home",
-        label: "村の設定、アナウンスを表示します。"
-      });
-      assert_only(tie.input.icon.option(null), {
-        label: "icon default",
-        "data-tooltip": "選択しない"
-      });
-      tie.input.icon.options.cog.badge = function() {
-        return 123;
-      };
-      assert(tie.input.icon.item("cog").children[1].children[0] === 123);
-      assert(tie.input.icon.item("cog").tag === "a");
-      assert(tie.input.icon.item("cog", {
+      assert.deepEqual(tie.input.icon.option("menu,calc,cog"), Query.menus.find("menu,calc,cog"));
+      assert.deepEqual(tie.input.icon.option("menu,home"), Query.menus.find("menu,home"));
+      assert.deepEqual(tie.input.icon.item("menu").children[1].children, [0]);
+      assert(tie.input.icon.item("menu,cog").tag === "a");
+      assert(tie.input.icon.item("menu,cog", {
         tag: "menuicon"
       }).tag === "a");
-      return assert(tie.input.icon.item("cog", {
+      return assert(tie.input.icon.item("menu,cog", {
         tag: "bigicon"
       }).tag === "section");
     });
