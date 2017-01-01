@@ -21,3 +21,10 @@ global.assert_only = (val, expect)->
   assert.deepEqual value, expect
 
 global.target = (path)-> require "../../web/static/js/#{path}"
+
+global.sessionStorage =
+  getItem: ->
+  setItem: ->
+global.localStorage =
+  getItem: ->
+  setItem: ->

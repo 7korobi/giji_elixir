@@ -1,119 +1,99 @@
 _ = require "lodash"
 m = require "mithril"
 { Collection, Model, Query, Rule } = require "memory-record"
-{ InputTie, deploy } = require "mithril-tie"
+{ InputTie, WebStore, deploy } = require "mithril-tie"
 deploy
   window:
     scrollX: 0
     scrollY: 0
     devicePixelRatio: 2
 
-class InputTie.type.icon extends InputTie.type.icon
-  option_default:
-    className: ""
-    label: ""
-    "data-tooltip":　"選択しない"
+WebStore.maps
+  session: ["menu", "site", "mode"]
 
-  option: (value)->
-    hash = @options.hash ? @options ? {}
-    hash[value] ? @option_default
-
-  with: (value, mode)->
-    bool = @__value == value
-
-    switch mode
-      when bool
-        @_with[value]()
-      when ! bool
-        null
-      else
-        # define mode function.
-        @_with = {}
-        @_with[value] = mode
-
-  item: (value, m_attr = {})->
-    option = @option value
-    tag = m_attr.tag || "menuicon"
-
-    ma = @_attr @attr, m_attr, option,
-      className: [@attr.className, m_attr.className, option.className].join(" ")
-      selected: value == @__value
-      value:    value
-    # data-tooltip, disabled
-    tags[tag] value, ma, option
-
-  menuicon = (id, attr, { icon = id, badge })->
-    m "a.menuicon", attr,
-      m "span.icon-#{icon}"
-      m ".emboss.pull-right", badge() if badge
-
-  bigicon = (id, attr, { icon = id, badge })->
-    m "section", attr,
-      m ".bigicon",
-        m "span.icon-#{icon}"
-      m ".badge.pull-right", badge() if badge
-  tags = { menuicon, bigicon }
-
-
-state = {}
 component =
   controller: ->
-    @params = {}
-    @tie = InputTie.form @params, []
-    @tie.stay = (id, value)->
-      state.stay = value
-    @tie.change = (id, value, old)->
-      state.change = value
-    @tie.action = ->
-      state.action = true
-    @tie.draws ->
-
-    @bundles = [
-      @tie.bundle
-        _id: "icon"
-        attr:
-          type: "icon"
-        name: "アイコン"
-        current: null
-        options: Query.menus.hash
-        option_default:
-          label: "icon default"
-    ]
+    Model.menu.set_tie tie = InputTie.form WebStore.params, []
     return
 
-  view: ({tie})->
-    icons = Query.menus.show "menu,home", "book", "normal"
+  view: ->
+    { tie } = Model.menu
     tie.draw()
 
     m ".menus",
-      for {_id} in icons.list
-        tie.input.icon.item _id, tag: "menuicon"
-      tie.input.icon.item "menu,home", tag: "menuicon"
-
-      for {_id} in icons.list
-        tie.input.icon.item _id, tag: "bigicon"
-      tie.input.icon.item "menu,home", tag: "bigicon"
-
+      Query.menus.icons tie.params, tag: "menuicon"
+      Query.menus.icons tie.params, tag: "bigicon"
 
 target "models/menu.coffee"
 
 describe "Query.menus", ->
+  c = new component.controller()
   it "data structure.", ->
-    assert.deepEqual Query.menus.show("menu", "top", "normal").pluck("icon"), ["resize-full", "calc"]
-    assert.deepEqual Query.menus.show("menu", "top", "full").pluck("icon"), ["resize-normal", "calc"]
-    assert.deepEqual Query.menus.show("menu", "user", "normal").pluck("icon"), ["resize-full", "calc", "home"]
-    assert.deepEqual Query.menus.show("menu", "book", "normal").pluck("icon"), ["calc", "pin","home","chat-alt"]
-    assert.deepEqual Query.menus.show("menu,home", "book", "normal").pluck("icon"), ["comment"]
+    params =
+      menu: "menu"
+      site: "top"
+      mode: "normal"
+    assert.deepEqual Query.menus.show(params).pluck("icon"), ["resize-full", "calc"]
+    params =
+      menu: "menu"
+      site: "top"
+      mode: "full"
+    assert.deepEqual Query.menus.show(params).pluck("icon"), ["resize-normal", "calc"]
+    params =
+      menu: "menu"
+      site: "user"
+      mode: "normal"
+    assert.deepEqual Query.menus.show(params).pluck("icon"), ["resize-full", "calc", "home"]
+    params =
+      menu: "menu"
+      site: "book"
+      mode: "normal"
+    assert.deepEqual Query.menus.show(params).pluck("icon"), ["calc", "pin","home","chat-alt"]
+    params =
+      menu: "menu,home"
+      site: "book"
+      mode: "normal"
+    assert.deepEqual Query.menus.show(params).pluck("icon"), ["comment"]
+
+  it "params structure.", ->
+    assert.deepEqual Query.stores.hash,
+      menu: { _id: "menu", type: "String", current: "menu" }
+      site: { _id: "site", type: "String", current: "top"  }
+      mode: { _id: "mode", type: "String", current: "full" }
 
   it "shows menu buttons", ->
-    { tie } = c = new component.controller()
     component.view c
 
-    assert.deepEqual tie.input.icon.option("menu,calc,cog"),  Query.menus.find("menu,calc,cog")
-    assert.deepEqual tie.input.icon.option("menu,home"), Query.menus.find("menu,home")
+    { tie } = Model.menu
+    assert.deepEqual tie.input.menu.option("menu,calc,cog"),  Query.menus.find("menu,calc,cog")
+    assert.deepEqual tie.input.menu.option("menu,home"), Query.menus.find("menu,home")
+    assert.deepEqual tie.input.menu.item("menu").children[1].children, [0]
 
-    assert.deepEqual tie.input.icon.item("menu").children[1].children, [0]
+    assert tie.input.menu.item("menu"                ).tag == "a"
+    assert tie.input.menu.item("menu", tag:"menuicon").tag == "a"
+    assert tie.input.menu.item("menu", tag:"bigicon" ).tag == "section"
 
-    assert tie.input.icon.item("menu"                ).tag == "a"
-    assert tie.input.icon.item("menu", tag:"menuicon").tag == "a"
-    assert tie.input.icon.item("menu", tag:"bigicon" ).tag == "section"
+  it "sequence", ->
+    { tie } = Model.menu
+    component.view c
+    assert.deepEqual tie.params,
+      menu: "menu"
+      mode: "full"
+      site: "top"
+
+    tie.do_change tie.input.menu, "menu,resize-normal"
+    component.view c
+
+    assert.deepEqual tie.params,
+      menu: "menu"
+      mode: "normal"
+      site: "top"
+
+    tie.do_change tie.input.menu, "menu,home"
+    component.view c
+
+    assert.deepEqual tie.params,
+      menu: "menu,home"
+      mode: "normal"
+      site: "top"
+
