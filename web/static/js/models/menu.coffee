@@ -6,10 +6,37 @@ Collection.store.merge
   width: { current: "full" }
   pop:   { current: false, type: "Bool" }
   theme: { current: "cinema" }
-  font:  { current: "normal" }
+  font:  { current: "std" }
+
+
+new Rule("width").schema ->
+  @order "rowid"
+  class @model extends @model
+    @create: (o)->
+      o.rowid = @rowid
+    constructor: ->
+
+new Rule("font").schema ->
+  @order "rowid"
+  class @model extends @model
+    @create: (o)->
+      o.rowid = @rowid
+    constructor: ->
+
+new Rule("theme").schema ->
+  @order "rowid"
+  class @model extends @model
+    @create: (o)->
+      o.rowid = @rowid
+    item: "speech"
+    constructor: ->
+      @width =
+        770: ["morning.png", @bg]
+        580: ["b.jpg", "w.jpg"]
+        458: ["b.jpg", "w.jpg"]
 
 new Rule("menu").schema ->
-  @order "order"
+  @order "rowid"
   @tree()
 
   @scope (all)->
@@ -64,12 +91,15 @@ new Rule("menu").schema ->
         attr:
           type: "btns"
         current: "cinema"
+        options: Query.themes.hash
       @font = @tie.bundle
         _id: "font"
         attr:
           type: "btns"
-        current: "normal"
+        current: "std"
 
+    @create: (o)->
+      o.rowid = @rowid
     @map_reduce: (o, emit)->
     constructor: ->
       [menu_id..., @icon] = @_id.split(",")
@@ -77,31 +107,61 @@ new Rule("menu").schema ->
       @width ?= ["normal", "full"]
       @site ?= ["top", "user", "book"]
 
+Collection.font.set
+  large:
+    label: "大判"
+  novel:
+    label: "明朝"
+  std:
+    label: "ゴシック"
+  small:
+    label: "繊細"
+
+Collection.width.set
+  full:
+    label: "最大"
+  wide:
+    label: "広域"
+  std:
+    label: "狭域"
+
+Collection.theme.set
+  cinema:
+    label: "煉瓦"
+    bg: "lupino.png"
+  star:
+    label: "蒼穹"
+    bg: "lupino.png"
+  night:
+    label: "闇夜"
+    bg: "moon.png"
+  moon:
+    label: "月夜"
+    bg: "moon.png"
+  wa:
+    label: "和の国"
+    bg: "moon.png"
+
 Collection.menu.set
   "menu,calc,cog":
-    order: 1
     label: "画面表示を調整します。"
 
   "menu,calc,bike":
     disabled: true
-    order: 2
     site: ["top"]
     label: "便利ツール。"
 
   "menu,calc,clock":
     disabled: true
-    order: 3
     site: ["user"]
     label: ""
 
   "menu,calc,search":
-    order: 4
     site: ["user", "book"]
     label: "発言中の言葉を検索します。"
 
 
   "menu,resize-full":
-    order: 10
     site: ["top", "user"]
     width: ["normal"]
     label: "便利ツール。"
@@ -110,27 +170,17 @@ Collection.menu.set
       params.width = "full"
 
   "menu,resize-normal":
-    order: 10
     site: ["top", "user"]
     width: ["full"]
     label: "便利ツール。"
     onselect: (params)->
       params.menu = @menu._id
-      params.width = "normal"
+      params.width = "std"
 
   "menu,calc":
-    order: 11
     label: "便利ツール。"
 
-
-  "menu":
-    order: 99999
-    label: ""
-    badge: -> 0
-
-
   "menu,pin":
-    order: 12
     site: ["book"]
     label: "ピン止めを表示します。"
     badge: ->
@@ -138,7 +188,6 @@ Collection.menu.set
       0
 
   "menu,home":
-    order: 13
     site: ["user", "book"]
     label: "村の設定、ルール、メモを表示します。"
     badge: ->
@@ -147,13 +196,11 @@ Collection.menu.set
 
   "menu,mail":
     disabled: true
-    order: 14
     site: ["user", "book"]
     label: "秘密の発言、私信を表示します。"
     badge: -> 0
 
   "menu,chat-alt":
-    order: 15
     site: ["book"]
     label: "発言を表示します。"
     badge: ->
@@ -165,22 +212,24 @@ Collection.menu.set
       0
 
   "menu,pin,comment":
-    order: 100
     site: ["book"]
     label: "公開発言します。"
 
   "menu,home,comment":
-    order: 100
     site: ["book"]
     label: "メモを更新します。"
 
   "menu,mail,comment":
-    order: 100
     site: ["book"]
     label: "内緒話をします。"
 
   "menu,chat-alt,comment":
-    order: 100
     site: ["book"]
     label: "公開発言します。"
+
+
+  "menu":
+    order: 99999
+    label: ""
+    badge: -> 0
 

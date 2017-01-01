@@ -69,34 +69,34 @@ describe "Query.menus", ->
       width: "full"
       site: "top"
       theme: "cinema"
-      font: "normal"
+      font: "std"
 
     tie.do_change tie.input.menu, "menu,resize-normal"
     component.view c
     assert.deepEqual tie.params,
       pop:  true
       menu: "menu"
-      width: "normal"
+      width: "std"
       site: "top"
       theme: "cinema"
-      font: "normal"
+      font: "std"
 
     tie.do_change tie.input.menu, "menu,home"
     component.view c
     assert.deepEqual tie.params,
       pop:  true
       menu: "menu,home"
-      width: "normal"
+      width: "std"
       site: "top"
       theme: "cinema"
-      font: "normal"
+      font: "std"
 
     tie.do_change tie.input.menu, "menu,home"
     component.view c
     assert.deepEqual tie.params,
       pop:  false
       menu: "menu,home"
-      width: "normal"
+      width: "std"
       site: "top"
       theme: "cinema"
-      font: "normal"
+      font: "std"
