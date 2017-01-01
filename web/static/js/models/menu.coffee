@@ -1,41 +1,46 @@
 { Collection, Model, Query, Rule } = require "memory-record"
 { InputTie } = require "mithril-tie"
 Collection.store.merge
-  menu: { current: "menu" }
-  site: { current: "top"  }
-  mode: { current: "full" }
-  pop:  { current: false, type: "Bool" }
+  menu:  { current: "menu" }
+  site:  { current: "top"  }
+  width: { current: "full" }
+  pop:   { current: false, type: "Bool" }
+  theme: { current: "cinema" }
+  font:  { current: "normal" }
 
 new Rule("menu").schema ->
   @order "order"
   @tree()
 
   @scope (all)->
-    show: (menu, site, mode)->
-      all.find(menu).nodes(1).in({ site, mode }).where (o)-> ! o.disabled
-
-    icons: ({menu, site, mode}, options)->
-      { list } = all.show(menu, site, mode)
-      list.push @
+    all.icons = ({menu, site, width}, options)->
+      { list } = all.show menu, site, width
+      list.push all.find menu
       list.map ({_id})-> Model.menu.menu.item _id, options
+
+    show: (menu, site, width)->
+      all.find(menu).nodes(1).in({ site, width }).where (o)-> ! o.disabled
 
   class @model extends @model
     @set_tie: (@tie)->
+      { params } = @tie
       @tie.stay = (id, value)->
-        { tie } = Model.menu
-        tie.params.pop = ! tie.params.pop
-        console.log ["stay", id, value]
+        params.pop = ! params.pop
 
       @tie.change = (id, value, old)->
-        { tie } = Model.menu
+        { params } = Model.menu.tie
         if "menu" == id
-          tie.params.pop = true
+          params.pop = true
           menu = Query.menus.find(value)
-          menu.onselect?()
-        console.log ["change", id, value, old]
+          menu.onselect? params
       @tie.action = ->
         console.log ["action"]
 
+      @pop = @tie.bundle
+        _id: "pop"
+        attr:
+          type: "checkbox"
+        current: false
       @menu = @tie.bundle
         _id: "menu"
         attr:
@@ -49,22 +54,27 @@ new Rule("menu").schema ->
         attr:
           type: "hidden"
         current: "top"
-      @mode = @tie.bundle
-        _id: "mode"
+      @width = @tie.bundle
+        _id: "width"
         attr:
           type: "hidden"
         current: "full"
-      @pop = @tie.bundle
-        _id: "pop"
+      @theme = @tie.bundle
+        _id: "theme"
         attr:
-          type: "checkbox"
-        current: false
+          type: "btns"
+        current: "cinema"
+      @font = @tie.bundle
+        _id: "font"
+        attr:
+          type: "btns"
+        current: "normal"
 
     @map_reduce: (o, emit)->
     constructor: ->
       [menu_id..., @icon] = @_id.split(",")
       @menu_id = menu_id.join(",")
-      @mode ?= ["normal", "full"]
+      @width ?= ["normal", "full"]
       @site ?= ["top", "user", "book"]
 
 Collection.menu.set
@@ -93,22 +103,20 @@ Collection.menu.set
   "menu,resize-full":
     order: 10
     site: ["top", "user"]
-    mode: ["normal"]
+    width: ["normal"]
     label: "便利ツール。"
-    onselect: ->
-      { params } = Model.menu.tie
-      params.mode = "full"
+    onselect: (params)->
       params.menu = @menu._id
+      params.width = "full"
 
   "menu,resize-normal":
     order: 10
     site: ["top", "user"]
-    mode: ["full"]
+    width: ["full"]
     label: "便利ツール。"
-    onselect: ->
-      { params } = Model.menu.tie
-      params.mode = "normal"
+    onselect: (params)->
       params.menu = @menu._id
+      params.width = "normal"
 
   "menu,calc":
     order: 11

@@ -1,15 +1,23 @@
 _ = require "lodash"
 m = require "mithril"
 { Collection, Model, Query, Rule } = require "memory-record"
-{ InputTie, WebStore, deploy } = require "mithril-tie"
+{ InputTie, WebStore, Url, deploy } = require "mithril-tie"
 deploy
   window:
     scrollX: 0
     scrollY: 0
     devicePixelRatio: 2
 
+
+Url.define = (key)->
+    Query.stores.hash[key]
+
+Url.maps
+  search:
+    css: "css=:theme~:mode"
+
 WebStore.maps
-  session: ["menu", "site", "mode"]
+  session: ["menu", "site"]
 
 component =
   controller: ->
@@ -40,13 +48,6 @@ describe "Query.menus", ->
     params = ["menu,home", "book", "normal"]
     assert.deepEqual Query.menus.show(params...).pluck("icon"), ["comment"]
 
-  it "params structure.", ->
-    assert.deepEqual Query.stores.hash,
-      menu: { _id: "menu", type: "String", current: "menu" }
-      site: { _id: "site", type: "String", current: "top"  }
-      mode: { _id: "mode", type: "String", current: "full" }
-      pop:  { _id: "pop",  type: "Bool",   current: false  }
-
   it "shows menu buttons", ->
     component.view c
 
@@ -63,31 +64,39 @@ describe "Query.menus", ->
     { tie } = Model.menu
     component.view c
     assert.deepEqual tie.params,
-      menu: "menu"
-      mode: "full"
-      site: "top"
       pop:  false
+      menu: "menu"
+      width: "full"
+      site: "top"
+      theme: "cinema"
+      font: "normal"
 
     tie.do_change tie.input.menu, "menu,resize-normal"
     component.view c
     assert.deepEqual tie.params,
+      pop:  true
       menu: "menu"
-      mode: "normal"
+      width: "normal"
       site: "top"
-      pop:  true
+      theme: "cinema"
+      font: "normal"
 
     tie.do_change tie.input.menu, "menu,home"
     component.view c
     assert.deepEqual tie.params,
-      menu: "menu,home"
-      mode: "normal"
-      site: "top"
       pop:  true
+      menu: "menu,home"
+      width: "normal"
+      site: "top"
+      theme: "cinema"
+      font: "normal"
 
     tie.do_change tie.input.menu, "menu,home"
     component.view c
     assert.deepEqual tie.params,
-      menu: "menu,home"
-      mode: "normal"
-      site: "top"
       pop:  false
+      menu: "menu,home"
+      width: "normal"
+      site: "top"
+      theme: "cinema"
+      font: "normal"

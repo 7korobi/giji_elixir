@@ -83,7 +83,7 @@
 }).call(this);
 
 (function() {
-  var Collection, InputTie, Model, Query, Rule, WebStore, _, component, deploy, m, ref, ref1;
+  var Collection, InputTie, Model, Query, Rule, Url, WebStore, _, component, deploy, m, ref, ref1;
 
   _ = require("lodash");
 
@@ -91,7 +91,7 @@
 
   ref = require("memory-record"), Collection = ref.Collection, Model = ref.Model, Query = ref.Query, Rule = ref.Rule;
 
-  ref1 = require("mithril-tie"), InputTie = ref1.InputTie, WebStore = ref1.WebStore, deploy = ref1.deploy;
+  ref1 = require("mithril-tie"), InputTie = ref1.InputTie, WebStore = ref1.WebStore, Url = ref1.Url, deploy = ref1.deploy;
 
   deploy({
     window: {
@@ -101,8 +101,18 @@
     }
   });
 
+  Url.define = function(key) {
+    return Query.stores.hash[key];
+  };
+
+  Url.maps({
+    search: {
+      css: "css=:theme~:mode"
+    }
+  });
+
   WebStore.maps({
-    session: ["menu", "site", "mode"]
+    session: ["menu", "site"]
   });
 
   component = {
@@ -128,61 +138,17 @@
     var c;
     c = new component.controller();
     it("data structure.", function() {
-      var params;
-      params = {
-        menu: "menu",
-        site: "top",
-        mode: "normal"
-      };
-      assert.deepEqual(Query.menus.show(params).pluck("icon"), ["resize-full", "calc"]);
-      params = {
-        menu: "menu",
-        site: "top",
-        mode: "full"
-      };
-      assert.deepEqual(Query.menus.show(params).pluck("icon"), ["resize-normal", "calc"]);
-      params = {
-        menu: "menu",
-        site: "user",
-        mode: "normal"
-      };
-      assert.deepEqual(Query.menus.show(params).pluck("icon"), ["resize-full", "calc", "home"]);
-      params = {
-        menu: "menu",
-        site: "book",
-        mode: "normal"
-      };
-      assert.deepEqual(Query.menus.show(params).pluck("icon"), ["calc", "pin", "home", "chat-alt"]);
-      params = {
-        menu: "menu,home",
-        site: "book",
-        mode: "normal"
-      };
-      return assert.deepEqual(Query.menus.show(params).pluck("icon"), ["comment"]);
-    });
-    it("params structure.", function() {
-      return assert.deepEqual(Query.stores.hash, {
-        menu: {
-          _id: "menu",
-          type: "String",
-          current: "menu"
-        },
-        site: {
-          _id: "site",
-          type: "String",
-          current: "top"
-        },
-        mode: {
-          _id: "mode",
-          type: "String",
-          current: "full"
-        },
-        pop: {
-          _id: "pop",
-          type: "Bool",
-          current: false
-        }
-      });
+      var params, ref2, ref3, ref4, ref5, ref6;
+      params = ["menu", "top", "normal"];
+      assert.deepEqual((ref2 = Query.menus).show.apply(ref2, params).pluck("icon"), ["resize-full", "calc"]);
+      params = ["menu", "top", "full"];
+      assert.deepEqual((ref3 = Query.menus).show.apply(ref3, params).pluck("icon"), ["resize-normal", "calc"]);
+      params = ["menu", "user", "normal"];
+      assert.deepEqual((ref4 = Query.menus).show.apply(ref4, params).pluck("icon"), ["resize-full", "calc", "home"]);
+      params = ["menu", "book", "normal"];
+      assert.deepEqual((ref5 = Query.menus).show.apply(ref5, params).pluck("icon"), ["calc", "pin", "home", "chat-alt"]);
+      params = ["menu,home", "book", "normal"];
+      return assert.deepEqual((ref6 = Query.menus).show.apply(ref6, params).pluck("icon"), ["comment"]);
     });
     it("shows menu buttons", function() {
       var tie;
@@ -204,34 +170,42 @@
       tie = Model.menu.tie;
       component.view(c);
       assert.deepEqual(tie.params, {
+        pop: false,
         menu: "menu",
-        mode: "full",
+        width: "full",
         site: "top",
-        pop: false
+        theme: "cinema",
+        font: "normal"
       });
       tie.do_change(tie.input.menu, "menu,resize-normal");
       component.view(c);
       assert.deepEqual(tie.params, {
+        pop: true,
         menu: "menu",
-        mode: "normal",
+        width: "normal",
         site: "top",
-        pop: true
+        theme: "cinema",
+        font: "normal"
       });
       tie.do_change(tie.input.menu, "menu,home");
       component.view(c);
       assert.deepEqual(tie.params, {
+        pop: true,
         menu: "menu,home",
-        mode: "normal",
+        width: "normal",
         site: "top",
-        pop: true
+        theme: "cinema",
+        font: "normal"
       });
       tie.do_change(tie.input.menu, "menu,home");
       component.view(c);
       return assert.deepEqual(tie.params, {
+        pop: false,
         menu: "menu,home",
-        mode: "normal",
+        width: "normal",
         site: "top",
-        pop: false
+        theme: "cinema",
+        font: "normal"
       });
     });
   });
