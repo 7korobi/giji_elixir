@@ -11,11 +11,11 @@ new Rule("menu").schema ->
   @tree()
 
   @scope (all)->
-    show: ({menu, site, mode})->
+    show: (menu, site, mode)->
       all.find(menu).nodes(1).in({ site, mode }).where (o)-> ! o.disabled
 
-    icons: (params, options)->
-      { list } = all.show(params)
+    icons: ({menu, site, mode}, options)->
+      { list } = all.show(menu, site, mode)
       list.push @
       list.map ({_id})-> Model.menu.menu.item _id, options
 

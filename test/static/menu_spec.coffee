@@ -29,31 +29,16 @@ target "models/menu.coffee"
 describe "Query.menus", ->
   c = new component.controller()
   it "data structure.", ->
-    params =
-      menu: "menu"
-      site: "top"
-      mode: "normal"
-    assert.deepEqual Query.menus.show(params).pluck("icon"), ["resize-full", "calc"]
-    params =
-      menu: "menu"
-      site: "top"
-      mode: "full"
-    assert.deepEqual Query.menus.show(params).pluck("icon"), ["resize-normal", "calc"]
-    params =
-      menu: "menu"
-      site: "user"
-      mode: "normal"
-    assert.deepEqual Query.menus.show(params).pluck("icon"), ["resize-full", "calc", "home"]
-    params =
-      menu: "menu"
-      site: "book"
-      mode: "normal"
-    assert.deepEqual Query.menus.show(params).pluck("icon"), ["calc", "pin","home","chat-alt"]
-    params =
-      menu: "menu,home"
-      site: "book"
-      mode: "normal"
-    assert.deepEqual Query.menus.show(params).pluck("icon"), ["comment"]
+    params = ["menu", "top", "normal"]
+    assert.deepEqual Query.menus.show(params...).pluck("icon"), ["resize-full", "calc"]
+    params = ["menu", "top", "full"]
+    assert.deepEqual Query.menus.show(params...).pluck("icon"), ["resize-normal", "calc"]
+    params = ["menu", "user", "normal"]
+    assert.deepEqual Query.menus.show(params...).pluck("icon"), ["resize-full", "calc", "home"]
+    params = ["menu", "book", "normal"]
+    assert.deepEqual Query.menus.show(params...).pluck("icon"), ["calc", "pin","home","chat-alt"]
+    params = ["menu,home", "book", "normal"]
+    assert.deepEqual Query.menus.show(params...).pluck("icon"), ["comment"]
 
   it "params structure.", ->
     assert.deepEqual Query.stores.hash,
