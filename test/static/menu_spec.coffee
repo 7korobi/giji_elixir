@@ -8,65 +8,15 @@ deploy
     scrollY: 0
     devicePixelRatio: 2
 
-
-_pick = (attrs, last)->
-  _.assignIn {}, attrs..., last
-
-c_icon  = (bool, new_val)-> if bool then null else new_val
-
-class btn_input extends InputTie.type.hidden
-  _attr: ( attrs..., last )->
-    { _id, tie } = b = @
-    { className, disabled, selected, value, target } = last
-    onchange = ->
-      return if b.timer
-      b._debounce()
-      .catch ->
-        b.timer = null
-      value = b._value selected, value, target
-      tie.do_change b, value, ma
-      tie.do_fail   b, value, ma unless b.dom.validity.valid
-
-    css = "btn"
-    css += " edge" unless disabled || tie.disabled
-    css += " active" if selected
-    css += " " + className if className
-
-    ma = _pick attrs,
-      config: @__config
-      className: css
-      onclick: onchange
-      onmouseup: onchange
-      ontouchend: onchange
-
-  do_change: (value)->
-    { pattern, required } = @attr
-
-    if @dom
-      if required && ! value
-        error = "このフィールドを入力してください。"
-
-      if pattern && value.match new Regexp pattern
-        error = "指定されている形式で入力してください。"
-
-      @error error
-    super
-
-  head: (m_attr = {})->
-    { name } = @format
-
-    ma = @_attr_label m_attr
-    m "h6", ma, name
-
-class InputTie.type.icon extends btn_input
-  _value: c_icon
+class InputTie.type.icon extends InputTie.type.icon
   option_default:
     className: ""
     label: ""
     "data-tooltip":　"選択しない"
 
-  field: (m_attr = {})->
-    throw "not implement"
+  option: (value)->
+    hash = @options.hash ? @options ? {}
+    hash[value] ? @option_default
 
   with: (value, mode)->
     bool = @__value == value
@@ -105,6 +55,46 @@ class InputTie.type.icon extends btn_input
   tags = { menuicon, bigicon }
 
 
+state = {}
+component =
+  controller: ->
+    @params = {}
+    @tie = InputTie.form @params, []
+    @tie.stay = (id, value)->
+      state.stay = value
+    @tie.change = (id, value, old)->
+      state.change = value
+    @tie.action = ->
+      state.action = true
+    @tie.draws ->
+
+    @bundles = [
+      @tie.bundle
+        _id: "icon"
+        attr:
+          type: "icon"
+        name: "アイコン"
+        current: null
+        options: Query.menus.hash
+        option_default:
+          label: "icon default"
+    ]
+    return
+
+  view: ({tie})->
+    icons = Query.menus.show "menu,home", "book", "normal"
+    tie.draw()
+
+    m ".menus",
+      for {_id} in icons.list
+        tie.input.icon.item _id, tag: "menuicon"
+      tie.input.icon.item "menu,home", tag: "menuicon"
+
+      for {_id} in icons.list
+        tie.input.icon.item _id, tag: "bigicon"
+      tie.input.icon.item "menu,home", tag: "bigicon"
+
+
 target "models/menu.coffee"
 
 describe "Query.menus", ->
@@ -116,35 +106,6 @@ describe "Query.menus", ->
     assert.deepEqual Query.menus.show("menu,home", "book", "normal").pluck("icon"), ["comment"]
 
   it "shows menu buttons", ->
-    state = {}
-    component =
-      controller: ->
-        @params = {}
-        @tie = InputTie.form @params, []
-        @tie.stay = (id, value)->
-          state.stay = value
-        @tie.change = (id, value, old)->
-          state.change = value
-        @tie.action = ->
-          state.action = true
-        @tie.draws ->
-
-        @bundles = [
-          @tie.bundle
-            _id: "icon"
-            attr:
-              type: "icon"
-            name: "アイコン"
-            current: null
-            options: Query.menus.hash
-            option_default:
-              label: "icon default"
-        ]
-        return
-
-      view: ({tie})->
-        tie.draw()
-
     { tie } = c = new component.controller()
     component.view c
 
@@ -153,6 +114,6 @@ describe "Query.menus", ->
 
     assert.deepEqual tie.input.icon.item("menu").children[1].children, [0]
 
-    assert tie.input.icon.item("menu,cog"                ).tag == "a"
-    assert tie.input.icon.item("menu,cog", tag:"menuicon").tag == "a"
-    assert tie.input.icon.item("menu,cog", tag:"bigicon" ).tag == "section"
+    assert tie.input.icon.item("menu"                ).tag == "a"
+    assert tie.input.icon.item("menu", tag:"menuicon").tag == "a"
+    assert tie.input.icon.item("menu", tag:"bigicon" ).tag == "section"

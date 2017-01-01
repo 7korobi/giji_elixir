@@ -73,8 +73,7 @@
 }).call(this);
 
 (function() {
-  var Collection, InputTie, Model, Query, Rule, _, _pick, btn_input, c_icon, deploy, m, ref, ref1,
-    slice = [].slice,
+  var Collection, InputTie, Model, Query, Rule, _, component, deploy, m, ref, ref1, state,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
@@ -94,91 +93,6 @@
     }
   });
 
-  _pick = function(attrs, last) {
-    return _.assignIn.apply(_, [{}].concat(slice.call(attrs), [last]));
-  };
-
-  c_icon = function(bool, new_val) {
-    if (bool) {
-      return null;
-    } else {
-      return new_val;
-    }
-  };
-
-  btn_input = (function(superClass) {
-    extend(btn_input, superClass);
-
-    function btn_input() {
-      return btn_input.__super__.constructor.apply(this, arguments);
-    }
-
-    btn_input.prototype._attr = function() {
-      var _id, attrs, b, className, css, disabled, i, last, ma, onchange, ref2, selected, target, tie, value;
-      attrs = 2 <= arguments.length ? slice.call(arguments, 0, i = arguments.length - 1) : (i = 0, []), last = arguments[i++];
-      ref2 = b = this, _id = ref2._id, tie = ref2.tie;
-      className = last.className, disabled = last.disabled, selected = last.selected, value = last.value, target = last.target;
-      onchange = function() {
-        if (b.timer) {
-          return;
-        }
-        b._debounce()["catch"](function() {
-          return b.timer = null;
-        });
-        value = b._value(selected, value, target);
-        tie.do_change(b, value, ma);
-        if (!b.dom.validity.valid) {
-          return tie.do_fail(b, value, ma);
-        }
-      };
-      css = "btn";
-      if (!(disabled || tie.disabled)) {
-        css += " edge";
-      }
-      if (selected) {
-        css += " active";
-      }
-      if (className) {
-        css += " " + className;
-      }
-      return ma = _pick(attrs, {
-        config: this.__config,
-        className: css,
-        onclick: onchange,
-        onmouseup: onchange,
-        ontouchend: onchange
-      });
-    };
-
-    btn_input.prototype.do_change = function(value) {
-      var error, pattern, ref2, required;
-      ref2 = this.attr, pattern = ref2.pattern, required = ref2.required;
-      if (this.dom) {
-        if (required && !value) {
-          error = "このフィールドを入力してください。";
-        }
-        if (pattern && value.match(new Regexp(pattern))) {
-          error = "指定されている形式で入力してください。";
-        }
-        this.error(error);
-      }
-      return btn_input.__super__.do_change.apply(this, arguments);
-    };
-
-    btn_input.prototype.head = function(m_attr) {
-      var ma, name;
-      if (m_attr == null) {
-        m_attr = {};
-      }
-      name = this.format.name;
-      ma = this._attr_label(m_attr);
-      return m("h6", ma, name);
-    };
-
-    return btn_input;
-
-  })(InputTie.type.hidden);
-
   InputTie.type.icon = (function(superClass) {
     var bigicon, menuicon, tags;
 
@@ -188,19 +102,16 @@
       return icon.__super__.constructor.apply(this, arguments);
     }
 
-    icon.prototype._value = c_icon;
-
     icon.prototype.option_default = {
       className: "",
       label: "",
       "data-tooltip": "選択しない"
     };
 
-    icon.prototype.field = function(m_attr) {
-      if (m_attr == null) {
-        m_attr = {};
-      }
-      throw "not implement";
+    icon.prototype.option = function(value) {
+      var hash, ref2, ref3, ref4;
+      hash = (ref2 = (ref3 = this.options.hash) != null ? ref3 : this.options) != null ? ref2 : {};
+      return (ref4 = hash[value]) != null ? ref4 : this.option_default;
     };
 
     icon.prototype["with"] = function(value, mode) {
@@ -251,7 +162,73 @@
 
     return icon;
 
-  })(btn_input);
+  })(InputTie.type.icon);
+
+  state = {};
+
+  component = {
+    controller: function() {
+      this.params = {};
+      this.tie = InputTie.form(this.params, []);
+      this.tie.stay = function(id, value) {
+        return state.stay = value;
+      };
+      this.tie.change = function(id, value, old) {
+        return state.change = value;
+      };
+      this.tie.action = function() {
+        return state.action = true;
+      };
+      this.tie.draws(function() {});
+      this.bundles = [
+        this.tie.bundle({
+          _id: "icon",
+          attr: {
+            type: "icon"
+          },
+          name: "アイコン",
+          current: null,
+          options: Query.menus.hash,
+          option_default: {
+            label: "icon default"
+          }
+        })
+      ];
+    },
+    view: function(arg) {
+      var _id, icons, tie;
+      tie = arg.tie;
+      icons = Query.menus.show("menu,home", "book", "normal");
+      tie.draw();
+      return m(".menus", (function() {
+        var i, len, ref2, results;
+        ref2 = icons.list;
+        results = [];
+        for (i = 0, len = ref2.length; i < len; i++) {
+          _id = ref2[i]._id;
+          results.push(tie.input.icon.item(_id, {
+            tag: "menuicon"
+          }));
+        }
+        return results;
+      })(), tie.input.icon.item("menu,home", {
+        tag: "menuicon"
+      }), (function() {
+        var i, len, ref2, results;
+        ref2 = icons.list;
+        results = [];
+        for (i = 0, len = ref2.length; i < len; i++) {
+          _id = ref2[i]._id;
+          results.push(tie.input.icon.item(_id, {
+            tag: "bigicon"
+          }));
+        }
+        return results;
+      })(), tie.input.icon.item("menu,home", {
+        tag: "bigicon"
+      }));
+    }
+  };
 
   target("models/menu.coffee");
 
@@ -264,53 +241,17 @@
       return assert.deepEqual(Query.menus.show("menu,home", "book", "normal").pluck("icon"), ["comment"]);
     });
     return it("shows menu buttons", function() {
-      var c, component, state, tie;
-      state = {};
-      component = {
-        controller: function() {
-          this.params = {};
-          this.tie = InputTie.form(this.params, []);
-          this.tie.stay = function(id, value) {
-            return state.stay = value;
-          };
-          this.tie.change = function(id, value, old) {
-            return state.change = value;
-          };
-          this.tie.action = function() {
-            return state.action = true;
-          };
-          this.tie.draws(function() {});
-          this.bundles = [
-            this.tie.bundle({
-              _id: "icon",
-              attr: {
-                type: "icon"
-              },
-              name: "アイコン",
-              current: null,
-              options: Query.menus.hash,
-              option_default: {
-                label: "icon default"
-              }
-            })
-          ];
-        },
-        view: function(arg) {
-          var tie;
-          tie = arg.tie;
-          return tie.draw();
-        }
-      };
+      var c, tie;
       tie = (c = new component.controller()).tie;
       component.view(c);
       assert.deepEqual(tie.input.icon.option("menu,calc,cog"), Query.menus.find("menu,calc,cog"));
       assert.deepEqual(tie.input.icon.option("menu,home"), Query.menus.find("menu,home"));
       assert.deepEqual(tie.input.icon.item("menu").children[1].children, [0]);
-      assert(tie.input.icon.item("menu,cog").tag === "a");
-      assert(tie.input.icon.item("menu,cog", {
+      assert(tie.input.icon.item("menu").tag === "a");
+      assert(tie.input.icon.item("menu", {
         tag: "menuicon"
       }).tag === "a");
-      return assert(tie.input.icon.item("menu,cog", {
+      return assert(tie.input.icon.item("menu", {
         tag: "bigicon"
       }).tag === "section");
     });
