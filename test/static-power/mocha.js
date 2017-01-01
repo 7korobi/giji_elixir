@@ -139,15 +139,15 @@
     c = new component.controller();
     it("data structure.", function() {
       var params, ref2, ref3, ref4, ref5, ref6;
-      params = ["menu", "top", "normal"];
+      params = ["menu", "top", "std"];
       assert.deepEqual((ref2 = Query.menus).show.apply(ref2, params).pluck("icon"), ["resize-full", "calc"]);
       params = ["menu", "top", "full"];
       assert.deepEqual((ref3 = Query.menus).show.apply(ref3, params).pluck("icon"), ["resize-normal", "calc"]);
-      params = ["menu", "user", "normal"];
+      params = ["menu", "user", "std"];
       assert.deepEqual((ref4 = Query.menus).show.apply(ref4, params).pluck("icon"), ["resize-full", "calc", "home"]);
-      params = ["menu", "book", "normal"];
+      params = ["menu", "book", "std"];
       assert.deepEqual((ref5 = Query.menus).show.apply(ref5, params).pluck("icon"), ["calc", "pin", "home", "chat-alt"]);
-      params = ["menu,home", "book", "normal"];
+      params = ["menu,home", "book", "std"];
       return assert.deepEqual((ref6 = Query.menus).show.apply(ref6, params).pluck("icon"), ["comment"]);
     });
     it("shows menu buttons", function() {

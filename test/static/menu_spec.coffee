@@ -37,15 +37,15 @@ target "models/menu.coffee"
 describe "Query.menus", ->
   c = new component.controller()
   it "data structure.", ->
-    params = ["menu", "top", "normal"]
+    params = ["menu", "top", "std"]
     assert.deepEqual Query.menus.show(params...).pluck("icon"), ["resize-full", "calc"]
     params = ["menu", "top", "full"]
     assert.deepEqual Query.menus.show(params...).pluck("icon"), ["resize-normal", "calc"]
-    params = ["menu", "user", "normal"]
+    params = ["menu", "user", "std"]
     assert.deepEqual Query.menus.show(params...).pluck("icon"), ["resize-full", "calc", "home"]
-    params = ["menu", "book", "normal"]
+    params = ["menu", "book", "std"]
     assert.deepEqual Query.menus.show(params...).pluck("icon"), ["calc", "pin","home","chat-alt"]
-    params = ["menu,home", "book", "normal"]
+    params = ["menu,home", "book", "std"]
     assert.deepEqual Query.menus.show(params...).pluck("icon"), ["comment"]
 
   it "shows menu buttons", ->

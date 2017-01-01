@@ -8,6 +8,12 @@ Collection.store.merge
   theme: { current: "cinema" }
   font:  { current: "std" }
 
+new Rule("site").schema ->
+  @order "rowid"
+  class @model extends @model
+    @create: (o)->
+      o.rowid = @rowid
+    constructor: ->
 
 new Rule("width").schema ->
   @order "rowid"
@@ -81,11 +87,13 @@ new Rule("menu").schema ->
         attr:
           type: "hidden"
         current: "top"
+        options: Query.sites.hash
       @width = @tie.bundle
         _id: "width"
         attr:
           type: "hidden"
         current: "full"
+        options: Query.widths.hash
       @theme = @tie.bundle
         _id: "theme"
         attr:
@@ -97,6 +105,7 @@ new Rule("menu").schema ->
         attr:
           type: "btns"
         current: "std"
+        options: Query.fonts.hash
 
     @create: (o)->
       o.rowid = @rowid
@@ -104,9 +113,13 @@ new Rule("menu").schema ->
     constructor: ->
       [menu_id..., @icon] = @_id.split(",")
       @menu_id = menu_id.join(",")
-      @width ?= ["normal", "full"]
-      @site ?= ["top", "user", "book"]
+      @width ?= Query.widths.ids
+      @site ?= Query.sites.ids
 
+Collection.site.set
+  top:  {}
+  user: {}
+  book: {}
 Collection.font.set
   large:
     label: "大判"
@@ -163,16 +176,16 @@ Collection.menu.set
 
   "menu,resize-full":
     site: ["top", "user"]
-    width: ["normal"]
-    label: "便利ツール。"
+    width: ["wide", "std"]
+    label: "詳細表示。"
     onselect: (params)->
       params.menu = @menu._id
       params.width = "full"
 
   "menu,resize-normal":
     site: ["top", "user"]
-    width: ["full"]
-    label: "便利ツール。"
+    width: ["full", "wide"]
+    label: "概要表示。"
     onselect: (params)->
       params.menu = @menu._id
       params.width = "std"
