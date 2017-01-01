@@ -1,26 +1,16 @@
 _ = require "lodash"
 m = require "mithril"
 { Collection, Model, Query, Rule } = require "memory-record"
-{ InputTie, WebStore, Url, deploy } = require "mithril-tie"
+{ InputTie, Tie, deploy } = require "mithril-tie"
 deploy
   window:
     scrollX: 0
     scrollY: 0
     devicePixelRatio: 2
 
-Url.define = (key)->
-    Query.stores.hash[key]
-
-Url.maps
-  search:
-    css: "css=:theme~:width"
-
-WebStore.maps
-  session: ["menu", "site", "font"]
-
 component =
   controller: ->
-    Model.menu.set_tie tie = InputTie.form WebStore.params, []
+    Model.menu.set_tie tie = InputTie.form Tie.params, []
     return
 
   view: ->
@@ -31,6 +21,7 @@ component =
       Query.menus.icons tie.params, tag: "menuicon"
       Query.menus.icons tie.params, tag: "bigicon"
 
+target "models/global.coffee"
 target "models/menu.coffee"
 
 describe "Query.menus", ->

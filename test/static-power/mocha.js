@@ -83,7 +83,7 @@
 }).call(this);
 
 (function() {
-  var Collection, InputTie, Model, Query, Rule, Url, WebStore, _, component, deploy, m, ref, ref1;
+  var Collection, InputTie, Model, Query, Rule, Tie, _, component, deploy, m, ref, ref1;
 
   _ = require("lodash");
 
@@ -91,7 +91,7 @@
 
   ref = require("memory-record"), Collection = ref.Collection, Model = ref.Model, Query = ref.Query, Rule = ref.Rule;
 
-  ref1 = require("mithril-tie"), InputTie = ref1.InputTie, WebStore = ref1.WebStore, Url = ref1.Url, deploy = ref1.deploy;
+  ref1 = require("mithril-tie"), InputTie = ref1.InputTie, Tie = ref1.Tie, deploy = ref1.deploy;
 
   deploy({
     window: {
@@ -101,24 +101,10 @@
     }
   });
 
-  Url.define = function(key) {
-    return Query.stores.hash[key];
-  };
-
-  Url.maps({
-    search: {
-      css: "css=:theme~:width"
-    }
-  });
-
-  WebStore.maps({
-    session: ["menu", "site", "font"]
-  });
-
   component = {
     controller: function() {
       var tie;
-      Model.menu.set_tie(tie = InputTie.form(WebStore.params, []));
+      Model.menu.set_tie(tie = InputTie.form(Tie.params, []));
     },
     view: function() {
       var tie;
@@ -131,6 +117,8 @@
       }));
     }
   };
+
+  target("models/global.coffee");
 
   target("models/menu.coffee");
 

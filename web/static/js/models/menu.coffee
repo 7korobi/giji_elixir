@@ -1,12 +1,4 @@
 { Collection, Model, Query, Rule } = require "memory-record"
-{ InputTie } = require "mithril-tie"
-Collection.store.merge
-  menu:  { current: "menu" }
-  site:  { current: "top"  }
-  width: { current: "full" }
-  pop:   { current: false, type: "Bool" }
-  theme: { current: "cinema" }
-  font:  { current: "std" }
 
 new Rule("site").schema ->
   @order "rowid"
