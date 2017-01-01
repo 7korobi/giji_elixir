@@ -60,6 +60,7 @@ describe "Query.menus", ->
       menu: { _id: "menu", type: "String", current: "menu" }
       site: { _id: "site", type: "String", current: "top"  }
       mode: { _id: "mode", type: "String", current: "full" }
+      pop:  { _id: "pop",  type: "Bool",   current: false  }
 
   it "shows menu buttons", ->
     component.view c
@@ -80,20 +81,28 @@ describe "Query.menus", ->
       menu: "menu"
       mode: "full"
       site: "top"
+      pop:  false
 
     tie.do_change tie.input.menu, "menu,resize-normal"
     component.view c
-
     assert.deepEqual tie.params,
       menu: "menu"
       mode: "normal"
       site: "top"
+      pop:  true
 
     tie.do_change tie.input.menu, "menu,home"
     component.view c
-
     assert.deepEqual tie.params,
       menu: "menu,home"
       mode: "normal"
       site: "top"
+      pop:  true
 
+    tie.do_change tie.input.menu, "menu,home"
+    component.view c
+    assert.deepEqual tie.params,
+      menu: "menu,home"
+      mode: "normal"
+      site: "top"
+      pop:  false

@@ -4,6 +4,7 @@ Collection.store.merge
   menu: { current: "menu" }
   site: { current: "top"  }
   mode: { current: "full" }
+  pop:  { current: false, type: "Bool" }
 
 new Rule("menu").schema ->
   @order "order"
@@ -21,9 +22,14 @@ new Rule("menu").schema ->
   class @model extends @model
     @set_tie: (@tie)->
       @tie.stay = (id, value)->
+        { tie } = Model.menu
+        tie.params.pop = ! tie.params.pop
         console.log ["stay", id, value]
+
       @tie.change = (id, value, old)->
+        { tie } = Model.menu
         if "menu" == id
+          tie.params.pop = true
           menu = Query.menus.find(value)
           menu.onselect?()
         console.log ["change", id, value, old]
@@ -48,6 +54,11 @@ new Rule("menu").schema ->
         attr:
           type: "hidden"
         current: "full"
+      @pop = @tie.bundle
+        _id: "pop"
+        attr:
+          type: "checkbox"
+        current: false
 
     @map_reduce: (o, emit)->
     constructor: ->
@@ -85,9 +96,9 @@ Collection.menu.set
     mode: ["normal"]
     label: "便利ツール。"
     onselect: ->
-      { tie } = Model.menu
-      tie.params.mode = "full"
-      tie.do_change tie.input.menu, @menu._id
+      { params } = Model.menu.tie
+      params.mode = "full"
+      params.menu = @menu._id
 
   "menu,resize-normal":
     order: 10
@@ -95,9 +106,9 @@ Collection.menu.set
     mode: ["full"]
     label: "便利ツール。"
     onselect: ->
-      { tie } = Model.menu
-      tie.params.mode = "normal"
-      tie.do_change tie.input.menu, @menu._id
+      { params } = Model.menu.tie
+      params.mode = "normal"
+      params.menu = @menu._id
 
   "menu,calc":
     order: 11
@@ -114,13 +125,17 @@ Collection.menu.set
     order: 12
     site: ["book"]
     label: "ピン止めを表示します。"
-    badge: -> 0
+    badge: ->
+      # doc.messages.pins(Url.prop).list.length - Mem.Query.events.list.length
+      0
 
   "menu,home":
     order: 13
     site: ["user", "book"]
     label: "村の設定、ルール、メモを表示します。"
-    badge: -> 0
+    badge: ->
+      # Mem.Query.messages.home("announce").list.length - Mem.Query.events.list.length
+      0
 
   "menu,mail":
     disabled: true
@@ -133,7 +148,13 @@ Collection.menu.set
     order: 15
     site: ["book"]
     label: "発言を表示します。"
-    badge: -> 0
+    badge: ->
+      prop = _.merge {}, Url.prop,
+        talk: -> "all"
+        open: -> true
+        search: -> ""
+      # doc.messages.talk(prop).list.length - Mem.Query.events.list.length
+      0
 
   "menu,pin,comment":
     order: 100
@@ -154,3 +175,4 @@ Collection.menu.set
     order: 100
     site: ["book"]
     label: "公開発言します。"
+

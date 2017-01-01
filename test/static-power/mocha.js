@@ -176,6 +176,11 @@
           _id: "mode",
           type: "String",
           current: "full"
+        },
+        pop: {
+          _id: "pop",
+          type: "Bool",
+          current: false
         }
       });
     });
@@ -201,21 +206,32 @@
       assert.deepEqual(tie.params, {
         menu: "menu",
         mode: "full",
-        site: "top"
+        site: "top",
+        pop: false
       });
       tie.do_change(tie.input.menu, "menu,resize-normal");
       component.view(c);
       assert.deepEqual(tie.params, {
         menu: "menu",
         mode: "normal",
-        site: "top"
+        site: "top",
+        pop: true
+      });
+      tie.do_change(tie.input.menu, "menu,home");
+      component.view(c);
+      assert.deepEqual(tie.params, {
+        menu: "menu,home",
+        mode: "normal",
+        site: "top",
+        pop: true
       });
       tie.do_change(tie.input.menu, "menu,home");
       component.view(c);
       return assert.deepEqual(tie.params, {
         menu: "menu,home",
         mode: "normal",
-        site: "top"
+        site: "top",
+        pop: false
       });
     });
   });
