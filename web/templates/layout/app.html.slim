@@ -20,14 +20,24 @@ html.cinema-theme.std-width.right-layout.std-font
           h2  Welcome #{@current.user.name} !
           .SSAY.action
             img.img-circle src="#{ @current.user.avatar }"
-            = link "Sign Out", to: auth_path(@conn, :delete), class: "fa fa-2x fa-border"
+            = link "Sign Out", to: auth_path(@conn, :delete), class: "fa fa-2x"
         - else
           .SSAY.action
-            = link "", to: auth_path(@conn, :request, "github"),   class: "fa fa-2x fa-border fa-github"
-            = link "", to: auth_path(@conn, :request, "twitter"),  class: "fa fa-2x fa-border fa-twitter"
-            = link "", to: auth_path(@conn, :request, "facebook"), class: "fa fa-2x fa-border fa-facebook"
-            = link "", to: auth_path(@conn, :request, "google"),   class: "fa fa-2x fa-border fa-google"
-            = link "", to: auth_path(@conn, :request, "slack"),    class: "fa fa-2x fa-border fa-slack"
+            a.fa-stack href="#{auth_path(@conn, :request, "github")}"
+              i.fa.fa-stack-2x.fa-square.fa-inverse
+              i.fa.fa-stack-1x.fa-github
+            a.fa-stack href="#{auth_path(@conn, :request, "twitter")}"
+              i.fa.fa-stack-2x.fa-square.fa-inverse
+              i.fa.fa-stack-1x.fa-twitter
+            a.fa-stack href="#{auth_path(@conn, :request, "facebook")}"
+              i.fa.fa-stack-2x.fa-square.fa-inverse
+              i.fa.fa-stack-1x.fa-facebook
+            a.fa-stack href="#{auth_path(@conn, :request, "google")}"
+              i.fa.fa-stack-2x.fa-square.fa-inverse
+              i.fa.fa-stack-1x.fa-google
+            a.fa-stack href="#{auth_path(@conn, :request, "slack")}"
+              i.fa.fa-stack-2x.fa-square.fa-inverse
+              i.fa.fa-stack-1x.fa-slack
 
         main role="main"
           = render @view_module, @view_template, assigns
