@@ -16,16 +16,25 @@ module.exports = {
     "js/base":   "js/base.js",
     "js/app":    "js/app.js",
     "js/chr":    "js/chr.js",
-    "js/socket": "js/socket.js"
+    "js/socket": "js/socket.js",
+    "js/sow":    "js/sow.js"
   },
 
   module: {
     loaders: [
-      { test:    /\.pug$/, loader: "pug", query: {pretty: true } },
-      { test:     /\.js$/, loader: "babel", exclude: /node_modules/ },
-      { test:    /\.yml$/, loader: 'json!yaml' },
-      { test: /\.coffee$/, loader: "coffee" }
+      { test:      /\.pug$/, loader: "pug", query: {pretty: true } },
+      { test: /\.s[a|c]ss$/, loader: "style!css!sass" },
+      { test:      /\.vue$/, loader: 'vue' },
+      { test:       /\.js$/, loader: "babel", exclude: /node_modules/ },
+      { test:      /\.yml$/, loader: 'json!yaml' },
+      { test:   /\.coffee$/, loader: "coffee" }
     ]
+  },
+
+  vue: {
+    loaders: {
+      scss: 'style!css!sass'
+    }
   },
 
   plugins: [

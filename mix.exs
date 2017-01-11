@@ -45,14 +45,15 @@ defmodule Giji.Mixfile do
      {:gettext, "~> 0.12"},
      {:mariaex, "~> 0.7.7"},
      {:cowboy, "~> 1.0"},
-     {:ueberauth, "~> 0.2"},
      {:oauth, github: "tim/erlang-oauth"},
+     {:ueberauth, "~> 0.2"},
      {:ueberauth_google,   "~> 0.2"},
      {:ueberauth_github,   "~> 0.2"},
      {:ueberauth_identity, "~> 0.2"},
      {:ueberauth_slack,    "~> 0.2"},
      {:ueberauth_twitter,  "~> 0.2"},
      {:ueberauth_facebook, "~> 0.4"},
+     {:exq, "~> 0.8.1"},
 
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:dogma, ">= 0.0.0", only: [:dev, :test]}
