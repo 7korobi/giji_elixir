@@ -51,77 +51,25 @@ h2 {
         th.choice 夢の形
         th.choice 陰謀
         th.choice ＲＰ
-    tbody(v-if=" mode === 'progress' ")
+    tbody
       tr.enum
         td
-          a(:href="url('LOBBY')") lobby
-          br
-          | offparty
-          br
+          sow(folder="LOBBY")
+          sow(folder="OFFPARTY")
         td
-          | {{ vils('MORPHE') }}
-          a(:href="url('MORPHE')") morphe
-          br
-          | {{ vils('CABALA') }}
-          a(:href="url('CABALA')") cafe
-          br
+          sow(folder="MORPHE")
+          sow(folder="CABALA") cafe
         td
-          | wolf
-          br
-          | ultimate
-          br
-          | allstar
-          br
+          sow(folder="WOLF")
+          sow(folder="ULTIMATE")
+          sow(folder="ALLSTAR")
         td
-          | role-play
-          br
-          | RP-advance
-          br
-          | {{ vils('PERJURY') }}
-          a(:href="url('PERJURY')") perjury
-          br
-          | {{ vils('XEBEC') }}
-          a(:href="url('XEBEC')") xebec
-          br
-          | {{ vils('CRAZY') }}
-          a(:href="url('CRAZY')") crazy
-          br
-          | {{ vils('CIEL') }}
-          a(:href="url('CIEL')") ciel
-          br
-
-    tbody(v-if=" mode === 'finish' ")
-      tr.enum
-        td
-          a(:href="url('LOBBY')") lobby
-          br
-          a(:href="url('OFFPARTY')") offparty
-          br
-        td
-          a(:href="url('MORPHE')") morphe
-          br
-          a(:href="url('CABALA')") cafe
-          br
-        td
-          a(:href="url('WOLF')") wolf
-          br
-          a(:href="url('ULTIMATE')") ultimate
-          br
-          a(:href="url('ALLSTAR')") allstar
-          br
-        td
-          a(:href="url('RP')") role-play
-          br
-          a(:href="url('PRETENSE')") RP-advance
-          br
-          a(:href="url('PERJURY')") perjury
-          br
-          a(:href="url('XEBEC')") xebec
-          br
-          a(:href="url('CRAZY')") crazy
-          br
-          a(:href="url('CIEL')") ciel
-          br
+          sow(folder="RP") role-play
+          sow(folder="PRETENSE") RP-advance
+          sow(folder="PERJURY")
+          sow(folder="XEBEC")
+          sow(folder="CRAZY")
+          sow(folder="CIEL")
 
   h2
     | 人狼議事 xebec

@@ -9,8 +9,7 @@ describe "top.vue", ->
       width: 800
 
     assert.deepEqual vm.banner,
-      file: "title580r.jpg"
-      width:  580
+      width:  770
       height: 161
 
   it "computed", ->

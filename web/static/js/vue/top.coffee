@@ -13,29 +13,47 @@ module.exports =
       theme: "cinema"
       width: 800
     banner:
-      file: "title580r.jpg"
-      width:  580
-      height: 161
+      width:  770 # 458  580  770
+      height: 161 # 112  161  161
 
     mode: "progress"
 
   computed:
     style_url:  -> file "/stylesheets/#{ @style.theme }#{ @style.width }.css"
-    banner_url: -> file "/images/banner/#{ @banner.file }"
+    banner_url: -> file "/images/banner/title#{ @banner.width }lupino.png"
 
   methods:
     vils: (id)->
-      max_vils = Query.folders.hash[id].config.cfg.MAX_VILLAGES
-      "#{max_vils}村:"
+      max_vils = Query.folders.hash[id].max_vils
+      if max_vils && "progress" == @mode
+        "#{max_vils}村:"
+      else
+        ""
 
     url: (id)->
       switch @mode
         when "progress"
-          Query.folders.hash[id].config.cfg.URL_SW + "/sow.cgi"
+          Query.folders.hash[id].route?.path
         when "finish"
           file "/stories/all?folder=#{id}"
     slide: (to)->
       console.log @$route
       console.log @$route.params
       @mode = to
+
+  components:
+    sow:
+      functional: true
+      props: ["folder", "mode"]
+      render: (m, ctx)->
+        { mode, folder } = ctx.props
+        children = ctx.children ? [ folder.toLowerCase() ]
+
+        vils = ctx.parent.vils folder
+        href = ctx.parent.url  folder
+
+        m "p", [
+          vils
+          m "a",{ attrs: { href }}, children
+        ]
 

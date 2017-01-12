@@ -288,8 +288,7 @@
         width: 800
       });
       return assert.deepEqual(vm.banner, {
-        file: "title580r.jpg",
-        width: 580,
+        width: 770,
         height: 161
       });
     });
