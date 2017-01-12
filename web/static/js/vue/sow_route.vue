@@ -13,7 +13,7 @@ Vue = require "vue"
 VueRouter = require "vue-router"
 Vue.use VueRouter
 
-top = require "./top.vue"
+top = Object.assign require("./top.vue"), require("./top")
 window.d_top = top
 console.log top
 

@@ -273,3 +273,29 @@
   });
 
 }).call(this);
+
+(function() {
+  var Vue, vm;
+
+  Vue = require("vue");
+
+  vm = new Vue(target("vue/top.coffee"));
+
+  describe("top.vue", function() {
+    it("has data", function() {
+      assert.deepEqual(vm.style, {
+        theme: "cinema",
+        width: 800
+      });
+      return assert.deepEqual(vm.banner, {
+        file: "title580r.jpg",
+        width: 580,
+        height: 161
+      });
+    });
+    return it("computed", function() {
+      return assert.deepEqual(vm.style_url, "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com/stylesheets/cinema800.css");
+    });
+  });
+
+}).call(this);
