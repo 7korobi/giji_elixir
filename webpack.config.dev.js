@@ -22,7 +22,7 @@ module.exports = {
 
   module: {
     loaders: [
-      { test:      /\.pug$/, loader: "pug", query: {pretty: true } },
+      { test:      /\.pug$/, loader: "pug-html", query: {pretty: true } },
       { test: /\.s[a|c]ss$/, loader: "style!css!sass" },
       { test:      /\.vue$/, loader: 'vue' },
       { test:       /\.js$/, loader: "babel", exclude: /node_modules/ },
@@ -33,6 +33,7 @@ module.exports = {
 
   vue: {
     loaders: {
+      html: 'pug',
       scss: 'style!css!sass'
     }
   },

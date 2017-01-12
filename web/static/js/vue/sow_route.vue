@@ -19,6 +19,7 @@ console.log top
 
 
 module.exports.default =
+  el: "#top"
   router: new VueRouter
     mode: "history"
     routes: [

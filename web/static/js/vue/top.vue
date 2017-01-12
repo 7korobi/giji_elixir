@@ -28,9 +28,11 @@ h2 {
 
 <template lang="pug">
 .top
+  link(:href="style_url" rel="stylesheet" type="text/css")
+
   h1
     a(href="./sow.cgi?")
-      img(:src="top" width="580" height="161" alt="人狼議事")
+      img(:src="banner_url", :width="banner.width", :height="banner.height" alt="人狼議事")
 
   table.board
     thead
@@ -55,18 +57,21 @@ h2 {
           a(:href="url('LOBBY')") lobby
           br
           | offparty
+          br
         td
           | {{ vils('MORPHE') }}
           a(:href="url('MORPHE')") morphe
           br
           | {{ vils('CABALA') }}
           a(:href="url('CABALA')") cafe
+          br
         td
           | wolf
           br
           | ultimate
           br
           | allstar
+          br
         td
           | role-play
           br
@@ -83,6 +88,7 @@ h2 {
           br
           | {{ vils('CIEL') }}
           a(:href="url('CIEL')") ciel
+          br
 
     tbody(v-if=" mode === 'finish' ")
       tr.enum
@@ -90,16 +96,19 @@ h2 {
           a(:href="url('LOBBY')") lobby
           br
           a(:href="url('OFFPARTY')") offparty
+          br
         td
           a(:href="url('MORPHE')") morphe
           br
           a(:href="url('CABALA')") cafe
+          br
         td
           a(:href="url('WOLF')") wolf
           br
           a(:href="url('ULTIMATE')") ultimate
           br
           a(:href="url('ALLSTAR')") allstar
+          br
         td
           a(:href="url('RP')") role-play
           br
@@ -112,6 +121,7 @@ h2 {
           a(:href="url('CRAZY')") crazy
           br
           a(:href="url('CIEL')") ciel
+          br
 
   h2
     | 人狼議事 xebec
@@ -121,17 +131,31 @@ h2 {
 </template>
 
 <script lang="coffee">
+
 require "../models/sow.coffee"
 { Query } = require "memory-record"
 
 # width="580" height="161"
 # width="458" height="112"
 
+file = (path)->
+  "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com" + path
 
 module.exports.default =
   data: ->
-    top: "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com/images/banner/title580r.jpg"
+    style:
+      theme: "cinema"
+      width: 800
+    banner:
+      file: "title580r.jpg"
+      width:  580
+      height: 161
+
     mode: "progress"
+
+  computed:
+    style_url:  -> file "/stylesheets/#{ @style.theme }#{ @style.width }.css"
+    banner_url: -> file "/images/banner/#{ @banner.file }"
 
   methods:
     vils: (id)->
@@ -143,7 +167,7 @@ module.exports.default =
         when "progress"
           Query.folders.hash[id].config.cfg.URL_SW + "/sow.cgi"
         when "finish"
-          "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com/stories/all?folder=#{id}"
+          file "/stories/all?folder=#{id}"
     slide: (to)->
       console.log @$route
       @mode = to
