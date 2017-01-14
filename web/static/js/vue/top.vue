@@ -35,8 +35,6 @@ h2 {
 
 <template lang="pug">
 .top
-  link(:href="style_url" rel="stylesheet" type="text/css")
-
   h1
     a(href="./sow.cgi?")
       img(:src="banner_url", :width="banner.width", :height="banner.height" alt="人狼議事")
@@ -89,7 +87,7 @@ h2 {
     a(@click=" style.theme = 'wa'") 和の国
     a(href="sow.cgi?ua=mb") 携帯
 
-  h2(v-html="")
+  h2(v-html="current.title")
     | 人狼議事 xebec
     br
     |- Role Play braid -

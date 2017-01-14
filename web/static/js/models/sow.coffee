@@ -6,7 +6,7 @@ new Rule("folder").schema ->
 
   class @model extends @model
     constructor: ->
-      if o = @config?.cfg?
+      if o = @config?.cfg
         @title    = o.NAME_HOME
         @max_vils = o.MAX_VILLAGES
         path = @config.cfg.URL_SW + "/sow.cgi"

@@ -10,7 +10,9 @@
 
 <script lang="coffee">
 Vue = require "vue"
+VueMeta = require "vue-meta"
 VueRouter = require "vue-router"
+Vue.use VueMeta
 Vue.use VueRouter
 
 { Query } = require "memory-record"
