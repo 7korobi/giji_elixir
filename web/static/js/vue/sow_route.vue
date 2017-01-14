@@ -9,22 +9,17 @@
 </template>
 
 <script lang="coffee">
-Vue = require "vue"
-VueMeta = require "vue-meta"
-VueRouter = require "vue-router"
-Vue.use VueMeta
-Vue.use VueRouter
-
+VueRouter = require 'vue-router'
 { Query } = require "memory-record"
-top = require "./top.vue"
+
+require "../models/sow.coffee"
 
 routes = [
   Query.folders.enable.pluck("route")...
   { name: "file",  path: "/*/:fname" }
   { name: "other", path: "*" }
 ]
-routes.map (o)-> o.component = top
-console.log routes
+routes.map (o)-> o.component = require "./top.vue"
 
 module.exports =
   el: "#top"

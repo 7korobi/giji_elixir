@@ -1,11 +1,17 @@
 Vue = require "vue"
 
+target "models/sow.coffee"
 app = target "vue/top.coffee"
 app.beforeCreate = ->
+  @$cookie =
+    get: (key)-> cookie[key]
+    set: (key, val, opt)-> cookie[key] = val
+  cookie = {}
   @$route =
     name: "TEST"
     params: {}
     query:  {}
+
 vm = new Vue app
 
 describe "top.vue", ->

@@ -16,7 +16,7 @@ new Rule("folder").schema ->
           @max_vils = 0
 
       return if @disabled = ! path
-      @route = { path, name: @folder }
+      @route = { path, name: @_id }
 
 Collection.folder.set  require "../yaml/sow_folder.yml"
 

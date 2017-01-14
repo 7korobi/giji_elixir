@@ -1,5 +1,22 @@
-require "../models/sow.coffee"
 { Query } = require "memory-record"
+
+format =
+  date: new Intl.DateTimeFormat 'ja-JP',
+    year:  "numeric"
+    month: "2-digit"
+    day:   "2-digit"
+    weekday: "short"
+    hour:    "2-digit"
+
+  num: new Intl.NumberFormat 'ja-JP',
+    style: 'decimal'
+    useGrouping: true
+    minimumIntegerDigits: 1
+    minimumSignificantDigits:  1
+    maximumSignificantDigits: 21
+    minimumFractionDigits: 0
+    maximumFractionDigits: 2
+
 
 file = (path)->
   "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com" + path
@@ -11,8 +28,8 @@ module.exports =
     link: [
       { rel: 'stylesheet', type: 'text/css', href: @style_url }
     ]
-    changed: (newInfo, addedTags, removedTags)->
-      console.log arguments
+    changed: (newInfo, append, remove)->
+      console.log { append, remove }
 
   data: ->
     current: Query.folders.hash.LOBBY
@@ -20,19 +37,20 @@ module.exports =
     style:
       theme: "cinema"
       width: 800
+    now: new Date - 0
 
   created: ->
-    { css } = @$route.query
-    if css
-      [..., theme, width] = css.match(/^(\D+)(\d+)$/)
-    theme ?= "cinema"
-    width ?= 800
+    css = @$route.query.css ? @$cookie.get("css") ? "cinema800"
+    [..., theme, width] = css.match(/^(\D+)(\d+)$/)
     @style = { theme, width }
     @current = Query.folders.hash[@$route.name] ? @current
 
   computed:
     banner_url: -> file "/images/banner/title#{ @banner.width }lupino.png"
     style_url: ->
+      @$cookie.set "css", "#{@style.theme}#{@style.width}",
+        expires: '7d'
+      console.log "cookie css set."
       switch @style.theme
         when "ririnra"
           width = ""
@@ -45,6 +63,9 @@ module.exports =
       height: 161 # 112  161  161
 
   methods:
+    timeago: (at)->
+      format.date.format(at) + "頃"
+
     vils: (id)->
       max_vils = Query.folders.hash[id].max_vils
       if max_vils && "progress" == @mode

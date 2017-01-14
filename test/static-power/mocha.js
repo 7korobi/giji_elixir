@@ -201,87 +201,25 @@
 }).call(this);
 
 (function() {
-  var Timer, sinon;
-
-  sinon = require("sinon");
-
-  Timer = target("lib/timer.coffee").Timer;
-
-  describe("Timer", function() {
-    describe("module", function() {
-      it("time_stamp", function() {
-        assert(Timer.time_stamp(1400000000000 === "(水) 午前01時53分"));
-        assert(Timer.time_stamp(Number.NaN === "(？) ？？..時..分"));
-        return assert(Timer.time_stamp(1400000000000 === "(水) 午前01時53分"));
-      });
-      return it("date_time_stamp", function() {
-        assert(Timer.date_time_stamp(1400000000000 === "2014-05-14 (水) 午前02時頃"));
-        assert(Timer.date_time_stamp(Number.NaN === "....-..-.. (？) ？？..時頃"));
-        return assert(Timer.date_time_stamp(1400000000000 === "2014-05-14 (水) 午前02時頃"));
-      });
-    });
-    return describe("object", function() {
-      it("show lax time", function() {
-        var attr, clock, t;
-        clock = sinon.useFakeTimers(0);
-        attr = {
-          onunload: function() {},
-          update: function(text) {}
-        };
-        (t = new Timer(clock.now - 10800000)) && t.start(attr) && assert(t.text !== "3時間前");
-        (t = new Timer(clock.now - 10800000 + 2)) && t.start(attr) && assert(t.text === "2時間前");
-        (t = new Timer(clock.now - 3600000)) && t.start(attr) && assert(t.text === "1時間前");
-        (t = new Timer(clock.now - 3600000 + 2)) && t.start(attr) && assert(t.text === "59分前");
-        (t = new Timer(clock.now - 120000)) && t.start(attr) && assert(t.text === "2分前");
-        (t = new Timer(clock.now - 60000)) && t.start(attr) && assert(t.text === "1分前");
-        (t = new Timer(clock.now - 60000 + 2)) && t.start(attr) && assert(t.text === "1分以内");
-        (t = new Timer(clock.now - 25000)) && t.start(attr) && assert(t.text === "1分以内");
-        (t = new Timer(clock.now - 25000 + 2)) && t.start(attr) && assert(t.text === "25秒以内");
-        (t = new Timer(clock.now + 25000 - 2)) && t.start(attr) && assert(t.text === "25秒以内");
-        (t = new Timer(clock.now + 25000)) && t.start(attr) && assert(t.text === "1分以内");
-        (t = new Timer(clock.now + 60000 - 2)) && t.start(attr) && assert(t.text === "1分以内");
-        (t = new Timer(clock.now + 60000)) && t.start(attr) && assert(t.text === "1分後");
-        (t = new Timer(clock.now + 120000)) && t.start(attr) && assert(t.text === "2分後");
-        (t = new Timer(clock.now + 3600000 - 2)) && t.start(attr) && assert(t.text === "59分後");
-        (t = new Timer(clock.now + 3600000)) && t.start(attr) && assert(t.text === "1時間後");
-        (t = new Timer(clock.now + 10800000 - 2)) && t.start(attr) && assert(t.text === "2時間後");
-        (t = new Timer(clock.now + 10800000)) && t.start(attr) && assert(t.text !== "3時間後");
-        return clock.restore();
-      });
-      return it("show lax time by tick", function() {
-        var attr, clock, timer;
-        clock = sinon.useFakeTimers(0);
-        attr = {
-          onunload: function() {},
-          update: function(text) {}
-        };
-        timer = new Timer(10800000);
-        timer.start(attr);
-        clock.tick(7200000) && timer.tick(clock.now) && assert(timer.text === "1時間後");
-        clock.tick(60000) && timer.tick(clock.now) && assert(timer.text === "59分後");
-        clock.tick(58 * 60000) && timer.tick(clock.now) && assert(timer.text === "1分後");
-        clock.tick(1) && timer.tick(clock.now) && assert(timer.text === "1分以内");
-        clock.tick(35000) && timer.tick(clock.now) && assert(timer.text === "25秒以内");
-        clock.tick(49998) && timer.tick(clock.now) && assert(timer.text === "25秒以内");
-        clock.tick(35000) && timer.tick(clock.now) && assert(timer.text === "1分以内");
-        clock.tick(1) && timer.tick(clock.now) && assert(timer.text === "1分前");
-        clock.tick(58 * 60000) && timer.tick(clock.now) && assert(timer.text === "59分前");
-        clock.tick(60000) && timer.tick(clock.now) && assert(timer.text === "1時間前");
-        return clock.restore();
-      });
-    });
-  });
-
-}).call(this);
-
-(function() {
   var Vue, app, vm;
 
   Vue = require("vue");
 
+  target("models/sow.coffee");
+
   app = target("vue/top.coffee");
 
   app.beforeCreate = function() {
+    var cookie;
+    this.$cookie = {
+      get: function(key) {
+        return cookie[key];
+      },
+      set: function(key, val, opt) {
+        return cookie[key] = val;
+      }
+    };
+    cookie = {};
     return this.$route = {
       name: "TEST",
       params: {},

@@ -42,14 +42,12 @@ h2 {
   table.board
     thead
       tr.tap(v-if=" mode === 'progress' ")
-        th.choice(colspan=2 key="p")
+        th.choice(colspan=4)
           strong 進行中の村
-        th.choice(colspan=2 key="f")
           label.btn.edge(@click="slide('finish')") 終了した村を見る
       tr.tap(v-if=" mode === 'finish' ")
-        th.choice(colspan=2 key="p")
+        th.choice(colspan=4)
           label.btn.edge(@click="slide('progress')") 進行中の村を見る
-        th.choice(colspan=2 key="f")
           strong 終了した村
       tr
         th.choice ロビー
@@ -75,6 +73,12 @@ h2 {
           sow(folder="XEBEC")
           sow(folder="CRAZY")
           sow(folder="CIEL")
+    tfoot
+      tr
+        th.choice(colspan=4)
+          timeago(:format="timeago", :since="now + 60000", :auto-update="2")
+          timeago(:format="timeago", :since="now", :auto-update="2")
+          timeago(:format="timeago", :since="now - 3601000", :auto-update="2", :max-time="3600")
 
   .choice
     a(@click=" style.width = 480") 480
@@ -88,9 +92,6 @@ h2 {
     a(href="sow.cgi?ua=mb") 携帯
 
   h2(v-html="current.title")
-    | 人狼議事 xebec
-    br
-    |- Role Play braid -
 
 </template>
 
