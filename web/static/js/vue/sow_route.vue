@@ -14,8 +14,7 @@ VueRouter = require "vue-router"
 Vue.use VueRouter
 
 { Query } = require "memory-record"
-
-top = Object.assign require("./top.vue"), require("./top")
+top = require "./top.vue"
 
 routes = [
   Query.folders.enable.pluck("route")...
@@ -25,7 +24,7 @@ routes = [
 routes.map (o)-> o.component = top
 console.log routes
 
-module.exports.default =
+module.exports =
   el: "#top"
   router: new VueRouter
     mode: "history"

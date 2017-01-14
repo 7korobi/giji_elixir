@@ -275,11 +275,21 @@
 }).call(this);
 
 (function() {
-  var Vue, vm;
+  var Vue, app, vm;
 
   Vue = require("vue");
 
-  vm = new Vue(target("vue/top.coffee"));
+  app = target("vue/top.coffee");
+
+  app.beforeCreate = function() {
+    return this.$route = {
+      name: "TEST",
+      params: {},
+      query: {}
+    };
+  };
+
+  vm = new Vue(app);
 
   describe("top.vue", function() {
     it("has data", function() {

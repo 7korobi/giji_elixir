@@ -9,6 +9,7 @@ file = (path)->
 
 module.exports =
   data: ->
+    id: "LOBBY"
     style:
       theme: "cinema"
       width: 800
@@ -18,9 +19,21 @@ module.exports =
 
     mode: "progress"
 
+
+  created: ->
+    { css } = @$route.query
+    if css
+      [..., theme, width] = css.match(/^(\D+)(\d+)$/)
+    theme ?= "cinema"
+    width ?= 800
+    @style = { theme, width }
+
+
   computed:
-    style_url:  -> file "/stylesheets/#{ @style.theme }#{ @style.width }.css"
     banner_url: -> file "/images/banner/title#{ @banner.width }lupino.png"
+    style_url: -> file "/stylesheets/#{ @style.theme }#{ @style.width }.css"
+    current: -> Query.folders.hash[@$route.name]
+    title: -> @current
 
   methods:
     vils: (id)->

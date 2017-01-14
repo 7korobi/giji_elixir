@@ -1,3 +1,5 @@
+<script lang="coffee" src="./top.coffee">
+
 <style lang="scss" scoped>
 .expand-transition {
   transition: all .3s ease;
@@ -24,6 +26,11 @@ h2 {
   height: 4em;
   vertical-align: bottom;
 }
+
+.choice {
+  text-align: right;
+}
+
 </style>
 
 <template lang="pug">
@@ -71,7 +78,18 @@ h2 {
           sow(folder="CRAZY")
           sow(folder="CIEL")
 
-  h2
+  .choice
+    a(@click=" style.width = 480") 480
+    a(@click=" style.width = 800") 800
+    | ￤
+    a(@click=" style.theme = 'ririnra'") 漆黒
+    a(@click=" style.theme = 'cinema'") 煉瓦
+    a(@click=" style.theme = 'night'") 月夜
+    a(@click=" style.theme = 'star'") 蒼穹
+    a(@click=" style.theme = 'wa'") 和の国
+    a(href="sow.cgi?ua=mb") 携帯
+
+  h2(v-html="")
     | 人狼議事 xebec
     br
     |- Role Play braid -

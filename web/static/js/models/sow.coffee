@@ -6,13 +6,16 @@ new Rule("folder").schema ->
 
   class @model extends @model
     constructor: ->
-      @max_vils = @config?.cfg?.MAX_VILLAGES
-      @disabled = ! @max_vils
-      @max_vils = 0 if "LOBBY" == @folder
+      if o = @config?.cfg?
+        @title    = o.NAME_HOME
+        @max_vils = o.MAX_VILLAGES
+        path = @config.cfg.URL_SW + "/sow.cgi"
 
-      return if @disabled
-      path = @config.cfg.URL_SW + "/sow.cgi"
-      @disabled = ! path
+      switch @folder
+        when "LOBBY"
+          @max_vils = 0
+
+      return if @disabled = ! path
       @route = { path, name: @folder }
 
 Collection.folder.set  require "../yaml/sow_folder.yml"

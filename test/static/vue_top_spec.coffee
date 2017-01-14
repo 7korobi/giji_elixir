@@ -1,6 +1,12 @@
 Vue = require "vue"
 
-vm = new Vue target "vue/top.coffee"
+app = target "vue/top.coffee"
+app.beforeCreate = ->
+  @$route =
+    name: "TEST"
+    params: {}
+    query:  {}
+vm = new Vue app
 
 describe "top.vue", ->
   it "has data", ->
