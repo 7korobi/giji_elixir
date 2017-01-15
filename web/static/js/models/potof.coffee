@@ -11,5 +11,8 @@ new Rule("potof").schema ->
 
   class @model extends @model
     constructor: ->
+      @id ?= @_id
+      [book_id, part_idx] = @id.split('-')
       @_id = @id
-      console.warn @
+      @part_id  = [book_id, part_idx].join('-')
+

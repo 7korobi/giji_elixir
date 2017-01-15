@@ -1,23 +1,5 @@
 { Query } = require "memory-record"
 
-format =
-  date: new Intl.DateTimeFormat 'ja-JP',
-    year:  "numeric"
-    month: "2-digit"
-    day:   "2-digit"
-    weekday: "short"
-    hour:    "2-digit"
-
-  num: new Intl.NumberFormat 'ja-JP',
-    style: 'decimal'
-    useGrouping: true
-    minimumIntegerDigits: 1
-    minimumSignificantDigits:  1
-    maximumSignificantDigits: 21
-    minimumFractionDigits: 0
-    maximumFractionDigits: 2
-
-
 file = (path)->
   "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com" + path
 
@@ -46,10 +28,12 @@ module.exports =
     @current = Query.folders.hash[@$route.name] ? @current
 
   computed:
+    welcome_ids: ->
+      Query.chats.for_part("#{@current._id}-Welcome").ids
     banner_url: -> file "/images/banner/title#{ @banner.width }lupino.png"
     style_url: ->
       @$cookie.set "css", "#{@style.theme}#{@style.width}",
-        expires: '7d'
+        expires: '7D'
       console.log "cookie css set."
       switch @style.theme
         when "ririnra"
@@ -63,9 +47,6 @@ module.exports =
       height: 161 # 112  161  161
 
   methods:
-    timeago: (at)->
-      format.date.format(at) + "頃"
-
     vils: (id)->
       max_vils = Query.folders.hash[id].max_vils
       if max_vils && "progress" == @mode

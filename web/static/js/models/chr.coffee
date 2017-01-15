@@ -58,6 +58,7 @@ new Rule("face").schema ->
 
     constructor: ->
       @face_id = @_id
+      @path = "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com/images/portrate/#{ @_id }.jpg"
 
 
 new Rule("chr_set").schema ->

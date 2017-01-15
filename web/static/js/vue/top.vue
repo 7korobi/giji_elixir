@@ -76,9 +76,10 @@ h2 {
     tfoot
       tr
         th.choice(colspan=4)
-          timeago(:format="timeago", :since="now + 60000", :auto-update="2")
-          timeago(:format="timeago", :since="now", :auto-update="2")
-          timeago(:format="timeago", :since="now - 3601000", :auto-update="2", :max-time="3600")
+          timeago(:since="now - 30000")
+          timeago(:since="now - 20000")
+          timeago(:since="now - 10000")
+          timeago(:since="now - 3601000", :max-time="3600")
 
   .choice
     a(@click=" style.width = 480") 480
@@ -93,5 +94,9 @@ h2 {
 
   h2(v-html="current.title")
 
-</template>
+  .outframe
+    .contentframe
+      .inframe
+        chat(:id="key" v-for="key in welcome_ids")
 
+</template>

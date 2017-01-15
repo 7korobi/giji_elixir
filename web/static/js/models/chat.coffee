@@ -8,7 +8,8 @@ new Rule("chat").schema ->
   @belongs_to "potof"
 
   @scope (all)->
-    {}
+    for_part:  (part_id)->  all.where {  part_id }
+    for_phase: (phase_id)-> all.where { phase_id }
 
   class @model extends @model
     @map_reduce: (o, emit)->
@@ -17,9 +18,11 @@ new Rule("chat").schema ->
         max: o.write_at
 
     constructor: ->
+      @id ?= @_id
       [book_id, part_idx, phase_idx, @idx] = @id.split('-')
-      [                  ..., section_idx] = @section_id.split('-')
+      if @section_id
+        [                ..., section_idx] = @section_id.split('-')
       @_id      = @id
       @part_id  = [book_id, part_idx].join('-')
       @phase_id = [book_id, part_idx, phase_idx].join('-')
-      console.warn @
+

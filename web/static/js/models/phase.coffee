@@ -10,7 +10,7 @@ new Rule("phase").schema ->
 
   class @model extends @model
     constructor: ->
+      @id ?= @_id
       [book_id, part_idx, @idx] = @id.split('-')
       @_id     = @id
       @part_id = [book_id, part_idx].join('-')
-      console.warn @
