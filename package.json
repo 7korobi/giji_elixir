@@ -5,7 +5,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "mocha --colors --reporter min --require intelli-espower-loader --compilers coffee:coffee-script/register test/static/**_spec.coffee",
     "deploy": "webpack -p && npm run sass",
     "brunch": "brunch watch --stdin",
     "webpack": "webpack --watch --color --config webpack.config.dev.js",

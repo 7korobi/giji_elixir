@@ -6,8 +6,17 @@ file = (path)->
 module.exports =
   metaInfo: ->
     title: @current.title
-    titleTemplate: '%s トップページ'
+    titleTemplate: '%s - 人狼議事'
+    meta: [
+      { charset: "utf-8" }
+#      { name: 'Author',   content: '7korobi@gmail.com' }
+#      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
+      { name: "apple-mobile-web-app-capable", content: "yes" }
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
+      { name: "format-detection", content: "telephone=no" }
+    ]
     link: [
+      { href: "mailto:7korobi@gmail.com" }
       { rel: 'stylesheet', type: 'text/css', href: @style_url }
     ]
     changed: (newInfo, append, remove)->
@@ -31,16 +40,21 @@ module.exports =
     welcome_ids: ->
       Query.chats.for_part("#{@current._id}-Welcome").ids
     banner_url: -> file "/images/banner/title#{ @banner.width }lupino.png"
-    style_url: ->
-      @$cookie.set "css", "#{@style.theme}#{@style.width}",
-        expires: '7D'
-      console.log "cookie css set."
+    css: ->
       switch @style.theme
         when "ririnra"
           width = ""
         else
           width = @style.width
-      file "/stylesheets/#{ @style.theme }#{ width }.css"
+      "#{ @style.theme }#{ width }"
+
+    style_url: ->
+      @$cookie.set "css", @css,
+        path: '/'
+        expires: '7D'
+      @$router.replace
+        query: { @css }
+      file "/stylesheets/#{ @css }.css"
 
     banner: ->
       width:  770 # 458  580  770

@@ -28,7 +28,7 @@ h2 {
 }
 
 .choice {
-  text-align: right;
+  text-align: center;
 }
 
 </style>
@@ -73,13 +73,6 @@ h2 {
           sow(folder="XEBEC")
           sow(folder="CRAZY")
           sow(folder="CIEL")
-    tfoot
-      tr
-        th.choice(colspan=4)
-          timeago(:since="now - 30000")
-          timeago(:since="now - 20000")
-          timeago(:since="now - 10000")
-          timeago(:since="now - 3601000", :max-time="3600")
 
   .choice
     a(@click=" style.width = 480") 480
