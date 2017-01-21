@@ -1,21 +1,16 @@
 <script lang="coffee">
-
-module.exports =
-  props: ["id", "write_at", "handle", "log", "name", "sign"]
-  data: -> {}
-
+module.exports = require("./_chat.coffee").component_class()
 </script>
-
-<style lang="scss" scoped>
+<style lang="stylus" scoped>
 </style>
 
 <template lang="pug">
 .action(:class="handle")
-  p
+  p.mes_text
     span {{ name }}
-    span(v-html="log")
+    span(v-html="log_html")
   p.mes_date
-    span {{ sign }}
+    span.emboss {{ sign }}
     timeago(:since="write_at")
 
 </template>

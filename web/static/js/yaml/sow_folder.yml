@@ -561,7 +561,9 @@ CIEL:
       TYPE:           CHEAT
       RULE:           CIEL
       MAX_VILLAGES:   2
-      NAME_HOME:      人狼議事 ciel<br>- Role Play Cheat -
+      NAME_HOME: |-
+        人狼議事 ciel
+        - Role Play Cheat -
     path:
       <<: *SIMPLE_PATH
       DIR_USER: ./data/user
@@ -593,7 +595,9 @@ PERJURY:
 #      TYPE:           CHEAT
       RULE:           PERJURY
       MAX_VILLAGES:   2
-      NAME_HOME:      人狼議事 perjury rulez<br>- Role Play braid -
+      NAME_HOME: |-
+        人狼議事 perjury rulez
+        - Role Play braid -
     path:
       <<: *SIMPLE_PATH
     pl:  /www/giji_log/vage/config.pl
@@ -625,7 +629,9 @@ XEBEC:
       <<: *cfg_braid
       URL_SW:         http://xebec.x0.to/xebec
       BASEDIR_CGIERR: http://xebec.x0.to//xebec
-      NAME_HOME:      人狼議事 xebec<br>- Role Play braid -
+      NAME_HOME: |-
+        人狼議事 xebec
+        - Role Play braid -
       MAX_VILLAGES:   3
     path:
       <<: *SIMPLE_PATH
@@ -658,7 +664,9 @@ CRAZY:
       <<: *cfg_braid
       URL_SW:         http://crazy-crazy.sakura.ne.jp/crazy
       BASEDIR_CGIERR: http://crazy-crazy.sakura.ne.jp//crazy
-      NAME_HOME:      人狼議事 crazy<br>- Role Play braid -
+      NAME_HOME: |-
+        人狼議事 crazy
+        - Role Play braid -
       MAX_VILLAGES:   2
     path:
       <<: *SIMPLE_PATH

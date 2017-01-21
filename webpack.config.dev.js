@@ -23,6 +23,7 @@ module.exports = {
   module: {
     loaders: [
       { test:      /\.pug$/, loader: "pug-html", query: {pretty: true } },
+      { test:     /\.styl$/, loader: "style!css!stylus"},
       { test: /\.s[a|c]ss$/, loader: "style!css!sass" },
       { test:      /\.vue$/, loader: 'vue' },
       { test:       /\.js$/, loader: "babel", exclude: /node_modules/ },
@@ -74,6 +75,7 @@ module.exports = {
     library: false,
     libraryTarget: "var", // var, this, umd
     path: dir('/priv/static'),
+    publicPath: "http://s3-ap-northeast-1.amazonaws.com/giji-assets/",
     filename: '[name].js'
   },
   resolve: {

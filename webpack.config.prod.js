@@ -16,16 +16,27 @@ module.exports = {
     "js/base":   "js/base.js",
     "js/app":    "js/app.js",
     "js/chr":    "js/chr.js",
-    "js/socket": "js/socket.js"
+    "js/socket": "js/socket.js",
+    "js/sow":    "js/sow.js"
   },
 
   module: {
     loaders: [
-      { test:    /\.pug$/, loader: "pug", query: {pretty: true } },
-      { test:     /\.js$/, loader: "babel", exclude: /node_modules/ },
-      { test:    /\.yml$/, loader: 'json!yaml' },
-      { test: /\.coffee$/, loader: "coffee" }
+      { test:      /\.pug$/, loader: "pug-html", query: {pretty: true } },
+      { test:     /\.styl$/, loader: "style!css!stylus"},
+      { test: /\.s[a|c]ss$/, loader: "style!css!sass" },
+      { test:      /\.vue$/, loader: 'vue' },
+      { test:       /\.js$/, loader: "babel", exclude: /node_modules/ },
+      { test:      /\.yml$/, loader: 'json!yaml' },
+      { test:   /\.coffee$/, loader: "coffee" }
     ]
+  },
+
+  vue: {
+    loaders: {
+      html: 'pug',
+      scss: 'style!css!sass'
+    }
   },
 
   plugins: [
@@ -41,6 +52,7 @@ module.exports = {
       template: 'html/test.pug',
       chunks: ['js/test']
     }),
+    new webpack.optimize.CommonsChunkPlugin('js/base','js/base.js'),
     new webpack.optimize.AggressiveMergingPlugin({
       minSizeReduce: 1.5,
       entryChunkMultiplicator: 10,
@@ -84,6 +96,7 @@ module.exports = {
     library: false,
     libraryTarget: "var", // var, this, umd
     path: dir('/priv/static'),
+    publicPath: "http://s3-ap-northeast-1.amazonaws.com/giji-assets/",
     filename: '[name].js'
   },
   resolve: {

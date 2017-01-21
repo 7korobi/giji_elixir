@@ -207,7 +207,7 @@
 
   target("models/sow.coffee");
 
-  app = target("vue/top.coffee");
+  app = target("vue/sow_top.coffee");
 
   app.beforeCreate = function() {
     var cookie;
@@ -220,28 +220,27 @@
       }
     };
     cookie = {};
-    return this.$route = {
+    this.$route = {
       name: "TEST",
       params: {},
       query: {}
+    };
+    return this.$router = {
+      replace: function() {}
     };
   };
 
   vm = new Vue(app);
 
-  describe("top.vue", function() {
+  describe("vue_top_spec", function() {
     it("has data", function() {
-      assert.deepEqual(vm.style, {
+      return assert.deepEqual(vm.style, {
         theme: "cinema",
         width: 800
       });
-      return assert.deepEqual(vm.banner, {
-        width: 770,
-        height: 161
-      });
     });
     return it("computed", function() {
-      return assert.deepEqual(vm.style_url, "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com/stylesheets/cinema800.css");
+      return assert.deepEqual(vm.style_url, "http://s3-ap-northeast-1.amazonaws.com/giji-assets/stylesheets/cinema800.css");
     });
   });
 

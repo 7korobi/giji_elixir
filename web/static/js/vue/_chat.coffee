@@ -27,3 +27,19 @@ module.exports =
         handle: chat.phase.handle
 
     m chat.show, { attrs }
+
+  component_class: ->
+    props: ["id", "write_at", "handle", "style", "log", "face", "job", "name", "sign"]
+    data: -> {}
+    computed:
+      face_url: -> Query.faces.hash[@face].path
+
+      head: ->
+        if @name || @job
+          "#{@job} #{@name}"
+        else
+          null
+
+      log_html: ->
+        @log
+        .replace /\n/, "<br>"

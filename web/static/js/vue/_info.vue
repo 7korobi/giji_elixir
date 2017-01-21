@@ -1,26 +1,15 @@
 <script lang="coffee">
-
-module.exports =
-  props: ["id", "write_at", "handle", "style", "log", "job", "name", "sign"]
-  data: -> {}
-  computed:
-    head: ->
-      if @name
-        "#{@job} #{@name}"
-      else
-        null
-
+module.exports = require("./_chat.coffee").component_class()
 </script>
-
-<style lang="scss" scoped>
+<style lang="stylus" scoped>
 </style>
 
 <template lang="pug">
 .info(:key="id", :class="handle")
   h3.mesname(v-if="head")  {{ head }}
-  p.mes_text(:class="style", v-html="log")
+  p.mes_text(:class="style", v-html="log_html")
   p.mes_date
-    span {{ sign }}
+    span.emboss {{ sign }}
     timeago(:since="write_at")
 
 </template>

@@ -1,16 +1,19 @@
 { Query } = require "memory-record"
 
 file = (path)->
-  "http://giji-assets.s3-website-ap-northeast-1.amazonaws.com" + path
+  "http://s3-ap-northeast-1.amazonaws.com/giji-assets" + path
+
+bg = (name)->
+  file "/images/bg/#{name}"
 
 module.exports =
   metaInfo: ->
     title: @current.title
     titleTemplate: '%s - 人狼議事'
     meta: [
-      { charset: "utf-8" }
 #      { name: 'Author',   content: '7korobi@gmail.com' }
 #      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
+#      { charset: "utf-8" }
       { name: "apple-mobile-web-app-capable", content: "yes" }
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
       { name: "format-detection", content: "telephone=no" }
@@ -19,48 +22,80 @@ module.exports =
       { href: "mailto:7korobi@gmail.com" }
       { rel: 'stylesheet', type: 'text/css', href: @style_url }
     ]
-    changed: (newInfo, append, remove)->
-      console.log { append, remove }
+    bodyAttrs:
+      class: @body_class
 
   data: ->
-    current: Query.folders.hash.LOBBY
+    css = @$route.query.css ? "cinema800"
+    [..., theme, width = 800] = css.match(/^(\D+)(\d*)$/)
+
+    current: Query.folders.hash[@$route.name] ? Query.folders.hash.PERJURY
+    style: { theme, width }
+    now: Date.now()
     mode: "progress"
-    style:
-      theme: "cinema"
-      width: 800
-    now: new Date - 0
+    active: true
+    y: 0
 
   created: ->
-    css = @$route.query.css ? @$cookie.get("css") ? "cinema800"
-    [..., theme, width] = css.match(/^(\D+)(\d+)$/)
-    @style = { theme, width }
-    @current = Query.folders.hash[@$route.name] ? @current
+    if window?
+      @poll()
+
+  destroyed: ->
+    @active = false
 
   computed:
-    welcome_ids: ->
-      Query.chats.for_part("#{@current._id}-Welcome").ids
-    banner_url: -> file "/images/banner/title#{ @banner.width }lupino.png"
-    css: ->
+    body_class: ->
       switch @style.theme
         when "ririnra"
-          width = ""
+          @style.width = 800
+      ("#{k}-#{v}" for k,v of @style).join(" ")
+
+    welcome_ids: ->
+      Query.chats.for_part("#{@current.rule}-top").ids
+
+    welcome_style: ->
+      backgroundPosition: "right 0px top #{ -@y / 2 }px"
+      backgroundImage: "url(#{bg "fhd-giji.png"})"
+
+    filmend_url: ->
+      switch @style.theme
+        when "wa"
+          bg "film-wa-end.png"
         else
-          width = @style.width
-      "#{ @style.theme }#{ width }"
+          bg "film-end.png"
+
+    css: ->
+      { theme, width } = @style
+      switch @style.theme
+        when "ririnra"
+          @style.width = 800
+          "#{ theme }"
+        else
+          "#{ theme }#{ width }"
 
     style_url: ->
       @$cookie.set "css", @css,
         path: '/'
         expires: '7D'
-      @$router.replace
-        query: { @css }
+      @$router.replace { @query }
       file "/stylesheets/#{ @css }.css"
 
-    banner: ->
-      width:  770 # 458  580  770
-      height: 161 # 112  161  161
+    query: ->
+      query = {}
+      for key, val of @$route.query
+        query[key] = val
+      query.css = @css
+      query
 
   methods:
+    poll: ->
+      return unless @active
+      @y = window.scrollY
+      requestAnimationFrame? @poll
+
+    slide: (to)->
+      @mode = to
+
     vils: (id)->
       max_vils = Query.folders.hash[id].max_vils
       if max_vils && "progress" == @mode
@@ -74,8 +109,6 @@ module.exports =
           Query.folders.hash[id].route?.path
         when "finish"
           file "/stories/all?folder=#{id}"
-    slide: (to)->
-      @mode = to
 
   components:
     sow:

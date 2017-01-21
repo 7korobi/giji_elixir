@@ -54,7 +54,7 @@ module.exports =
       required: true
     maxTime:
       type: Number
-      default: 10 * YEAR
+      default: 1 * YEAR
     lock:
       type: Boolean
       default: false

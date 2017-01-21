@@ -37,7 +37,7 @@ new Rule("face").schema ->
         when "all"
           all
         else
-          all.in tags: tag_id
+          all.in tag_ids: tag_id
 
     name_head: ->
       counts = []
