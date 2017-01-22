@@ -49,5 +49,5 @@ module.exports =
 
         m "a", attr, [
           label
-          m "sup", { staticClass: "badge" }, size
+          m "sup", size
         ]

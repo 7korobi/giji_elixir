@@ -5,49 +5,25 @@ module.exports = require("./_chat.coffee").component_class()
 
 .wide-width .talk
   th img
-    margin:  0 4px 6px 12px
-  .chat
-    margin:  0 7px 6px  6px
+    margin:  0 14px 6px 16px
 
 .std-width .talk
   th img
-    margin:  0 4px 6px  3px
-  .chat
-    margin:  0 2px 6px  6px
+    margin:  0 14px 6px  7px
 
 .talk
   width: 100%
-  text-align:    left
+  tbody, th, td
+    border:  0
+    padding: 0
+    background: transparent
+    text-align: left
   th
-    border: 0;
-    background: transparent
     vertical-align: top
-    padding: 0 4px
   td
-    border: 0;
-    background: transparent
     vertical-align: middle
-
   .chat
-    padding: 0 4px
-
-.line_text
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
-
-
-.text
-  overflow:   visible
-  word-wrap:  break-word
-  word-break: break-strict
-
-.text,
-.head .mono
-  padding: 0
-
-.head:first-line
-  font-weight: 700
+    margin:  0  7px 6px  0
 
 </style>
 

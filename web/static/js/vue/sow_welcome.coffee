@@ -13,22 +13,9 @@ class_name =
 
 module.exports =
   metaInfo: ->
-    title: @current.title
-    titleTemplate: '%s - 人狼議事'
-    meta: [
-#      { name: 'Author',   content: '7korobi@gmail.com' }
-#      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
-#      { charset: "utf-8" }
-      { name: "apple-mobile-web-app-capable", content: "yes" }
-      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
-      { name: "format-detection", content: "telephone=no" }
-    ]
     link: [
       { href: "mailto:7korobi@gmail.com" }
       { rel: 'stylesheet', type: 'text/css', href: @style_url }
-    ]
-    script: [
-      { src: "https://use.fontawesome.com/6348868528.js"}
     ]
     bodyAttrs:
       class: @body_class
@@ -62,12 +49,8 @@ module.exports =
           class_name[s] ? s
       list.join(" ")
 
-    welcome_ids: ->
-      Query.chats.for_part("#{@current.rule}-top").ids
-
     welcome_style: ->
       backgroundPosition: "right 0px top #{ -@y / 2 }px"
-      backgroundImage: "url(#{bg "fhd-giji.png"})"
 
     filmend_url: ->
       switch @style.theme

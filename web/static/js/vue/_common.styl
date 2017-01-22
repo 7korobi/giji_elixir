@@ -1,4 +1,6 @@
 text(main, bold, marker)
+  box-sizing: border-box
+  padding: 0 4px
   color: main
   a
     color: main
@@ -11,27 +13,41 @@ text(main, bold, marker)
     padding:   2px 1px
     border-radius: 3px
     display: inline-block
-  .name, code, kbd, b
+  code, kbd, b,
+  .name
     font-weight: bold
+
+  .text
+    overflow:   visible
+    word-wrap:  break-word
+    word-break: break-strict
+    &.head:first-line
+      font-weight: bold
+    &.mono
+      font-family: monospace
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+
   .date
     text-align: right
     font-size: 10.5px
     line-height: 15px
 
 white_ssay()
-  background: #CB8
+  background:   #CCBB88
   sup, sub
     background: #A78F47
     color:      #CCBB88
+  strong,
+  .name,
+  .text.head:first-line,
   .date
-    color: #665E44
+    color:      #665E44
+
 
 white_text()
   text(#000, #333, rgba(255,255,255,0.3))
-  .name
-    border-bottom: 1px solid rgba(0,0,0,0.2)
-    box-shadow: rgba(255,255,255,0.3) 0 1px 0
-
 
 black_ssay()
   sup, sub
@@ -40,13 +56,20 @@ black_ssay()
   .date
     color: rgba(190,190,150,0.7)
 
+black_wa_text()
+  text(#FFC960, #FFEE90, rgba(0,0,0,0.3))
+
 black_text()
   text(#ccc, #fff, rgba(0,0,0,0.3))
-  .name
-    border-bottom: 1px dashed
 
-h1, h2, h3, h4, h5, h6, .chat
+h1, h2, h3, h4, h5, h6
   box-sizing: border-box
+
+.contentframe,
+.outframe,
+.inframe
+  box-sizing: content-box
+
 
 h6
   font-weight: bold
@@ -79,12 +102,16 @@ sup, sub
     text-align: right
 
 .btns
+  black_ssay()
   black_text()
-  padding: 0
   line-height: 30px
-  background-color: rgba(77, 78, 70, 0.9)
+  background-color: rgba(77, 78, 70, 1)
   span
     margin: 0 6px
+
+.wa-theme
+  .btns
+    black_wa_text()
 
 .ririnra-theme,
 .cinema-theme,
@@ -92,12 +119,13 @@ sup, sub
   .chat
     white_ssay()
     white_text()
+    .name
+      border-bottom: 1px solid rgba(0,0,0,0.2)
+      box-shadow: rgba(255,255,255,0.3) 0 1px 0
 
 .cinema-theme
   .talk .chat
     border-radius: 0.5rem
-  .name, strong
-    color: #665E44
 
 .wa-theme
   .talk .chat
@@ -107,11 +135,19 @@ sup, sub
     color: #333
 
 
+.moon-theme
+  .chat
+    black_ssay()
+    black_wa_text()
+    .name
+      border-bottom: 1px dashed
+
 .night-theme,
-.moon-theme,
 .star-theme
   .chat
     black_ssay()
     black_text()
+    .name
+      border-bottom: 1px dashed
 
 

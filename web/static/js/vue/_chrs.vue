@@ -116,7 +116,7 @@ IMG + .chrblank
       tag#god
 
     h6
-      | {{ set.long }}{{ set.name }}の{{ chrs.length }}人を表示しています。
+      | {{ chrs.length }}人の{{ set.long }}を表示しています。
   transition-group.list(name="list" tag="div")
     .item(:id="chr._id", :key="chr._id", v-for="chr in chrs")
       img(:src="chr.path")

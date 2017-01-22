@@ -3,21 +3,29 @@ module.exports = require("./_chat.coffee").component_class()
 </script>
 <style lang="stylus" scoped>
 
+.post
+  padding:    0 12px 0     4px
+
 .std-width
   .post
-    margin:   0 0 6px  97px
+    margin:   0  0   6px  97px
 
 .wide-width
   .post
-    margin:   0 0 6px 107px
+    margin:   0  0   6px 107px
+
 
 .ririnra-theme,
-.cinema-theme,
 .wa-theme
+  .post
+    border-style: solid none solid solid;
+    border-width: 2px  0   2px  18px
+    border-color: #222;
+
+.cinema-theme
   .post
     border-style: dashed none dashed solid;
     border-width: 2px  0   2px  18px
-    padding:      4px 12px 4px   4px
     border-color: #663;
 
 .night-theme,

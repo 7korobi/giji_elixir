@@ -71,7 +71,7 @@ module.exports = {
   },
   output: {
     pathinfo: true,
-    jsonpFunction: "giji",
+    jsonpFunction: "gijiP",
     library: false,
     libraryTarget: "var", // var, this, umd
     path: dir('/priv/static'),

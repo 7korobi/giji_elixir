@@ -2,9 +2,10 @@
 </style>
 
 <template lang="pug">
-.route
-  transition
-    router-view(name="top")
+transition
+  div
+    router-view(name="welcome")
+    router-view(name="hello")
 </template>
 
 <script lang="coffee">
@@ -19,7 +20,8 @@ routes = [
   { name: "other", path: "*" }
 ]
 routes.map (o)-> o.components =
-  top: require "./sow_top.vue"
+  welcome: require "./sow_welcome.vue"
+  hello:   require "./sow_hello.vue"
 
 module.exports =
   el: "#top"
