@@ -1,3 +1,53 @@
+text(main, bold, marker)
+  color: main
+  a
+    color: main
+  b
+    color: bold
+
+  a, b
+    background-color: marker
+    margin:    4px 2px
+    padding:   2px 1px
+    border-radius: 3px
+    display: inline-block
+  .name, code, kbd, b
+    font-weight: bold
+  .date
+    text-align: right
+    font-size: 10.5px
+    line-height: 15px
+
+white_ssay()
+  background: #CB8
+  sup, sub
+    background: #A78F47
+    color:      #CCBB88
+  .date
+    color: #665E44
+
+white_text()
+  text(#000, #333, rgba(255,255,255,0.3))
+  .name
+    border-bottom: 1px solid rgba(0,0,0,0.2)
+    box-shadow: rgba(255,255,255,0.3) 0 1px 0
+
+
+black_ssay()
+  sup, sub
+    background: #596664
+    color:      #C2C9C8
+  .date
+    color: rgba(190,190,150,0.7)
+
+black_text()
+  text(#ccc, #fff, rgba(0,0,0,0.3))
+  .name
+    border-bottom: 1px dashed
+
+h1, h2, h3, h4, h5, h6, .chat
+  box-sizing: border-box
+
 h6
   font-weight: bold
   display: block
@@ -7,62 +57,61 @@ h6
   border-bottom: 1px solid #e5e5e5
   background-color: rgba(255, 255, 255, 0.25)
 
-a, b
-  border-radius: 3px
-  margin:    4px 2px
-  padding:   2px 1px
+sup
+  vertical-align:   10px
 
-b
-  font-weight: bold!important
+sub
+  vertical-align:  -10px
 
-.btns
-  line-height: 30px
-  padding: 0
-  background-color: rgba(77, 78, 70, 0.9)
-
-  span
-    margin: 0 6px
-  a, b
-    display: inline-block
-
-
-  .badge
-    background: #596664
-    color:      #C2C9C8
-
-.badge
-  border-radius:    7px
-  font-size:       12px
-  line-height:     14px
-  height:          14px
-  vertical-align:  10px
-  margin-right:    -5px
-
+sup, sub
+  border-radius:     7px
+  font-size:        12px
+  line-height:      14px
+  height:           14px
+  margin-right:      0px
   padding: 2px 6px 0 6px
   display: inline-block
   font-weight: bold
   text-align: center
 
-.theme-ririnra .mes_text,
-.theme-cinema  .mes_text,
-.theme-wa      .mes_text
-  a
-    color: #000
-  b
-    color: #333
-  a, b
-    background-color: rgba(255,255,255,0.3)
-
-.btns,
-.theme-night .mes_text,
-.theme-star  .mes_text
-  a
-    color: #fff
-  b
-    color: #ccc
-  a, b
-    background-color: rgba(0,0,0,0.3)
-
-.width-480
+.std-width
   .btns
     text-align: right
+
+.btns
+  black_text()
+  padding: 0
+  line-height: 30px
+  background-color: rgba(77, 78, 70, 0.9)
+  span
+    margin: 0 6px
+
+.ririnra-theme,
+.cinema-theme,
+.wa-theme
+  .chat
+    white_ssay()
+    white_text()
+
+.cinema-theme
+  .talk .chat
+    border-radius: 0.5rem
+  .name, strong
+    color: #665E44
+
+.wa-theme
+  .talk .chat
+    border-top:    2px solid #444
+    border-bottom: 2px solid #444
+  .name, strong
+    color: #333
+
+
+.night-theme,
+.moon-theme,
+.star-theme
+  .chat
+    black_ssay()
+    black_text()
+
+

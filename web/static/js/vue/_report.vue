@@ -5,11 +5,12 @@ module.exports = require("./_chat.coffee").component_class()
 </style>
 
 <template lang="pug">
-.info(:key="id", :class="handle")
-  h3.mesname(v-if="head")  {{ head }}
-  p.mes_text(:class="style", v-html="log_html")
-  p.mes_date
-    span.emboss {{ sign }}
+.chat.report(:key="id", :class="handle")
+  p.name(v-if="head")
+    | {{ head }}
+    sup.pull-right(v-if="sign") {{ sign }}
+  p.text(:class="style", v-html="log_html")
+  p.date
     timeago(:since="write_at")
 
 </template>

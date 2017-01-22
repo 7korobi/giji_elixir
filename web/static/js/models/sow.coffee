@@ -37,17 +37,18 @@ welcome = (h)->
       face_id: face_id
       job:  "ようこそ！"
       name: ""
+      sign: "ななころび"
     phases[key] =
       write_at: 1484445101000
       name: "通常発言"
-      handle: "mes_nom"
+      handle: "SSAY"
     chats[key + "-1"] =
       write_at: 1169852700003
       potof_id: key
-      show: "action"
+      show: "post"
       style: "plain"
       log: """
-  人狼議事１０周年！
+  祝！人狼議事１０周年！
 """
 
   Collection.phase.set phases

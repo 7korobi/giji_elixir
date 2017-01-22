@@ -4,7 +4,7 @@
 <style lang="stylus" scoped>
 
 h2
-  height: 75px
+  height: 100px
   padding-top: 25px
   white-space: pre
   font-size: xx-large
@@ -20,7 +20,7 @@ h2
   opacity: 0
 
 
-.theme-wa
+.wa-theme
   .filmline
     background-image: url(http://s3-ap-northeast-1.amazonaws.com/giji-assets/images/bg/film-wa-border.png)
 
@@ -55,7 +55,7 @@ h2
     vertical-align: top
     padding: 0 3px
 
-.width-480
+.std-width
   #export
     margin: 0 0 0 auto
   .filmend

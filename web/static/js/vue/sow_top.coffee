@@ -6,6 +6,11 @@ file = (path)->
 bg = (name)->
   file "/images/bg/#{name}"
 
+class_name =
+  "480-width":   "std-width"
+  "800-width":  "wide-width"
+  "1200-width": "full-width"
+
 module.exports =
   metaInfo: ->
     title: @current.title
@@ -21,6 +26,9 @@ module.exports =
     link: [
       { href: "mailto:7korobi@gmail.com" }
       { rel: 'stylesheet', type: 'text/css', href: @style_url }
+    ]
+    script: [
+      { src: "https://use.fontawesome.com/6348868528.js"}
     ]
     bodyAttrs:
       class: @body_class
@@ -48,7 +56,11 @@ module.exports =
       switch @style.theme
         when "ririnra"
           @style.width = 800
-      ("#{k}-#{v}" for k,v of @style).join(" ")
+      list =
+        for k,v of @style
+          s = "#{v}-#{k}"
+          class_name[s] ? s
+      list.join(" ")
 
     welcome_ids: ->
       Query.chats.for_part("#{@current.rule}-top").ids

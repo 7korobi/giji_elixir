@@ -10,10 +10,10 @@ Vue.use require('vue-async-computed'),
 Vue.component "vSelect", require 'vue-select'
 Vue.component "timeago", require './_timeago'
 
-Vue.component "talk",    require './_talk.vue'
-Vue.component "info",    require './_info.vue'
-Vue.component "action",  require './_action.vue'
-# Vue.component "calc",    require './_calc.vue'
-Vue.component "chat", require './_chat'
+Vue.component "report", require './_report.vue'
+Vue.component "post",   require './_post.vue'
+Vue.component "talk",   require './_talk.vue'
+# Vue.component "calc",  require './_calc.vue'
+Vue.component "chat",   require './_chat'
 
-Vue.component "chrs",    require './_chrs.vue'
+Vue.component "chrs",   require './_chrs.vue'
