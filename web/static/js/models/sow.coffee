@@ -24,7 +24,7 @@ new Rule("folder").schema ->
       return if @disabled = ! path
       @route = { path, name: @_id }
 
-Collection.folder.set  require "../yaml/sow_folder.yml"
+Collection.folder.set  require "../../yaml/sow_folder.yml"
 
 
 welcome = (h)->

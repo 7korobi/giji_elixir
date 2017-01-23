@@ -1,5 +1,4 @@
 
-import global from "./models/global"
 import menu   from "./models/menu"
 
 import book  from "./models/book"

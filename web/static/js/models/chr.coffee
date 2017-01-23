@@ -94,10 +94,10 @@ new Rule("chr_job").schema ->
       @chr_set_idx = order.indexOf @chr_set_id
 
 
-Collection.tag.set  require "../yaml/chr_tag.yml"
-Collection.face.set require "../yaml/chr_face.yml"
+Collection.tag.set  require "../../yaml/chr_tag.yml"
+Collection.face.set require "../../yaml/chr_face.yml"
 for key in order
-  o = require "../yaml/cs_#{key}.yml"
+  o = require "../../yaml/cs_#{key}.yml"
 
   Collection.chr_set.merge [o.chr_set]
   { chr_set_id } = o.chr_set

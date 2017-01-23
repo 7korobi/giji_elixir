@@ -29,12 +29,12 @@ module.exports = require("./_chat.coffee").component_class()
 
 <template lang="pug">
 table.talk(:key="id")
-  tbody(:class="handle")
+  tbody
     tr
       th
         img(:src="face_url" width="90" height="130")
       td
-        .chat
+        .chat(:class="handle")
           p.name(v-if="head")
             | {{ head }}
             sup.pull-right(v-if="sign") {{ sign }}

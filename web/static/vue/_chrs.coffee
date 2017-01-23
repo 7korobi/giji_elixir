@@ -42,6 +42,7 @@ module.exports =
         size = ctx.parent.faces(id).length
 
         attr =
+          staticClass: "btn"
           key: id
           on:
             click: ->

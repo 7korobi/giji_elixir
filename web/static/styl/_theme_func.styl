@@ -1,0 +1,122 @@
+btn($bg)
+  background-color: $bg
+  $heavy = darken($bg, 50%)
+  $soft  = darken($bg, 30%)
+  $clear = transparent
+
+  box-shadow:
+      0 -2px 1px 1px $heavy inset
+  &:link
+    box-shadow:
+      0 -3px 2px 1px $heavy inset
+
+  &:visited
+    box-shadow:
+      0 -3px 2px 1px $heavy inset
+  &:hover, &:focus
+    box-shadow:
+      0 0 0  15000px $soft  inset,
+      0 -1px         $heavy inset
+  &:active, &:checked
+    box-shadow:
+      0 0 0  15000px $heavy inset,
+      0 2px 2px      $heavy inset
+
+
+pen($pen, $bold)
+  color: $pen
+  box-sizing: border-box
+
+  a
+    color: $pen
+  b
+    color: $bold
+  // kbd, code
+
+  .name
+    font-weight: bold
+
+  .text
+    overflow:   visible
+    word-wrap:  break-word
+    word-break: break-strict
+    &.head:first-line
+      font-weight: bold
+    &.mono
+      font-family: monospace
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+
+  .date
+    text-align: right
+    font-size: 10.5px
+    line-height: 15px
+
+
+paper($bg)
+  $mark  = lighten($bg, 40%)
+  $emboss = darken($bg, 40%)
+
+  background:   $bg !important
+  sup, sub
+    background: $emboss
+    color:      $bg
+
+  strong,
+  .name,
+  .date
+    color: $emboss
+
+  textarea
+    background: $bg
+
+  a, b,
+  input[type=color],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=image],
+  [title],
+  [data-tooltip]
+    background: $mark
+
+  button,
+  input[type=button],
+  input[type=submit],
+  input[type=reset],
+  .btn
+    btn($mark)
+
+
+glass($bg)
+  $mark  = lighten($bg, 40%)
+  $emboss = darken($bg, 40%)
+
+  background:   $bg
+  sup, sub
+    background: $emboss
+    color:      $bg
+
+  strong,
+  .name,
+  .date
+    color: $emboss
+
+  textarea
+    background: $bg
+
+  a, b,
+  input[type=color],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=image],
+  [title],
+  [data-tooltip]
+    background: $mark
+
+  button,
+  input[type=button],
+  input[type=submit],
+  input[type=reset],
+  .btn
+    btn($mark)

@@ -12,7 +12,7 @@ transition
 VueRouter = require 'vue-router'
 { Query } = require "memory-record"
 
-require "../models/sow.coffee"
+require "../js/models/sow.coffee"
 
 routes = [
   Query.folders.enable.pluck("route")...

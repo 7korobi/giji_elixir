@@ -1,0 +1,69 @@
+white_text(){    pen(#000, #333) }
+white_ssay(){ paper(#cb8) }
+
+black_wa_text(){ pen(#FFC960, #FFEE90) }
+black_text(){    pen(#ccc,    #fff   ) }
+black_btns(){ paper(rgba(77, 78, 70, 1)) }
+black_ssay(){ glass(#596664) }
+
+
+.links
+  black_text()
+
+.btns
+  black_btns()
+  black_text()
+  line-height: 30px
+  background-color: rgba(77, 78, 70, 1)
+  span
+    margin: 0 6px
+
+.wa-theme
+  .links
+    black_wa_text()
+  .btns
+    black_wa_text()
+
+
+.ririnra-theme,
+.cinema-theme,
+.wa-theme
+  .chat
+    white_text()
+    .name
+      border-bottom: 1px solid rgba(0,0,0,0.2)
+      box-shadow: rgba(255,255,255,0.3) 0 1px 0
+  .SSAY
+     white_ssay()
+
+
+.cinema-theme
+  .talk .chat
+    border-radius: 0.5rem
+
+
+.wa-theme
+  .talk .chat
+    border-top:    2px solid #444
+    border-bottom: 2px solid #444
+  .name, strong
+    color: #333
+
+
+.moon-theme
+  .chat
+    black_wa_text()
+    .name
+      border-bottom: 1px dashed
+  .SSAY
+    black_ssay()
+
+
+.night-theme,
+.star-theme
+  .chat
+    black_text()
+    .name
+      border-bottom: 1px dashed
+  .SSAY
+    black_ssay()
