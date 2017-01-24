@@ -1,122 +1,134 @@
-btn($bg)
-  background-color: $bg
-  $heavy = darken($bg, 50%)
-  $soft  = darken($bg, 30%)
-  $clear = transparent
-
-  box-shadow:
-      0 -2px 1px 1px $heavy inset
-  &:link
-    box-shadow:
-      0 -3px 2px 1px $heavy inset
-
-  &:visited
-    box-shadow:
-      0 -3px 2px 1px $heavy inset
-  &:hover, &:focus
-    box-shadow:
-      0 0 0  15000px $soft  inset,
-      0 -1px         $heavy inset
-  &:active, &:checked
-    box-shadow:
-      0 0 0  15000px $heavy inset,
-      0 2px 2px      $heavy inset
-
-
-pen($pen, $bold)
-  color: $pen
+theme-block($pen, $bg, $emboss)
   box-sizing: border-box
 
-  a
-    color: $pen
+  color:           $pen
+  background-color: $bg
+
+  textarea
+    background-color: $bg
+
+  .name, .date, strong
+    color: $emboss
+
+  sup, sub
+    background: $emboss
+    color:      $bg
+
+theme-mark($pen, $bg, $emboss)
+  $mark = lighten($bg, 20%)
+  $bold = lighten($pen, 30%)
+  $spot = lighten($bg, 50%)
+
+  $on  = mix($mark, green, 90%)
+  $off = mix($mark, blue,  90%)
+
   b
     color: $bold
-  // kbd, code
 
-  .name
-    font-weight: bold
-
-  .text
-    overflow:   visible
-    word-wrap:  break-word
-    word-break: break-strict
-    &.head:first-line
-      font-weight: bold
-    &.mono
-      font-family: monospace
-      overflow: hidden
-      white-space: nowrap
-      text-overflow: ellipsis
-
-  .date
-    text-align: right
-    font-size: 10.5px
-    line-height: 15px
-
-
-paper($bg)
-  $mark  = lighten($bg, 40%)
-  $emboss = darken($bg, 40%)
-
-  background:   $bg !important
-  sup, sub
-    background: $emboss
-    color:      $bg
-
-  strong,
-  .name,
-  .date
-    color: $emboss
-
-  textarea
-    background: $bg
-
-  a, b,
-  input[type=color],
+  a, button,
+  [title], [data-tooltip],
   input[type=checkbox],
   input[type=radio],
+  input[type=color],
   input[type=image],
-  [title],
-  [data-tooltip]
-    background: $mark
-
-  button,
   input[type=button],
   input[type=submit],
-  input[type=reset],
-  .btn
-    btn($mark)
+  input[type=reset]
+    color: $pen
 
-
-glass($bg)
-  $mark  = lighten($bg, 40%)
-  $emboss = darken($bg, 40%)
-
-  background:   $bg
-  sup, sub
-    background: $emboss
-    color:      $bg
-
-  strong,
-  .name,
-  .date
-    color: $emboss
-
-  textarea
-    background: $bg
-
-  a, b,
-  input[type=color],
+  a, b, button,
+  [title], [data-tooltip],
   input[type=checkbox],
   input[type=radio],
+  input[type=color],
   input[type=image],
-  [title],
-  [data-tooltip]
-    background: $mark
-
-  button,
   input[type=button],
   input[type=submit],
-  input[type=reset],
-  .btn
-    btn($mark)
+  input[type=reset]
+    background: $mark
+    &:hover, &:focus
+      background: $bg
+      box-shadow:
+        0 0 20px 3px $spot inset
+    &:active
+      background: $bg
+      box-shadow:
+        0 0 20px 3px $emboss inset
+
+  input[type=checkbox],
+  input[type=radio]
+    &:checked
+      background: $on
+
+  a[href]
+    &:link
+      color: $pen
+      background: $off
+    &:visited
+      color: $pen
+      background: $on
+
+theme-btn($pen, $bg, $emboss)
+  $mark = lighten($bg, 20%)
+  $bold = lighten($pen, 30%)
+  $spot = lighten($bg, 50%)
+
+  $on  = mix($mark, green, 90%)
+  $off = mix($mark, blue,  90%)
+
+  b
+    color: $bold
+
+  a, button,
+  [title], [data-tooltip],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    color: $pen
+
+  a, b, button,
+  [title], [data-tooltip],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    background: $bg
+    box-shadow:
+        0 -2px 0.5px 0 $shadow inset
+    &:hover, &:focus
+      box-shadow:
+        0 0 0  15000px $shadow inset,
+        0 -1px         $shadow inset
+    &:active
+      box-shadow:
+        0 0 0  15000px $shadow inset,
+        0 -1px         $shadow inset
+
+  input[type=checkbox],
+  input[type=radio]
+    &:checked
+      background: $on
+
+  a[href]
+    &:link
+      color: $pen
+      background: $off
+    &:visited
+      color: $pen
+      background: $on
+
+  a, b, button,
+  [title], [data-tooltip],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    color: $pen

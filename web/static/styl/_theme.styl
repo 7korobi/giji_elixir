@@ -1,69 +1,103 @@
-white_text(){    pen(#000, #333) }
-white_ssay(){ paper(#cb8) }
 
-black_wa_text(){ pen(#FFC960, #FFEE90) }
-black_text(){    pen(#ccc,    #fff   ) }
-black_btns(){ paper(rgba(77, 78, 70, 1)) }
-black_ssay(){ glass(#596664) }
+whites = {
+  SSAY:  #cb8
+  TSAY:  #a98
+  GSAY:  #bbd
+  WSAY:  #a55
+  XSAY:  #9a7
+  SPSAY: #dcb
+  AIM:   #dcb
 
+  NONE:     #cb8
+  HUMAN:    #a97
+  DISH:     #a97
+  LONEWOLF: #a9d
+  PIXI:     #a9d
+  GURU:     #a9d
+  HATER:    #aaa
+  LOVER:    #dcb
+  WOLF:     #a55
+  EVIL:     #9a7
 
-.links
-  black_text()
-
-.btns
-  black_btns()
-  black_text()
-  line-height: 30px
-  background-color: rgba(77, 78, 70, 1)
-  span
-    margin: 0 6px
-
-.wa-theme
-  .links
-    black_wa_text()
-  .btns
-    black_wa_text()
+  caution:  #666
 
 
-.ririnra-theme,
-.cinema-theme,
-.wa-theme
-  .chat
-    white_text()
-    .name
-      border-bottom: 1px solid rgba(0,0,0,0.2)
-      box-shadow: rgba(255,255,255,0.3) 0 1px 0
-  .SSAY
-     white_ssay()
+  executed:   #99f
+  live:       #cb8
+  mob:        #ca6
+  suddendead: #666
+  leave:      #666
+  suicide:    #a55
+  victim:     #a55
+  cursed:     #a55
+  feared:     #a55
+  droop:      #a55
+}
+
+blacks = {
+  btns: rgba( 77, 78, 70, 1)
+  links: #000
+}
+
+dark  = #000
+black = #222
+white = #ccc
+gold  = #ffc960
+
+palette($bgTheme, $backTheme, $pen)
+  if glass == $backTheme
+    $bg = alpha(saturate(whites[$bgTheme], 20%), 0.3)
+  if light == $backTheme
+    $bg = whites[$bgTheme]
+    $pen = mix($bg, $pen, 40%)
+
+  if white == $backTheme
+    $bg = whites[$bgTheme]
+
+  if black == $backTheme
+    $bg = blacks[$bgTheme]
+
+  $emboss = darken($bg, 40%)
+
+  .{$bgTheme}
+    theme-block($pen, $bg, $emboss)
+    theme-mark($pen, $bg, $emboss)
 
 
-.cinema-theme
-  .talk .chat
-    border-radius: 0.5rem
+says  = SSAY TSAY GSAY WSAY XSAY SPSAY AIM
+losts = suddendead leave
+stats = HUMAN EVIL WOLF LOVER HATER GURU PIXI LONEWOLF DISH HUMAN executed live mob suicide victim cursed feared droop
 
 
-.wa-theme
-  .talk .chat
-    border-top:    2px solid #444
-    border-bottom: 2px solid #444
-  .name, strong
-    color: #333
+palette(links, black, white)
+palette(btns,  black, white)
 
+.moon-theme, .wa-theme
+  palette(links, black, gold)
+  palette(btns,  black, gold)
 
 .moon-theme
-  .chat
-    black_wa_text()
-    .name
-      border-bottom: 1px dashed
-  .SSAY
-    black_ssay()
+  for say in says
+    palette(say,  glass, gold)
+  for stat in stats
+    palette(stat, light, dark)
+  for lost in losts
+    palette(lost, light, white)
+
+.night-theme, .star-theme
+  for say in says
+    palette(say, glass, white)
+  for stat in stats
+    palette(stat, light, dark)
+  for lost in losts
+    palette(lost, light, white)
+
+.ririnra-theme, .cinema-theme, .wa-theme
+  for say in says
+    palette(say, white, black)
+  for stat in stats
+    palette(stat, light, dark)
+  for lost in losts
+    palette(lost, light, white)
 
 
-.night-theme,
-.star-theme
-  .chat
-    black_text()
-    .name
-      border-bottom: 1px dashed
-  .SSAY
-    black_ssay()

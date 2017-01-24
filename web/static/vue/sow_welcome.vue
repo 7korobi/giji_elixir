@@ -54,7 +54,7 @@ h2
 
 <template lang="pug">
 #welcome(:style="welcome_style")
-  table#export.links
+  table#export
     thead
       tr
         th ロビー
@@ -63,17 +63,17 @@ h2
         th ＲＰ
     tbody
       tr
-        td
+        td.links
           sow(folder="LOBBY")
           sow(folder="OFFPARTY")
-        td
+        td.links
           sow(folder="MORPHE")
           sow(folder="CABALA") cafe
-        td
+        td.links
           sow(folder="WOLF")
           sow(folder="ULTIMATE")
           sow(folder="ALLSTAR")
-        td
+        td.links
           sow(folder="RP") role-play
           sow(folder="PRETENSE") RP-advance
           sow(folder="PERJURY")
@@ -84,18 +84,18 @@ h2
   h2#title(v-html="current.title")
   .btns
     span.mode
-      .btn(v-if=" mode === 'progress' " @click="slide('finish')") 進行中の村
-      .btn(v-if=" mode === 'finish' " @click="slide('progress')") 終了した村
+      a(v-if=" mode === 'progress' " @click="slide('finish')") 進行中の村
+      a(v-if=" mode === 'finish' " @click="slide('progress')") 終了した村
     span.style
-      .btn(@click=" style.width = 480") 480
-      .btn(@click=" style.width = 800") 800
+      a(@click=" style.width = 480") 480
+      a(@click=" style.width = 800") 800
     span.theme
-      .btn(@click=" style.theme = 'ririnra'") 漆黒
-      .btn(@click=" style.theme = 'cinema'") 煉瓦
-      .btn(@click=" style.theme = 'night'") 月夜
-      .btn(@click=" style.theme = 'star'") 蒼穹
-      .btn(@click=" style.theme = 'wa'") 和の国
-      .btn(href="sow.cgi?ua=mb") 携帯
+      a(@click=" style.theme = 'ririnra'") 漆黒
+      a(@click=" style.theme = 'cinema'") 煉瓦
+      a(@click=" style.theme = 'night'") 月夜
+      a(@click=" style.theme = 'star'") 蒼穹
+      a(@click=" style.theme = 'wa'") 和の国
+      a(href="sow.cgi?ua=mb") 携帯
   .filmline
     .contentframe
       img.filmend(:src="filmend_url")

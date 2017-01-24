@@ -15,7 +15,8 @@ new Rule("folder").schema ->
         @rule     = o.RULE
         @title    = o.NAME_HOME
         @max_vils = o.MAX_VILLAGES
-        path = @config.cfg.URL_SW + "/sow.cgi"
+        if @max_vils
+          path = @config.cfg.URL_SW + "/sow.cgi"
 
       switch @folder
         when "LOBBY"

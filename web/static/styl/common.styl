@@ -1,7 +1,8 @@
-@import "./_font"
 @import "./_theme_func"
 @import "./_theme"
 
+b
+  font-weight: bold
 
 input[type=color],
 input[type=checkbox],
@@ -17,11 +18,10 @@ a, b, kbd, code, input, select, button, textarea,
   user-select: none
   box-sizing: border-box
   vertical-align: baseline
-  font-weight: bold
   text-align: center
   text-decoration: none
   margin:    4px 2px
-  padding:   2px 1px
+  padding:   2px
   border-radius: 3px
   border-width:  0
   border-style: outset
@@ -72,10 +72,64 @@ sup, sub
 
 .chat
   padding: 0 4px
+  .name
+    color: $emboss
+    font-weight: bold
+
+  .text
+    overflow:   visible
+    word-wrap:  break-word
+    word-break: break-strict
+    &.head:first-line
+      font-weight: bold
+    &.mono
+      font-family: monospace
+      overflow: hidden
+      white-space: nowrap
+      text-overflow: ellipsis
+
+  .date
+    color: $emboss
+    text-align: right
+    font-size: 10.5px
+    line-height: 15px
+
 
 .std-width
   .btns
     text-align: right
+
+.btns
+  line-height: 30px
+  span
+    margin: 0 6px
+
+.cinema-theme
+  .talk .chat
+    border-radius: 0.5rem
+
+.ririnra-theme,
+.cinema-theme,
+.wa-theme
+  .chat
+    .name
+      border-bottom: 1px solid rgba(0,0,0,0.2)
+      box-shadow: rgba(255,255,255,0.3) 0 1px 0
+
+.wa-theme
+  .talk .chat
+    border-top:    2px solid #444
+    border-bottom: 2px solid #444
+  .name, strong
+    color: #333
+
+.night-theme,
+.star-theme,
+.moon-theme
+  .chat
+    .name
+      border-bottom: 1px dashed
+
 
 
 
