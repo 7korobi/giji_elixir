@@ -1,20 +1,25 @@
-theme-block($pen, $bg, $emboss)
+theme-block($pen, $bg, $emboss, $border)
   box-sizing: border-box
 
   color:           $pen
   background-color: $bg
+  border-color: $border
 
   textarea
     background-color: $bg
+    border-color: $border
 
   .name, .date, strong
-    color: $emboss
+    color:        $emboss
+    border-color: $border
 
   sup, sub
-    background: $emboss
-    color:      $bg
+    color:                $bg
+    border-color:     $border
+    background-color: $emboss
 
-theme-mark($pen, $bg, $emboss)
+
+theme-mark($pen, $bg, $emboss, $border)
   $mark = lighten($bg, 20%)
   $bold = lighten($pen, 30%)
   $spot = lighten($bg, 50%)
