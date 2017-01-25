@@ -46,18 +46,21 @@ gold  = #ffc960
 
 palette($bgTheme, $backTheme, $pen)
   if glass == $backTheme
-    $bg = alpha(saturate(whites[$bgTheme], 20%), 0.3)
+    $emboss = whites[$bgTheme]
+    $bg = alpha($emboss, 0.2)
+
   if light == $backTheme
     $bg = whites[$bgTheme]
     $pen = mix($bg, $pen, 40%)
+    $emboss = darken($bg, 40%)
 
   if white == $backTheme
     $bg = whites[$bgTheme]
+    $emboss = darken($bg, 40%)
 
   if black == $backTheme
     $bg = blacks[$bgTheme]
-
-  $emboss = darken($bg, 40%)
+    $emboss = darken($bg, 40%)
 
   .{$bgTheme}
     theme-block($pen, $bg, $emboss)
