@@ -18,24 +18,22 @@ module.exports = require("~vue/_chat.coffee").component_class()
 .ririnra-theme,
 .wa-theme
   .post
-    border-style: solid none solid solid;
+    border-style: solid none solid solid
     border-width: 2px  0   2px  18px
-    border-color: #222;
+    border-color: #222
 
 .cinema-theme
   .post
-    border-style: dashed none dashed solid;
+    border-style: dashed none dashed solid
     border-width: 2px  0   2px  18px
-    border-color: #663;
+    border-color: #663
 
 .night-theme,
 .moon-theme,
 .star-theme
   .post
-    border-style: none none solid solid;
-    border-color: rgba(177,177,204,0.7);
-    background:   rgba(  0,  0,  0,0.4);
-    color:        #DDF;
+    border-style: none none solid solid
+    border-width: 0 0 1px 18px
 
 </style>
 

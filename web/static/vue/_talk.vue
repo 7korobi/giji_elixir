@@ -25,6 +25,15 @@ module.exports = require("~vue/_chat.coffee").component_class()
   .chat
     margin:  0  7px 6px  0
 
+.night-theme,
+.moon-theme,
+.star-theme
+  .talk
+    .chat
+      border-style: none none solid solid
+      border-width: 0 0 1px 4px
+      margin:  0  7px 6px  -3px
+
 </style>
 
 <template lang="pug">
