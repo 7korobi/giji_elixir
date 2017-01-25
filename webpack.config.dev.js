@@ -49,6 +49,18 @@ module.exports = {
       chunks: ['js/test']
     }),
     new webpack.optimize.CommonsChunkPlugin('js/base','js/base.js'),
+    new webpack.optimize.AggressiveMergingPlugin({
+      minSizeReduce: 1.5,
+      entryChunkMultiplicator: 10,
+      moveToParents: true
+    }),
+    new compress({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.html$/,
+      threshold: 1,
+      minRatio: 0.8
+    })
   ],
 
   devtool: 'source-map',
@@ -85,8 +97,7 @@ module.exports = {
     alias: {
       '~vue':    'vue',
       '~js':     'js',
-      '~styl':   'styl',
-      '~images': 'images'
+      '~styl':   'styl'
     }
   }
 };

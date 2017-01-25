@@ -4,10 +4,8 @@ var html = require('html-webpack-plugin');
 var copy = require("copy-webpack-plugin");
 
 var path = require("path");
-var dir = function(str) {
-  var ary = str.split("/");
-  ary.unshift(__dirname);
-  return path.join.apply(path, ary);
+var dir = (str) => {
+  return path.resolve(__dirname, str);
 };
 
 
@@ -28,7 +26,8 @@ module.exports = {
       { test:      /\.vue$/, loader: 'vue' },
       { test:       /\.js$/, loader: "babel", exclude: /node_modules/ },
       { test:      /\.yml$/, loader: 'json!yaml' },
-      { test:   /\.coffee$/, loader: "coffee" }
+      { test:   /\.coffee$/, loader: "coffee" },
+      { test: /\.(jpg|png|svg)$/, loader: "file?name=[path][name].[ext]"}
     ]
   },
 
@@ -41,12 +40,9 @@ module.exports = {
 
   plugins: [
     new copy([
-      { from: "assets", to: "assets" },
-      { from: dir("../../web_work/images/portrate"), to: "assets/images/portrate" }
+      { from: "images", to: "images" },
+      { from: dir("../../web_work/images/portrate"), to: "images/portrate" }
     ]),
-    new html({
-      filename: 'html/index.html'
-    }),
     new html({
       filename: 'html/test.html',
       template: 'html/test.pug',
@@ -65,7 +61,6 @@ module.exports = {
       comments: false,
       sourceMap: true,
     }),
-    new webpack.optimize.CommonsChunkPlugin('js/base','js/base.js'),
     new compress({
       asset: "[path].gz[query]",
       algorithm: "gzip",
@@ -95,17 +90,22 @@ module.exports = {
     jsonpFunction: "gijiP",
     library: false,
     libraryTarget: "var", // var, this, umd
-    path: dir('/priv/static'),
+    path: dir('priv/static/'),
     publicPath: "http://s3-ap-northeast-1.amazonaws.com/giji-assets/",
     filename: '[name].js'
   },
   resolve: {
     root: [
-      dir('/web/static')
+      dir('web/static')
     ],
     modulesDirectories: [
       'node_modules'
     ],
-    extensions: ['', '.js', '.coffee']
+    extensions: ['', '.js', '.coffee'],
+    alias: {
+      '~vue':    'vue',
+      '~js':     'js',
+      '~styl':   'styl'
+    }
   }
 };
