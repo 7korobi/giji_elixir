@@ -5,7 +5,7 @@ module.exports = require("~vue/_chat.coffee").component_class()
 
 .wide-width .talk
   th img
-    margin:  0 14px 6px 16px
+    margin:  0 15px 6px 16px
 
 .std-width .talk
   th img
@@ -31,7 +31,7 @@ module.exports = require("~vue/_chat.coffee").component_class()
   .talk
     .chat
       border-style: none none solid solid
-      border-width: 0 0 1px 4px
+      border-width: 0 0 1px 3px
       margin:  0  7px 6px  -3px
 
 </style>
