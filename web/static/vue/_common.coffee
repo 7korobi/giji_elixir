@@ -8,12 +8,12 @@ Vue.use require('vue-async-computed'),
     console.log msg
 
 Vue.component "vSelect", require 'vue-select'
-Vue.component "timeago", require './_timeago'
+Vue.component "timeago", require '~vue/_timeago'
 
-Vue.component "report", require './_report.vue'
-Vue.component "post",   require './_post.vue'
-Vue.component "talk",   require './_talk.vue'
-# Vue.component "calc",  require './_calc.vue'
-Vue.component "chat",   require './_chat'
+Vue.component "report", require '~vue/_report.vue'
+Vue.component "post",   require '~vue/_post.vue'
+Vue.component "talk",   require '~vue/_talk.vue'
+# Vue.component "calc",  require '~vue/_calc.vue'
+Vue.component "chat",   require '~vue/_chat'
 
-Vue.component "chrs",   require './_chrs.vue'
+Vue.component "chrs",   require '~vue/_chrs.vue'

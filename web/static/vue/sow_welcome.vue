@@ -11,19 +11,19 @@ h2
 
 .wa-theme
   .filmline
-    background-image: url(http://s3-ap-northeast-1.amazonaws.com/giji-assets/images/bg/film-wa-border.png)
+    background-image: url(../images/bg/film-wa-border.png)
 
 .filmline
   margin: 0
   height: 11px
   background-repeat: repeat-x
-  background-image: url(http://s3-ap-northeast-1.amazonaws.com/giji-assets/images/bg/film-border.png)
+  background-image: url(../images/bg/film-border.png)
   .contentframe
     background-image: none
 
 #welcome
   background-size:  cover
-  background-image: url(http://s3-ap-northeast-1.amazonaws.com/giji-assets/images/bg/fhd-giji.png)
+  background-image: url(../images/bg/fhd-giji.png)
   .btns
     background-color: rgba(77, 78, 70, 0.9)
 

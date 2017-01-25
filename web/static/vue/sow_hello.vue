@@ -1,5 +1,5 @@
-<script lang="coffee" src="./sow_hello.coffee"></script>
-<style lang="stylus" src="../styl/common.styl"></style>
+<script lang="coffee" src="~vue/sow_hello.coffee"></script>
+<style lang="stylus" src="~styl/common.styl"></style>
 <style lang="stylus" scoped>
 
 .inframe

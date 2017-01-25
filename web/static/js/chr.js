@@ -1,1 +1,1 @@
-import chr  from "./models/chr"
+import chr  from "~js/models/chr"

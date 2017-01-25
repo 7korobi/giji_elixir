@@ -12,7 +12,7 @@ transition
 VueRouter = require 'vue-router'
 { Query } = require "memory-record"
 
-require "../js/models/sow.coffee"
+require "~js/models/sow.coffee"
 
 routes = [
   Query.folders.enable.pluck("route")...
@@ -20,8 +20,8 @@ routes = [
   { name: "other", path: "*" }
 ]
 routes.map (o)-> o.components =
-  welcome: require "./sow_welcome.vue"
-  hello:   require "./sow_hello.vue"
+  welcome: require "~vue/sow_welcome.vue"
+  hello:   require "~vue/sow_hello.vue"
 
 module.exports =
   el: "#top"
