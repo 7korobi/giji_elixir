@@ -6,10 +6,9 @@ file = (path)->
 bg = (name)->
   file "/images/bg/#{name}"
 
-class_name =
-  "480-width":   "std-width"
-  "800-width":  "wide-width"
-  "1200-width": "full-width"
+style_names = ///
+  \s*\S+-(theme|width|layout|font)\s*
+///g
 
 module.exports =
   metaInfo: ->
@@ -17,16 +16,15 @@ module.exports =
       { href: "mailto:7korobi@gmail.com" }
       { rel: 'stylesheet', type: 'text/css', href: @style_url }
     ]
-    bodyAttrs:
+    htmlAttrs:
       class: @body_class
 
   data: ->
-    css = @$route.query.css ? "cinema800"
-    [..., theme, width = 800] = css.match(/^(\D+)(\d*)$/)
-
+    css = @$cookie.get("css") ? "cinema~wide~center~std"
+    [theme, width, layout, font] = css.split("~")
     mode: window?.welcome
     current: Query.folders.hash[@$route.name] ? Query.folders.hash.PERJURY
-    style: { theme, width }
+    style: { theme, width, layout, font }
     use: {}
     now: Date.now()
     export_to: "progress"
@@ -42,14 +40,20 @@ module.exports =
 
   computed:
     body_class: ->
-      switch @style.theme
-        when "ririnra"
-          @style.width = 800
+      { theme, width, layout, font } = @style
+      @use.theme?.unuse()
+      @use.theme = require "~styl/theme-#{theme}.styl.use"
+      @use.theme.use()
+      str = [theme, width, layout, font].join("~")
+      @$cookie.set "css", str,
+        path: '/'
+        expires: '7D'
+
+      header = document?.querySelector("html")?.className?.replace(style_names, "") ? ""
       list =
         for k,v of @style
-          s = "#{v}-#{k}"
-          class_name[s] ? s
-      list.join(" ")
+          "#{v}-#{k}"
+      header + " " +list.join(" ")
 
     welcome_style: ->
       backgroundPosition: "right 0px top #{ -@y / 2 }px"
@@ -60,36 +64,6 @@ module.exports =
           bg "film-wa-end.png"
         else
           bg "film-end.png"
-
-    css: ->
-      { theme, width } = @style
-      @use.theme?.unuse()
-      @use.theme = require "~styl/theme-#{theme}.styl.use"
-      @use.theme.use()
-      switch @style.theme
-        when "ririnra"
-          @style.width = 800
-          "#{ theme }"
-        else
-          "#{ theme }#{ width }"
-
-    style_url: ->
-      { theme, width } = @style
-      @$cookie.set "css", @css,
-        path: '/'
-        expires: '7D'
-      @$router.replace { @query }
-      file "/stylesheets/#{ @css }.css"
-
-    query: ->
-      query = {}
-      for key, val of @$route.query
-        query[key] = val
-      query.css = @css
-      query
-
-    current_url: ->
-      @current.route.path + "?css=#{ @css }"
 
   methods:
     poll: ->

@@ -5,61 +5,56 @@ var copy = require("copy-webpack-plugin");
 
 var path = require("path");
 var dir = (str) => {
-  return path.resolve(__dirname, str);
+  return path.resolve(__dirname, "..", str);
 };
 
 
 module.exports = {
   entry: {
-    "js/base":   "js/base.js",
     "js/app":    "js/app.js",
     "js/chr":    "js/chr.js",
     "js/socket": "js/socket.js",
+    "js/common": "js/common.js",
+    "js/rails":  "js/rails.js",
     "js/sow":    "js/sow.js"
   },
 
   module: {
     loaders: [
-      { test:      /\.pug$/, loader: "pug-html", query: {pretty: true } },
-      { test:     /\.styl$/, loader: "style!css!stylus?resolve url"},
-      { test: /\.s[a|c]ss$/, loader: "style!css!sass" },
-      { test:      /\.vue$/, loader: 'vue' },
-      { test:       /\.js$/, loader: "babel", exclude: /node_modules/ },
-      { test:      /\.yml$/, loader: 'json!yaml' },
-      { test:   /\.coffee$/, loader: "coffee" },
+      { test:       /\.pug$/, loader: "pug-html", query: {pretty: true } },
+      { test:      /\.styl$/, loader: "style!css!stylus?resolve url"},
+      { test: /\.styl\.use$/, loader: "style/useable!css!stylus?resolve url"},
+      { test:       /\.vue$/, loader: 'vue' },
+      { test:        /\.js$/, loader: "babel", exclude: /node_modules/ },
+      { test:       /\.yml$/, loader: 'json!yaml' },
+      { test:    /\.coffee$/, loader: "coffee" },
       { test: /\.(jpg|png|svg)$/, loader: "file?name=[path][name].[ext]"}
     ]
   },
 
-  vue: {
-    loaders: {
-      html: 'pug',
-      scss: 'style!css!sass'
-    }
-  },
+  vue: {},
 
   plugins: [
+    /*
     new copy([
       { from: "images", to: "images" },
       { from: dir("../../web_work/images/portrate"), to: "images/portrate" }
     ]),
+    */
     new html({
       filename: 'html/test.html',
       template: 'html/test.pug',
       chunks: ['js/test']
     }),
-    new webpack.optimize.CommonsChunkPlugin('js/base','js/base.js'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "js/base",
+      filename: "js/base.js",
+      minChunks: 2
+    }),
     new webpack.optimize.AggressiveMergingPlugin({
       minSizeReduce: 1.5,
       entryChunkMultiplicator: 10,
       moveToParents: true
-    }),
-    new compress({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.js$|\.html$/,
-      threshold: 1,
-      minRatio: 0.8
     })
   ],
 

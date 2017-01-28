@@ -14,7 +14,13 @@ module.exports =
     ]
 
   data: ->
-    current: Query.folders.hash[@$route.name] ? Query.folders.hash.PERJURY
+    mode = window?.welcome
+    current =
+      if "full" == mode
+        Query.folders.hash[@$route.name] ? Query.folders.hash.PERJURY
+      else
+        []
+    { mode, current }
 
   computed:
     hello_ids: ->

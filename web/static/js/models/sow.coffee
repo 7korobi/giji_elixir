@@ -38,7 +38,6 @@ welcome = (h)->
       face_id: face_id
       job:  "ようこそ！"
       name: ""
-      sign: "ななころび"
     phases[key] =
       write_at: 1484445101000
       name: "通常発言"

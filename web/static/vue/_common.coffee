@@ -2,7 +2,6 @@ Vue = require 'vue'
 Vue.use require 'vue-meta'
 Vue.use require 'vue-router'
 Vue.use require 'vue-cookie'
-
 Vue.use require('vue-async-computed'),
   errorHandler: (msg)->
     console.log msg

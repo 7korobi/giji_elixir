@@ -4,15 +4,15 @@ module.exports = require("~vue/_chat.coffee").component_class()
 <style lang="stylus" scoped>
 
 .post
-  padding:    0 12px 0     4px
+  padding:    2px 12px 2px   4px
 
 .std-width
   .post
-    margin:   0  0   6px  97px
+    margin:   0    0   6px  97px
 
 .wide-width
   .post
-    margin:   0  0   6px 107px
+    margin:   0    0   6px 107px
 
 
 .ririnra-theme,

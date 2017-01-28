@@ -1,7 +1,9 @@
-<script lang="coffee" src="./sow_welcome.coffee"></script>
+<script lang="coffee" src="./rails_welcome.coffee"></script>
 <style lang="stylus" scoped>
 
 #export
+  border-collapse: separate
+  border-spacing: 2px
   padding: 30px
   margin:   0px auto
 
@@ -16,18 +18,18 @@
     vertical-align: top
     padding: 0 3px
 
-.std-width
+.right-layout
   #export
     margin: 0 0 0 auto
-  .btns
-    text-align: right
-  .filmend
-    margin: -11px 0 0 -8px
 
+.left-layout
+  #export
+    margin: 0 auto 0 0
 
 h2
   height: 100px
-  padding-top: 25px
+  margin:   0
+  padding: 25px 0 0 0
   white-space: pre
   font-size: xx-large
   line-height: 1.1em
@@ -43,7 +45,6 @@ h2
       box-shadow:
         0 0 20px 3px lighten(rgba(2,92,32,0.5), 50%) inset
 
-
 .moon-theme,
 .wa-theme
   .filmline
@@ -58,7 +59,7 @@ h2
     background-image: none
 
 .filmend
-  margin: -11px 0 0 0px
+  margin: -11px 0 0 -2px
 .outframe
   height: 0
   .contentframe
@@ -73,7 +74,7 @@ h2
 
 <template lang="pug">
 #welcome(:style="welcome_style")
-  table#export(v-if="mode")
+  table#export
     thead
       tr
         th.btns ロビー
@@ -106,42 +107,31 @@ h2
           a(v-if=" export_to === 'finish' " @click="slide('progress')") 終了した村
 
   h2#title
-    a(:href="current_url" v-if="'CABALA' == current._id")
-      | 人狼議事 Cabala Cafe
-    a(:href="current_url" v-if="'LOBBY' == current._id")
-      | 人狼議事 ロビー
-    a(:href="current_url" v-if="'TEST' == current._id")
-      | 人狼議事 手元テスト
-    a(:href="current_url" v-if="'CIEL' == current._id")
-      | 人狼議事 ciel
-      br
-      sup - Role Play Cheat -
-    a(:href="current_url" v-if="'PERJURY' == current._id")
-      | 人狼議事 perjury rulez
-      br
-      sup - Role Play braid -
-    a(:href="current_url" v-if="'XEBEC' == current._id")
-      | 人狼議事 xebec
-      br
-      sup - Role Play braid -
-    a(:href="current_url" v-if="'CRAZY' == current._id")
-      | 人狼議事 crazy
-      br
-      sup - Role Play braid -
-
-
+    | 人狼議事
 
   .btns
-    span.style
-      a(@click=" style.width = 480") 480
-      a(@click=" style.width = 800") 800
+    span.font
+      a(@click=" style.font = 'large'") 大判
+      a(@click=" style.font = 'novel'") 明朝
+      a(@click=" style.font = 'std'")   ゴシック
+      a(@click=" style.font = 'small'") 繊細
+
+    span.layout
+      a(@click=" style.layout = 'left'")   左詰
+      a(@click=" style.layout = 'center'") 中央
+      a(@click=" style.layout = 'right'")  右詰
+
+    span.width
+      a(@click=" style.width = 'full'") 最大
+      a(@click=" style.width = 'wide'") 広域
+      a(@click=" style.width = 'std'")  狭域
+
     span.theme
-      a(@click=" style.theme = 'ririnra'") 漆黒
       a(@click=" style.theme = 'cinema'") 煉瓦
-      a(@click=" style.theme = 'night'") 月夜
-      a(@click=" style.theme = 'star'") 蒼穹
-      a(@click=" style.theme = 'wa'") 和の国
-      a(href="sow.cgi?ua=mb") 携帯
+      a(@click=" style.theme = 'star'")   蒼穹
+      a(@click=" style.theme = 'night'")  闇夜
+      a(@click=" style.theme = 'moon'")   月夜
+      a(@click=" style.theme = 'wa'")   和の国
   .filmline
   .outframe
     .contentframe

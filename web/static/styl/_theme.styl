@@ -21,6 +21,10 @@ black = #222
 white = #ccc
 gold  = #ffc960
 
+says  = SSAY TSAY GSAY WSAY XSAY SPSAY AIM
+losts = suddendead leave
+stats = HUMAN EVIL WOLF LOVER HATER GURU PIXI LONEWOLF DISH HUMAN executed live mob suicide victim cursed feared droop
+
 palette($bgTheme, $backTheme, $pen)
   $border = #333
   if glass == $backTheme
@@ -49,40 +53,141 @@ palette($bgTheme, $backTheme, $pen)
     theme-mark($pen, $bg, $emboss, $border)
 
 
-says  = SSAY TSAY GSAY WSAY XSAY SPSAY AIM
-losts = suddendead leave
-stats = HUMAN EVIL WOLF LOVER HATER GURU PIXI LONEWOLF DISH HUMAN executed live mob suicide victim cursed feared droop
+
+theme-block($pen, $bg, $emboss, $border)
+  color:           $pen
+  background-color: $bg
+  border-color: $border
+
+  textarea
+    background-color: $bg
+    border-color: $border
+
+  .name, .date, strong
+    color:        $emboss
+    border-color: $border
+
+  sup, sub
+    color:                $bg
+    border-color:     $border
+    background-color: $emboss
 
 
-palette(links, black, white)
-palette(btns,  black, white)
+theme-mark($pen, $bg, $emboss, $border)
+  $mark = lighten($bg, 20%)
+  $bold = lighten($pen, 30%)
+  $spot = lighten($bg, 50%)
 
-.moon-theme, .wa-theme
-  palette(links, black, gold)
-  palette(btns,  black, gold)
+  $on  = mix($mark, green, 90%)
+  $off = mix($mark, blue,  90%)
 
-.moon-theme
-  for say in says
-    palette(say,  glass, gold)
-  for stat in stats
-    palette(stat, light, dark)
-  for lost in losts
-    palette(lost, light, white)
+  b
+    color: $bold
 
-.night-theme, .star-theme
-  for say in says
-    palette(say, glass, white)
-  for stat in stats
-    palette(stat, light, dark)
-  for lost in losts
-    palette(lost, light, white)
+  a, button,
+  [title], [data-tooltip],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    color: $pen
 
-.ririnra-theme, .cinema-theme, .wa-theme
-  for say in says
-    palette(say, white, black)
-  for stat in stats
-    palette(stat, light, dark)
-  for lost in losts
-    palette(lost, light, white)
+  a, b, button,
+  [title], [data-tooltip],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    background: $mark
+    &:hover, &:focus
+      background: $bg
+      box-shadow:
+        0 0 20px 3px $spot inset
+    &:active
+      background: $bg
+      box-shadow:
+        0 0 20px 3px $emboss inset
 
+  input[type=checkbox],
+  input[type=radio]
+    &:checked
+      background: $on
 
+  a[href]
+    &:link
+      color: $pen
+      background: $off
+    &:visited
+      color: $pen
+      background: $on
+
+theme-btn($pen, $bg, $emboss)
+  $mark = lighten($bg, 20%)
+  $bold = lighten($pen, 30%)
+  $spot = lighten($bg, 50%)
+
+  $on  = mix($mark, green, 90%)
+  $off = mix($mark, blue,  90%)
+
+  b
+    color: $bold
+
+  a, button,
+  [title], [data-tooltip],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    color: $pen
+
+  a, b, button,
+  [title], [data-tooltip],
+  input[type=checkbox],
+  input[type=radio],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    background: $bg
+    box-shadow:
+        0 -2px 0.5px 0 $shadow inset
+    &:hover, &:focus
+      box-shadow:
+        0 0 0  15000px $shadow inset,
+        0 -1px         $shadow inset
+    &:active
+      box-shadow:
+        0 0 0  15000px $shadow inset,
+        0 -1px         $shadow inset
+
+  input[type=checkbox],
+  input[type=radio]
+    &:checked
+      background: $on
+
+  a[href]
+    &:link
+      color: $pen
+      background: $off
+    &:visited
+      color: $pen
+      background: $on
+
+  a, b, button,
+  [title], [data-tooltip],
+  input[type=color],
+  input[type=image],
+  input[type=button],
+  input[type=submit],
+  input[type=reset]
+    color: $pen

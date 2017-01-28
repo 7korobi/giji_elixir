@@ -12,13 +12,12 @@ VueRouter = require 'vue-router'
 require "~js/models/sow.coffee"
 
 routes = [
-  Query.folders.enable.pluck("route")...
-  { name: "file",  path: "/*/:fname" }
+  { name: "top",   path: "/" }
   { name: "other", path: "*" }
 ]
 routes.map (o)-> o.components =
-  welcome: require "~vue/sow_welcome.vue"
-  hello:   require "~vue/sow_hello.vue"
+  welcome: require "~vue/rails_welcome.vue"
+  hello:   require "~vue/rails_hello.vue"
 
 module.exports =
   el: "#top"
