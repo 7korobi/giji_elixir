@@ -104,6 +104,9 @@ h2
         th.btns(colspan=4)
           a(v-if=" export_to === 'progress' " @click="slide('finish')") 進行中の村
           a(v-if=" export_to === 'finish' " @click="slide('progress')") 終了した村
+      tr
+        th.btns(colspan=4)
+          a(href="http://giji.check.jp") 総合トップ
 
   h2#title
     a(:href="current_url" v-if="'CABALA' == current._id")

@@ -18,13 +18,6 @@ base.plugins.push(
     threshold: 1,
     minRatio: 0.8
   })
-  new compress({
-    asset: "[path].gz[query]",
-    algorithm: "gzip",
-    test: /\.js$|\.html$/,
-    threshold: 1,
-    minRatio: 0.8
-  })
 );
 
 module.exports = Object.assign(base, {
