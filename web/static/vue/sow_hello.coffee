@@ -14,13 +14,14 @@ module.exports =
     ]
 
   data: ->
-    mode = window?.welcome
+    layoutfilter = !!(@$cookie.get("layoutfilter") - 0)
+    mode = window?.welcome_navi
     current =
       if "full" == mode
-        Query.folders.hash[@$route.name] ? Query.folders.hash.PERJURY
+        Query.folders.host(location?.hostname).list.first ? Query.folders.hash.LOBBY
       else
         []
-    { mode, current }
+    { mode, current, layoutfilter }
 
   computed:
     hello_ids: ->

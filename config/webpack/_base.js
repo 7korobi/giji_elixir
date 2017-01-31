@@ -5,18 +5,19 @@ var copy = require("copy-webpack-plugin");
 
 var path = require("path");
 var dir = (str) => {
-  return path.resolve(__dirname, "..", str);
+  return path.resolve(__dirname, "../..", str);
 };
 
 
 module.exports = {
   entry: {
-    "js/app":    "js/app.js",
-    "js/chr":    "js/chr.js",
-    "js/socket": "js/socket.js",
-    "js/common": "js/common.js",
-    "js/rails":  "js/rails.js",
-    "js/sow":    "js/sow.js"
+    "js/app":     "js/app.js",
+    "js/chr":     "js/chr.js",
+    "js/socket":  "js/socket.js",
+    "js/common":  "js/common.js",
+    "js/rails":   "js/rails.js",
+    "js/sow_fix": "js/sow_fix.js",
+    "js/sow":     "js/sow.js"
   },
 
   module: {

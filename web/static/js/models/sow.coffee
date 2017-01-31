@@ -8,6 +8,8 @@ require '~js/models/chat'
 new Rule("folder").schema ->
   @scope (all)->
     enable: all.where (o)-> ! o.disabled
+    host: (hostname)->
+      all.where { hostname }
 
   class @model extends @model
     constructor: ->
@@ -16,7 +18,9 @@ new Rule("folder").schema ->
         @title    = o.NAME_HOME
         @max_vils = o.MAX_VILLAGES
         if @max_vils
-          path = @config.cfg.URL_SW + "/sow.cgi"
+          @href = @config.cfg.URL_SW + "/sow.cgi"
+          [protocol, _, @hostname,path_dir...] = @href.split("/")
+          path = "/" + path_dir.join("/")
 
       switch @folder
         when "LOBBY"

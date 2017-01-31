@@ -3,13 +3,15 @@ module.exports = require("~vue/_chat.coffee").component_class()
 </script>
 <style lang="stylus" scoped>
 
-.wide-width .talk
-  th img
-    margin:  0 15px 6px 16px
+.w458
+  .talk
+    th img
+      margin:  0 14px 6px  9px
 
-.std-width .talk
-  th img
-    margin:  0 14px 6px  7px
+.std-width
+  .talk
+    th img
+      margin:  0 14px 6px  7px
 
 .talk
   width: 100%
@@ -18,6 +20,8 @@ module.exports = require("~vue/_chat.coffee").component_class()
     padding: 0
     background: transparent
     text-align: left
+  th img
+    margin:  0 15px 6px 16px
   th
     vertical-align: top
   td

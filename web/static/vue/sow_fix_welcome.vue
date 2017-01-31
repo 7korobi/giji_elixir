@@ -1,4 +1,4 @@
-<script lang="coffee" src="./sow_welcome.coffee"></script>
+<script lang="coffee" src="./sow_fix_welcome.coffee"></script>
 <style lang="stylus" scoped>
 
 #export
@@ -133,23 +133,52 @@ h2
       sup - Role Play braid -
 
 
-
+  .btns(v-if="cog")
+    span.device
+      select(v-model="style.device")
+        option(value="simple") 携帯用
+        option(value="mobile") タブレット
+        option(value="pc")     ＰＣ用
+    span.order
+      select(v-model="style.order")
+        option(value="asc")  上から下へ
+        option(value="desc") 下から上へ
+    span.row
+      select(v-model="style.row")
+        option(value="10")       10行
+        option(value="20")       20行
+        option(value="30")       30行
+        option(value="50")       50行
+        option(value="100")     100行
+        option(value="300")     300行
+        option(value="1000")   1000行
+        option(value="3000")   3000行
+        option(value="10000") 10000行
+        option(value="30000") 30000行
   .btns
-    span.style
-      a(@click=" style.width = 480") 480
-      a(@click=" style.width = 800") 800
+    span.font
+      a(@click=" style.font = 'large-font'")   大判
+      a(@click=" style.font = 'novel-font'")   明朝
+      a(@click=" style.font = 'std-font'") ゴシック
+      a(@click=" style.font = 'small-font'") 小文字
+    span.msg(v-if="cog")
+      a(@click=" style.msg = 'mini-msg'")   携帯
+      a(@click=" style.msg = 'right-msg'")  右半分
+      a(@click=" style.msg = 'center-msg'") 中央
+      a(@click=" style.msg = 'game-msg'")   大判左
+      a(@click=" style.msg = 'large-msg'")  大判
+    span.msg(v-if=" ! cog")
+      a(@click=" style.msg = 'mini-msg'")   480
+      a(@click=" style.msg = 'center-msg'") 800
     span.theme
-      a(@click=" style.theme = 'ririnra'") 漆黒
       a(@click=" style.theme = 'cinema'") 煉瓦
       a(@click=" style.theme = 'night'") 月夜
       a(@click=" style.theme = 'star'") 蒼穹
       a(@click=" style.theme = 'wa'") 和の国
       a(href="sow.cgi?ua=mb") 携帯
+      a.fa.fa-cogs(@click="cog = ! cog")
   .filmline
-  .outframe_navimode(v-if="layoutfilter")
-    .contentframe_navileft
-      img.filmend(:src="filmend_url")
-  .outframe(v-if=" ! layoutfilter")
+  .outframe
     .contentframe
       img.filmend(:src="filmend_url")
 </template>

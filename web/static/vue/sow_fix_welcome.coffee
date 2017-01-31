@@ -6,8 +6,24 @@ file = (path)->
 bg = (name)->
   file "/images/bg/#{name}"
 
+color_name =
+  "wa":      "white"
+  "cinema":  "white"
+  "ririnra": "white"
+  "moon":    "black"
+  "night":   "black"
+  "star":    "black"
+
+width_name =
+  "mini-msg":   "w458"
+  "right-msg":  "w580"
+  "center-msg": "w580"
+  "game-msg":   "w770"
+  "large-msg":  "w770"
+
+
 style_names = ///
-  \s*\S+-(theme|width|layout|font)\s*
+  \s*(speech|white|black|cinema|moon|night|ririnra|star|wa|simple|mobile|pc|\S+-font|\S+-msg)\s*
 ///g
 
 module.exports =
@@ -20,16 +36,21 @@ module.exports =
       class: @body_class
 
   data: ->
-    css = @$cookie.get("css") ? "cinema~wide~center~std"
-    [theme, width, layout, font] = css.split("~")
+    css       = @$cookie.get("css")       ? "cinema_center-msg_small-font"
+    row       = @$cookie.get("row")       ? 100
+    msg_style = @$cookie.get("msg_style") ? "pc_asc_50"
+    [theme, msg, font] = css.split("_")
+    [device, order, row] = msg_style.split("_")
 
     mode: window?.welcome_navi
-    style: { theme, width, layout, font }
+    current: Query.folders.host(location?.hostname).first ? Query.folders.hash.LOBBY
+    style: { theme, msg, font, device, order, row }
     use: {}
     now: Date.now()
     export_to: "progress"
     active: true
     y: 0
+    cog: false
 
   created: ->
     if window?
@@ -40,20 +61,28 @@ module.exports =
 
   computed:
     body_class: ->
-      { theme, width, layout, font } = @style
+      { theme, msg, font, device, order, row } = @style
+      color = color_name[theme]
+      width = width_name[msg]
+
       @use.theme?.unuse()
       @use.theme = require "~styl/theme-#{theme}.styl.use"
       @use.theme.use()
-      str = [theme, width, layout, font].join("~")
-      @$cookie.set "css", str,
+
+      @$cookie.set "css", [theme, msg, font].join("_"),
+        path: '/'
+        expires: '7D'
+
+      @$cookie.set "row", [row].join("_"),
+        path: '/'
+        expires: '7D'
+
+      @$cookie.set "msg_style", [device,order,row].join("_"),
         path: '/'
         expires: '7D'
 
       header = document?.querySelector("html")?.className?.replace(style_names, "") ? ""
-      list =
-        for k,v of @style
-          "#{v}-#{k}"
-      header + " " +list.join(" ")
+      header + " #{color} #{theme} #{theme}-theme #{msg} #{width} #{font} #{device}"
 
     welcome_style: ->
       backgroundPosition: "right 0px top #{ -@y / 2 }px"
@@ -64,6 +93,16 @@ module.exports =
           bg "film-wa-end.png"
         else
           bg "film-end.png"
+
+    query: ->
+      query = {}
+      for key, val of @$route.query
+        query[key] = val
+      query.css = @css
+      query
+
+    current_url: ->
+      @current.route.path + "?css=#{ @css }"
 
   methods:
     poll: ->

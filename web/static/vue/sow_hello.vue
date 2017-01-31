@@ -7,11 +7,16 @@
 </style>
 
 <template lang="pug">
-.outframe
-  .contentframe
-    .inframe
-      chat(:id="key" v-for="key in hello_ids")
-
-    h6 ログイン
+div
+  .outframe_navimode(v-if="layoutfilter")
+    .contentframe_navileft
+      .inframe
+        chat(:id="key" v-for="key in hello_ids")
+        h6 ログイン
+  .outframe(v-if=" ! layoutfilter")
+    .contentframe
+      .inframe
+        chat(:id="key" v-for="key in hello_ids")
+        h6 ログイン
 
 </template>

@@ -24,10 +24,11 @@ module.exports =
     css = @$route.query.css ? "cinema800"
     [..., theme, width = 800] = css.match(/^(\D+)(\d*)$/)
 
-    mode: window?.welcome
-    current: Query.folders.hash[@$route.name] ? Query.folders.hash.PERJURY
+    layoutfilter: !!(@$cookie.get("layoutfilter") - 0)
+    current: Query.folders.host(location?.hostname).list.first ? Query.folders.hash.LOBBY
     style: { theme, width }
     use: {}
+    mode: window?.welcome_navi
     now: Date.now()
     export_to: "progress"
     active: true
@@ -75,9 +76,6 @@ module.exports =
 
     style_url: ->
       { theme, width } = @style
-      @$cookie.set "css", @css,
-        path: '/'
-        expires: '7D'
       @$router.replace { @query }
       file "/stylesheets/#{ @css }.css"
 
@@ -89,7 +87,7 @@ module.exports =
       query
 
     current_url: ->
-      @current.route.path + "?css=#{ @css }"
+      @current.href + "?css=#{ @css }"
 
   methods:
     poll: ->
@@ -110,7 +108,7 @@ module.exports =
     url: (id)->
       switch @export_to
         when "progress"
-          Query.folders.hash[id].route?.path
+          Query.folders.hash[id].href
         when "finish"
           file "/stories/all?folder=#{id}"
 

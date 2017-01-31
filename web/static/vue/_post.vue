@@ -5,15 +5,12 @@ module.exports = require("~vue/_chat.coffee").component_class()
 
 .post
   padding:    2px 12px 2px   4px
+  margin:   0    0   6px 107px
 
+.w458,
 .std-width
   .post
     margin:   0    0   6px  97px
-
-.wide-width
-  .post
-    margin:   0    0   6px 107px
-
 
 .ririnra-theme,
 .wa-theme

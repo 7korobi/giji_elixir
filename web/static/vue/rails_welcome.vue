@@ -74,7 +74,7 @@ h2
 
 <template lang="pug">
 #welcome(:style="welcome_style")
-  table#export
+  table#export(v-if="mode")
     thead
       tr
         th.btns ロビー
@@ -107,7 +107,7 @@ h2
           a(v-if=" export_to === 'finish' " @click="slide('progress')") 終了した村
 
   h2#title
-    | 人狼議事
+    a(href="http://giji.check.jp") 人狼議事 総合トップ
 
   .btns
     span.font

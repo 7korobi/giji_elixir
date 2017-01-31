@@ -7,9 +7,9 @@
   "scripts": {
     "deploy": "webpack -p && npm run sass",
     "brunch": "brunch watch --stdin",
-    "webpack-prod": "webpack --color --config config/webpack.prod.js",
-    "webpack": "webpack --color --config config/webpack.dev.js",
-    "webpack-watch": "webpack-dev-server --color --config config/webpack.dev.js"
+    "webpack-prod": "webpack --color --config config/webpack/prod.js",
+    "webpack": "webpack --color --config config/webpack/dev.js",
+    "webpack-watch": "webpack-dev-server --color --config config/webpack/dev.js"
   },
   "directories": {
     "test": "test/static-power"
