@@ -99,11 +99,12 @@ h2
           sow(folder="XEBEC")
           sow(folder="CRAZY")
           sow(folder="CIEL")
+
     tfoot
       tr
         th.btns(colspan=4)
-          a(v-if=" export_to === 'progress' " @click="slide('finish')") 進行中の村
-          a(v-if=" export_to === 'finish' " @click="slide('progress')") 終了した村
+          btn(v-model="export_to" as="finish")   終了した村
+          btn(v-model="export_to" as="progress") 進行中の村
       tr
         th.btns(colspan=4)
           a(href="http://giji.check.jp") 総合トップ
@@ -132,7 +133,6 @@ h2
       br
       sup - Role Play braid -
 
-
   .btns(v-if="cog")
     span.device
       select(v-model="style.device")
@@ -157,24 +157,26 @@ h2
         option(value="30000") 30000行
   .btns
     span.font
-      a(@click=" style.font = 'large-font'")   大判
-      a(@click=" style.font = 'novel-font'")   明朝
-      a(@click=" style.font = 'std-font'") ゴシック
-      a(@click=" style.font = 'small-font'") 小文字
+      btn(v-model="style.font" as="large-font") 大判
+      btn(v-model="style.font" as="novel-font") 明朝
+      btn(v-model="style.font" as="std-font") ゴシック
+      btn(v-model="style.font" as="small-font") 繊細
+
     span.msg(v-if="cog")
-      a(@click=" style.msg = 'mini-msg'")   携帯
-      a(@click=" style.msg = 'right-msg'")  右半分
-      a(@click=" style.msg = 'center-msg'") 中央
-      a(@click=" style.msg = 'game-msg'")   大判左
-      a(@click=" style.msg = 'large-msg'")  大判
+      btn(v-model="style.msg" as="mini-msg")   携帯
+      btn(v-model="style.msg" as="right-msg") 右半分
+      btn(v-model="style.msg" as="center-msg") 中央
+      btn(v-model="style.msg" as="game-msg")  大判左
+      btn(v-model="style.msg" as="large-msg")  大判
+
     span.msg(v-if=" ! cog")
-      a(@click=" style.msg = 'mini-msg'")   480
-      a(@click=" style.msg = 'center-msg'") 800
+      btn(v-model="style.msg" as="mini-msg")   480
+      btn(v-model="style.msg" as="center-msg") 800
     span.theme
-      a(@click=" style.theme = 'cinema'") 煉瓦
-      a(@click=" style.theme = 'night'") 月夜
-      a(@click=" style.theme = 'star'") 蒼穹
-      a(@click=" style.theme = 'wa'") 和の国
+      btn(v-model="style.theme" as="cinema") 煉瓦
+      btn(v-model="style.theme" as="moon")   月夜
+      btn(v-model="style.theme" as="star")   蒼穹
+      btn(v-model="style.theme" as="wa")   和の国
       a(href="sow.cgi?ua=mb") 携帯
       a.fa.fa-cogs(@click="cog = ! cog")
   .filmline

@@ -16,3 +16,4 @@ Vue.component "talk",   require '~vue/_talk.vue'
 Vue.component "chat",   require '~vue/_chat'
 
 Vue.component "chrs",   require '~vue/_chrs.vue'
+Vue.component "btn",    require '~vue/_btn.vue'

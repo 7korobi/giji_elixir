@@ -103,35 +103,36 @@ h2
     tfoot
       tr
         th.btns(colspan=4)
-          a(v-if=" export_to === 'progress' " @click="slide('finish')") 進行中の村
-          a(v-if=" export_to === 'finish' " @click="slide('progress')") 終了した村
+          btn(v-model="export_to" as="finish")   終了した村
+          btn(v-model="export_to" as="progress") 進行中の村
 
   h2#title
     a(href="http://giji.check.jp") 人狼議事 総合トップ
 
   .btns
     span.font
-      a(@click=" style.font = 'large'") 大判
-      a(@click=" style.font = 'novel'") 明朝
-      a(@click=" style.font = 'std'")   ゴシック
-      a(@click=" style.font = 'small'") 繊細
+      btn(v-model="style.font" as="large") 大判
+      btn(v-model="style.font" as="novel") 明朝
+      btn(v-model="style.font" as="std") ゴシック
+      btn(v-model="style.font" as="small") 繊細
 
     span.layout
-      a(@click=" style.layout = 'left'")   左詰
-      a(@click=" style.layout = 'center'") 中央
-      a(@click=" style.layout = 'right'")  右詰
+      btn(v-model="style.layout" as="left")   左詰
+      btn(v-model="style.layout" as="center") 中央
+      btn(v-model="style.layout" as="right")  右詰
 
     span.width
-      a(@click=" style.width = 'full'") 最大
-      a(@click=" style.width = 'wide'") 広域
-      a(@click=" style.width = 'std'")  狭域
+      btn(v-model="style.width" as="full") 最大
+      btn(v-model="style.width" as="wide") 広域
+      btn(v-model="style.width" as="std")  狭域
 
     span.theme
-      a(@click=" style.theme = 'cinema'") 煉瓦
-      a(@click=" style.theme = 'star'")   蒼穹
-      a(@click=" style.theme = 'night'")  闇夜
-      a(@click=" style.theme = 'moon'")   月夜
-      a(@click=" style.theme = 'wa'")   和の国
+      btn(v-model="style.theme" as="cinema") 煉瓦
+      btn(v-model="style.theme" as="star")   蒼穹
+      btn(v-model="style.theme" as="night")  闇夜
+      btn(v-model="style.theme" as="moon")   月夜
+      btn(v-model="style.theme" as="wa")   和の国
+
   .filmline
   .outframe
     .contentframe

@@ -56,7 +56,7 @@ module.exports =
       header + " " +list.join(" ")
 
     welcome_style: ->
-      backgroundPosition: "right 0px top #{ -@y / 2 }px"
+      backgroundPosition: "left 50% top #{ -@y / 2 }px"
 
     filmend_url: ->
       switch @style.theme
@@ -70,9 +70,6 @@ module.exports =
       return unless @active
       @y = window.scrollY
       requestAnimationFrame? @poll
-
-    slide: (to)->
-      @export_to = to
 
     vils: (id)->
       max_vils = Query.folders.hash[id].max_vils

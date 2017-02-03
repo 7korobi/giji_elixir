@@ -102,8 +102,8 @@ h2
     tfoot
       tr
         th.btns(colspan=4)
-          a(v-if=" export_to === 'progress' " @click="slide('finish')") 進行中の村
-          a(v-if=" export_to === 'finish' " @click="slide('progress')") 終了した村
+          btn(v-model="export_to" as="finish")   終了した村
+          btn(v-model="export_to" as="progress") 進行中の村
       tr
         th.btns(colspan=4)
           a(href="http://giji.check.jp") 総合トップ
@@ -132,18 +132,17 @@ h2
       br
       sup - Role Play braid -
 
-
-
   .btns
-    span.style
-      a(@click=" style.width = 480") 480
-      a(@click=" style.width = 800") 800
+    span.width
+      btn(v-model="style.width" as="480") 480
+      btn(v-model="style.width" as="800") 800
+
     span.theme
-      a(@click=" style.theme = 'ririnra'") 漆黒
-      a(@click=" style.theme = 'cinema'") 煉瓦
-      a(@click=" style.theme = 'night'") 月夜
-      a(@click=" style.theme = 'star'") 蒼穹
-      a(@click=" style.theme = 'wa'") 和の国
+      btn(v-model="style.theme" as="ririnra") 漆黒
+      btn(v-model="style.theme" as="cinema") 煉瓦
+      btn(v-model="style.theme" as="night")  闇夜
+      btn(v-model="style.theme" as="star")   蒼穹
+      btn(v-model="style.theme" as="wa")   和の国
       a(href="sow.cgi?ua=mb") 携帯
   .filmline
   .outframe_navimode(v-if="layoutfilter")

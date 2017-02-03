@@ -1,31 +1,48 @@
-MINUTE = 60
+SECOND = 1000
+MINUTE = SECOND * 60
 HOUR = MINUTE * 60
 DAY = HOUR * 24
 WEEK = DAY * 7
 MONTH = DAY * 30
 YEAR = DAY * 365
 
-times = [
-  [      25, Infinity]
-  [  MINUTE,        1]
-  [    HOUR,   MINUTE]
-  [     DAY,     HOUR]
-  [    WEEK,      DAY]
-  [   MONTH,     WEEK]
-  [    YEAR,    MONTH]
-  [Infinity,     YEAR]
+locales = [
+  " %s 年前"
+  " %s ヶ月前"
+  " %s 週間前"
+  " %s 日前"
+  " %s 時間前"
+  " %s 分前"
+  " %s 秒前"
+  "今"
+  " %s 秒後"
+  " %s 分後"
+  " %s 時間後"
+  " %s 日後"
+  " %s 週間後"
+  " %s ヶ月後"
+  " %s 年後"
 ]
 
-locales = [
-    "たった今"
-    "%s 秒前"
-    "%s 分前"
-    "%s 時間前"
-    "%s 日前"
-    "%s 週間前"
-    "%s ヶ月前"
-    "%s 年前"
-  ]
+times = [
+  [    -YEAR,   YEAR]
+  [   -MONTH,  MONTH]
+  [    -WEEK,   WEEK]
+  [     -DAY,    DAY]
+  [    -HOUR,   HOUR]
+  [  -MINUTE, MINUTE]
+  [   -25000, SECOND]
+  [    25000,  25000]
+  [   MINUTE, SECOND]
+  [     HOUR, MINUTE]
+  [      DAY,   HOUR]
+  [     WEEK,    DAY]
+  [    MONTH,   WEEK]
+  [     YEAR,  MONTH]
+  [ Infinity,   YEAR]
+]
+for time, idx in times
+  time[2] = locales[idx]
 
 format =
   date: new Intl.DateTimeFormat 'ja-JP',
@@ -47,7 +64,9 @@ format =
 
 module.exports =
   data: ->
-    now: Date.now()
+    now: null
+    tick: Infinity
+    interval: null
 
   props:
     since:
@@ -62,40 +81,47 @@ module.exports =
   computed:
     sinceTime: ->
       new Date(@since).getTime()
-    seconds: ->
-      @now / 1000 - @sinceTime / 1000
-    baseTime: ->
-      times[@idx][1]
-    idx: ->
-      for [limit, base], idx in times when @seconds < limit
-        return idx
-      return times.length - 1
+    msec: ->
+      @tick = Infinity
+      @now = Date.now()
+      @now - @sinceTime
+    time: ->
+      for [limit], idx in times when @msec < limit
+        return times[idx]
+      return times[-1...][0]
     timeago: ->
-      if @maxTime && @seconds > @maxTime
+      if @maxTime && @msec > @maxTime
         clearInterval @interval
         @interval = null
         return format.date.format(@sinceTime) + "頃"
 
-      locales[@idx].replace '%s', Math.round @seconds / @baseTime
-    tick: ->
-      if @period != @baseTime
+      [_, base, text] = @time
+      msec = Math.abs 100 + @msec
+      count = Math.floor msec / base # 八捨九入
+      @tickTime
+      text.replace '%s', count
+    tickTime: ->
+      return Infinity if @lock
+      [_, base] = @time
+      tick = base
+      if Infinity == @tick
+        tick = -@msec % base
+        if tick < 0
+          tick += base
+      if @tick != tick
         if @interval
           clearInterval @interval
         @interval = setInterval =>
           @now = Date.now()
-          @tick
-        , @period = @baseTime
-      @period
+          @tickTime
+        , @tick = tick
+      @tick
 
   render: (m)->
     m 'time',
       attrs:
         datetime: new Date @since
     , @timeago
-
-  mounted: ->
-    return if @lock
-    @tick
 
   beforeDestroy: ->
     return if @lock
